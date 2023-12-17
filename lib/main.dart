@@ -15,50 +15,56 @@ import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
 
 void main() async {
-
+  // Initialize the application
   await ApplicationInitialize().init();
+
+  // Run the application with language management
   runApp(
     LanguageManager(child: const MyApp()),
   );
 }
 
-
-@immutable
 /// This class is used to initialize the application process
+@immutable
 final class ApplicationInitialize {
-  /// project basic required initialize
+  /// Project basic required initialization
   Future<void> init() async {
-  
+    // Ensure Flutter is initialized
     WidgetsFlutterBinding.ensureInitialized();
 
+    // Use runZonedGuarded to capture unhandled errors
     await runZonedGuarded<Future<void>>(
       _initialize,
       (error, stack) {
-        LocatorGetIt.get<AppLogger>().e("RunZoneGuarded $error",stackTrace: stack);
+        // Log the error using the AppLogger
+        LocatorGetIt.get<AppLogger>().e("RunZoneGuarded $error", stackTrace: stack);
       },
     );
   }
 
   /// This method is used to initialize the application process
   Future<void> _initialize() async {
+    // Ensure localization is initialized
     await EasyLocalization.ensureInitialized();
+
+    // Initialize Hive for Flutter
     await Hive.initFlutter();
+
+    // Set preferred screen orientations
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-
+    // Setup dependency injection with GetIt
     LocatorGetIt.setup();
+
+    // Configure HydratedBloc storage
     HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory(),
-    ) ;
-    
+    );
+
+    // Handle Flutter errors
     FlutterError.onError = (details) {
-      /// crashlytics log insert here
-      /// custom service or custom logger insert here
-      /// Todo: add custom logger
+      // Log the Flutter error using the AppLogger
       LocatorGetIt.get<AppLogger>().e("FlutterError.onError $details");
     };
-
   }
-
-
 }
