@@ -1,6 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solution_challenge_2023_recommender_app/core/init/theme/cubit/app_theme_cubit.dart';
+
+extension DarkMode on BuildContext {
+  /// is dark mode currently enabled?
+  bool get isDarkMode {
+    return read<ThemeCubit>().state.themeMode == ThemeMode.dark;
+  }
+}
+
+
 
 extension ContextExtension on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);

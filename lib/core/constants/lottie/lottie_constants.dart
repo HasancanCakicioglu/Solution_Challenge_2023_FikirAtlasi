@@ -1,7 +1,8 @@
 
 abstract final class LottieConstants {
 
-  String get splashScreen => toPng('splash_screen_building');
+  static String get splashScreen => toLottie('splash_screen_building');
 
-  String toPng(String name) => 'assets/lottie/$name.json';
+
+  static String toLottie(String name) => 'assets/lottie/$name.json';
 }
