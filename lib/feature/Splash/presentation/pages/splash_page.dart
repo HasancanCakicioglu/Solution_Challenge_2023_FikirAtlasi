@@ -17,6 +17,7 @@ class _SplashViewState extends State<SplashView>
     with TickerProviderStateMixin, SplashScreenAnimationController {
   @override
   Widget build(BuildContext context) {
+    
     final isDark = context.isDarkMode;
     return Scaffold(
         backgroundColor: isDark ? Colors.black : Colors.white,
@@ -39,8 +40,8 @@ Widget lottieFile(AnimationController controller) {
     LottieConstants.splashScreen,
     controller: controller,
     onLoaded: (composition){
-      Future.delayed(const Duration(seconds: 1), () {
-        // 1 saniye bekledikten sonra animasyon başlatılır.
+      Future.delayed(const Duration(milliseconds: 500), () {
+        
         controller
           ..duration = composition.duration
           ..forward();

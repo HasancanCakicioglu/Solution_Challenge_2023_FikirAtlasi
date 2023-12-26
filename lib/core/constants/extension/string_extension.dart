@@ -5,10 +5,6 @@ import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
 
 
-extension Logger on String{
-  void get log => LocatorGetIt.get<AppLogger>().log(Level.info, this);
-}
-
 extension StringLocalization on String {
   String get locale => this.tr();
 
