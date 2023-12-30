@@ -1,7 +1,6 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -10,8 +9,9 @@ import 'package:solution_challenge_2023_recommender_app/app.dart';
 import 'package:solution_challenge_2023_recommender_app/core/init/lang/language.dart';
 import 'package:solution_challenge_2023_recommender_app/core/logger/app_logger.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
-
-
+// Import the generated file
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
 void main() async {
@@ -37,15 +37,24 @@ final class ApplicationInitialize {
       _initialize,
       (error, stack) {
         // Log the error using the AppLogger
-        LocatorGetIt.get<AppLogger>().e("RunZoneGuarded $error", stackTrace: stack);
+        sl<AppLogger>().e("RunZoneGuarded $error", stackTrace: stack);
       },
     );
   }
 
   /// This method is used to initialize the application process
   Future<void> _initialize() async {
+
+    // Setup dependency injection with GetIt
+    LocatorGetIt.setup();
+    
+
     // Ensure localization is initialized
     await EasyLocalization.ensureInitialized();
+
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     // Initialize Hive for Flutter
     await Hive.initFlutter();
@@ -53,8 +62,6 @@ final class ApplicationInitialize {
     // Set preferred screen orientations
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    // Setup dependency injection with GetIt
-    LocatorGetIt.setup();
 
     // Configure HydratedBloc storage
     HydratedBloc.storage = await HydratedStorage.build(
@@ -62,9 +69,9 @@ final class ApplicationInitialize {
     );
 
     // Handle Flutter errors
-    FlutterError.onError = (details) {
-      // Log the Flutter error using the AppLogger
-      LocatorGetIt.get<AppLogger>().e("FlutterError.onError $details");
-    };
+    // FlutterError.onError = (details) {
+    //   // Log the Flutter error using the AppLogger
+    //   LocatorGetIt.get<AppLogger>().e("FlutterError.onError $details");
+    // };
   }
 }
