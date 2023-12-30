@@ -33,16 +33,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomePageView(),
       );
     },
+    MainWrapperRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MainWrapperView(),
+      );
+    },
     SplashRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SplashView(),
-      );
-    },
-    WelcomePageRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const WelcomePageView(),
       );
     },
   };
@@ -91,6 +91,20 @@ class HomePageRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MainWrapperView]
+class MainWrapperRoute extends PageRouteInfo<void> {
+  const MainWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          MainWrapperRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MainWrapperRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [SplashView]
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})
@@ -100,20 +114,6 @@ class SplashRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SplashRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [WelcomePageView]
-class WelcomePageRoute extends PageRouteInfo<void> {
-  const WelcomePageRoute({List<PageRouteInfo>? children})
-      : super(
-          WelcomePageRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'WelcomePageRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

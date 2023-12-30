@@ -40,6 +40,7 @@ dependencies:
   firebase_core: ^2.24.2
   firebase_auth: ^4.15.3
   google_sign_in: ^6.2.1
+  cloud_firestore: ^4.13.6
 
   # Cache
   hive: ^2.2.3
@@ -69,6 +70,7 @@ dependencies:
   logger: ^2.0.2+1
   equatable: ^2.0.5
   path_provider: ^2.1.1
+  uuid: ^4.2.2
 
 dev_dependencies:
   flutter_test:

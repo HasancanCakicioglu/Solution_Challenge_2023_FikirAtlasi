@@ -5,6 +5,7 @@ import 'package:solution_challenge_2023_recommender_app/core/init/theme/cubit/ap
 import 'package:solution_challenge_2023_recommender_app/core/init/theme/dark/dark_schema.dart';
 import 'package:solution_challenge_2023_recommender_app/core/init/theme/light/light_schema.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/bottomNavBar/bottomNavBar_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Auth/presentation/bloc/auth_firebase_bloc/auth_firebase_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Splash/cubit/splash_finished_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AuthFirebaseBloc>(
       create: (_) => sl.get<AuthFirebaseBloc>(),
+        ),
+        BlocProvider<BottomNavCubit>(
+        create: (_) => sl.get<BottomNavCubit>(),
         ),
       ],
       child:

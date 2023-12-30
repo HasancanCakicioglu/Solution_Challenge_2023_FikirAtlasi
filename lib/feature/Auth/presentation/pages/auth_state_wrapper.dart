@@ -24,7 +24,7 @@ class AuthStatePageView extends StatelessWidget {
             // Auth connection state is connected and splash screen is finished
             // then go to home page
             if (authState is AuthLoggedIn && splashState) {
-              AutoRouter.of(context).replaceNamed(NavigationConstants.Home);
+              AutoRouter.of(context).replaceNamed(NavigationConstants.mainWrapper);
             }
             // Auth connection state is not connected and splash screen is finished
             // then go to onboard page after auth page
