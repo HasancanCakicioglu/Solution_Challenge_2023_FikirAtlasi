@@ -1,7 +1,6 @@
-
-
 import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:solution_challenge_2023_recommender_app/core/errors/failure/failure.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/datasource/remote_datasource/firestore_remote_data_source.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/models/comments_problem_model.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/models/comments_suggestions_model.dart';
@@ -12,76 +11,158 @@ import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/doma
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/profile_entites.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/report_entities.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/repository/firestore_repository.dart';
+import 'package:dartz/dartz.dart';
 
 class FirestoreRepositoryImpl implements FirestoreRepository {
   final FirestoreRemoteDataSource dataSource;
 
   FirestoreRepositoryImpl({required this.dataSource});
-  
+
   @override
-  Future<void> createCommentProblem(CommentProblemEntity commentProblemEntity)async {
-    await dataSource.createCommentProblem(CommentProblemModel.fromEntity(commentProblemEntity));
+  Future<Either<FirebaseUnknowFailure, void>> createCommentProblem(
+      CommentProblemEntity commentProblemEntity) async {
+    try {
+      return Right(await dataSource.createCommentProblem(
+          CommentProblemModel.fromEntity(commentProblemEntity)));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure createCommentProblem",
+          message: e.toString()));
+    }
   }
-  
+
   @override
-  Future<void> createCommentSuggestion(CommentSuggestionEntity commentSuggestionEntity)async {
-    await dataSource.createCommentSuggestion(CommentSuggestionModel.fromEntity(commentSuggestionEntity));
+  Future<Either<FirebaseUnknowFailure, void>> createCommentSuggestion(
+      CommentSuggestionEntity commentSuggestionEntity) async {
+    try {
+      return Right(await dataSource.createCommentSuggestion(
+          CommentSuggestionModel.fromEntity(commentSuggestionEntity)));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure createCommentSuggestion",
+          message: e.toString()));
+    }
   }
-  
+
   @override
-  Future<void> createProfile(ProfileEntity profileEntity) async {
-    await dataSource.createProfile(ProfileModel.fromEntity(profileEntity));
+  Future<Either<FirebaseUnknowFailure, void>> createProfile(
+      ProfileEntity profileEntity) async {
+    try {
+      return Right(await dataSource
+          .createProfile(ProfileModel.fromEntity(profileEntity)));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure createProfile", message: e.toString()));
+    }
   }
-  
+
   @override
-  Future<void> createReport(ReportEntity reportEntity)async {
-    await dataSource.createReport(ReportModel.fromEntity(reportEntity));
+  Future<Either<FirebaseUnknowFailure, void>> createReport(
+      ReportEntity reportEntity) async {
+    try {
+      return Right(
+          await dataSource.createReport(ReportModel.fromEntity(reportEntity)));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure createReport", message: e.toString()));
+    }
   }
-  
+
   @override
-  Future<void> deleteCommentProblem(String uid) async{
-    await dataSource.deleteCommentProblem(uid);
+  Future<Either<FirebaseUnknowFailure, void>> deleteCommentProblem(
+      String uid) async {
+    try {
+      return Right(await dataSource.deleteCommentProblem(uid));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure deleteCommentProblem",
+          message: e.toString()));
+    }
   }
-  
+
   @override
-  Future<void> deleteCommentSuggestion(String uid) async{
-    await dataSource.deleteCommentSuggestion(uid);
+  Future<Either<FirebaseUnknowFailure, void>> deleteCommentSuggestion(
+      String uid) async {
+    try {
+      return Right(await dataSource.deleteCommentSuggestion(uid));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure deleteCommentSuggestion",
+          message: e.toString()));
+    }
   }
-  
+
   @override
-  Future<void> deleteProfile(String uid) async{
-    await dataSource.deleteProfile(uid);
+  Future<Either<FirebaseUnknowFailure, void>> deleteProfile(String uid) async {
+    try {
+      return Right(await dataSource.deleteProfile(uid));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure deleteProfile", message: e.toString()));
+    }
   }
-  
+
   @override
-  Future<CommentProblemEntity> getCommentProblem(String uid) async{
+  Future<CommentProblemEntity> getCommentProblem(String uid) async {
     return await dataSource.getCommentProblem(uid);
   }
-  
+
   @override
-  Future<List<CommentSuggestionEntity>> getCommentSuggestion(String uid) async{
+  Future<List<CommentSuggestionEntity>> getCommentSuggestion(String uid) async {
     return await dataSource.getCommentSuggestions(uid);
   }
-  
+
   @override
-  Future<ProfileEntity> getProfile(String uid) async{
+  Future<ProfileEntity> getProfile(String uid) async {
     return await dataSource.getProfile(uid);
   }
-  
+
   @override
-  Future<void> updateCommentProblem(CommentProblemEntity commentProblemEntity) async{
-    await dataSource.updateCommentProblem(CommentProblemModel.fromEntity(commentProblemEntity));
+  Future<Either<FirebaseUnknowFailure, void>> updateCommentProblem(
+      CommentProblemEntity commentProblemEntity) async {
+    try {
+      return Right(await dataSource.updateCommentProblem(
+          CommentProblemModel.fromEntity(commentProblemEntity)));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure updateCommentProblem",
+          message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<FirebaseUnknowFailure, void>> updateCommentSuggestion(
+      CommentSuggestionEntity commentSuggestionEntity) async {
+    try {
+      return Right(await dataSource.updateCommentSuggestion(
+          CommentSuggestionModel.fromEntity(commentSuggestionEntity)));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure updateCommentSuggestion",
+          message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<FirebaseUnknowFailure, void>> updateProfile(
+      ProfileEntity profileEntity) async {
+    try {
+      return Right(await dataSource
+          .updateProfile(ProfileModel.fromEntity(profileEntity)));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure updateProfile", message: e.toString()));
+    }
   }
   
   @override
-  Future<void> updateCommentSuggestion(CommentSuggestionEntity commentSuggestionEntity) async{
-    await dataSource.updateCommentSuggestion(CommentSuggestionModel.fromEntity(commentSuggestionEntity));
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToTags(List<String> tags,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20}) async{
+    try {
+      return Right(await dataSource.getCommentProblemListAccordingToTags(tags,startAfter,gettingData: gettingData));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure getCommentProblemListAccordingToTags", message: e.toString()));
+    }
   }
-  
-  @override
-  Future<void> updateProfile(ProfileEntity profileEntity) async{
-    await dataSource.updateProfile(ProfileModel.fromEntity(profileEntity));
-  }
-  
 
 }

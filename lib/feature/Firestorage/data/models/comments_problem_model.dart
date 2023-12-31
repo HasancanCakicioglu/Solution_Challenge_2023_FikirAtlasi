@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
 
 class CommentProblemModel extends CommentProblemEntity {
@@ -38,7 +39,7 @@ class CommentProblemModel extends CommentProblemEntity {
       title: json['title'],
       category: json['category'],
       text: json['text'],
-      date: DateTime.parse(json['date']),
+      date: (json['date'] as Timestamp).toDate(),
       tags: json['tags'].cast<String>(),
       photoURL: json['photoURL'],
       videoURL: json['videoURL'],

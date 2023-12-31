@@ -71,6 +71,7 @@ dependencies:
   equatable: ^2.0.5
   path_provider: ^2.1.1
   uuid: ^4.2.2
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:

@@ -24,3 +24,15 @@ class DatabaseFailure extends Failure {
   const DatabaseFailure({String title = 'Database Error', String message = 'An error occurred during database operation'})
       : super(title: title, message: message);
 }
+
+
+class FirebaseUnknowFailure extends Failure {
+  /// Constructs a [FirebaseUnknowFailure] with optional [title] and [message].
+  const FirebaseUnknowFailure({String title = 'Firebase Error', String message = 'An error occurred during firebase operation'})
+      : super(title: title, message: message);
+
+  @override
+  String toString() {
+    return 'FirebaseUnknowFailure{title: $title, message: $message}';
+  }
+}
