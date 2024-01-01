@@ -1,9 +1,8 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Category/category_page.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Leaderboard/leaderboard_page.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Search/search_page.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/home_page.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/index.dart';
+
 
 // Enum 
 // ignore: constant_identifier_names
