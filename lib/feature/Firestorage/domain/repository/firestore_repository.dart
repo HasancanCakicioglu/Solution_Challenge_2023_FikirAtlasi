@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/core/errors/failure/failure.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_suggestions_entities.dart';
@@ -22,12 +23,17 @@ abstract class FirestoreRepository {
   Future<Either<FirebaseUnknowFailure, void>> deleteCommentProblem(String uid);
 
   Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToTags(List<String> tags,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToCategory(CategoriesEnum categoriesEnum,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToLikeCount(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListLast(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
 
 
   Future<List<CommentSuggestionEntity>> getCommentSuggestion(String uid);
   Future<Either<FirebaseUnknowFailure, void>> createCommentSuggestion(CommentSuggestionEntity commentSuggestionEntity);
   Future<Either<FirebaseUnknowFailure, void>> updateCommentSuggestion(CommentSuggestionEntity commentSuggestionEntity);
   Future<Either<FirebaseUnknowFailure, void>> deleteCommentSuggestion(String uid);
+
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentSuggestionEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentSuggestListAccordingToLikeCount(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
 
 
   Future<Either<FirebaseUnknowFailure, void>> createReport(ReportEntity reportEntity);

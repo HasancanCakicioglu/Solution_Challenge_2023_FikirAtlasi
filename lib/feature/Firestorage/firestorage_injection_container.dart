@@ -1,7 +1,11 @@
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/datasource/remote_datasource/firestore_remote_data_source.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/repository/firestore_repository_impl.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/repository/firestore_repository.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_problem_list_according_to_category_usecase.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_problem_list_according_to_likecount_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_problem_list_according_to_tags_usecase.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_problem_list_last_usecase.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_suggest_list_according_to_likecount_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/index.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
@@ -39,8 +43,15 @@ Future<void> firestoreInjectionContainer() async {
   sl.registerLazySingleton<CreateReportUsecase>(() => CreateReportUsecase(sl()));
  
   sl.registerLazySingleton<GetCommentProblemListAccordingToTagsUsecase>(() =>  GetCommentProblemListAccordingToTagsUsecase(sl()));
-
   
+  sl.registerLazySingleton<GetCommentProblemListAccordingToCategoryUsecase>(() => GetCommentProblemListAccordingToCategoryUsecase(sl()));
+
+  sl.registerLazySingleton<GetCommentProblemListAccordingToLikeCountUseCase>(() => GetCommentProblemListAccordingToLikeCountUseCase(sl()));
+  
+  sl.registerLazySingleton<GetCommentSuggestionListAccordingToLikeCountUseCase>(() => GetCommentSuggestionListAccordingToLikeCountUseCase(sl()));
+
+  sl.registerLazySingleton<GetCommentProblemListLastUsecase>(() => GetCommentProblemListLastUsecase(sl()));
+
   /// Repository
   sl.registerLazySingleton<FirestoreRepository>(
           () => FirestoreRepositoryImpl(dataSource: sl()));

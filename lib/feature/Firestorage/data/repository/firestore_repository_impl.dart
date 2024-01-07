@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/core/errors/failure/failure.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/datasource/remote_datasource/firestore_remote_data_source.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/models/comments_problem_model.dart';
@@ -164,5 +165,51 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
           title: "FirebaseUnknowFailure getCommentProblemListAccordingToTags", message: e.toString()));
     }
   }
+  
+  @override
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToCategory(CategoriesEnum categoriesEnum, QueryDocumentSnapshot<Object?>? startAfter, {gettingData = 20}) async{
+    try {
+      return Right(await dataSource.getCommentProblemListAccordingToCategory(categoriesEnum, startAfter, gettingData: gettingData));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure getCommentProblemListAccordingToCategory", message: e.toString()));
+    }
+  }
+  
+  @override
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToLikeCount(QueryDocumentSnapshot<Object?>? startAfter, {gettingData = 20}) async {
+    try {
+      return Right(await dataSource.getCommentProblemListAccordingToLikeCount(startAfter, gettingData: gettingData));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure getCommentProblemListAccordingToLikeCount", message: e.toString()));
+    }
+  }
+  
+  @override
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentSuggestionEntity?>, QueryDocumentSnapshot<Object?>?>>> getCommentSuggestListAccordingToLikeCount(QueryDocumentSnapshot<Object?>? startAfter, {gettingData = 20})async {
+    try {
+      return Right(await dataSource.getCommentSuggestListAccordingToLikeCount(startAfter, gettingData: gettingData));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure getCommentSuggestListAccordingToLikeCount", message: e.toString()));
+    }
+  }
+  
+  @override
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>> getCommentProblemListLast(QueryDocumentSnapshot<Object?>? startAfter, {gettingData = 20}) async {
+    try {
+      return Right(await dataSource.getCommentProblemListLast(startAfter, gettingData: gettingData));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure getCommentProblemListLast", message: e.toString()));
+    }
+  }
+  
+
+  
+
+
+
 
 }

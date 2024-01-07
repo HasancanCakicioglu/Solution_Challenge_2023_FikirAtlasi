@@ -27,6 +27,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthStatePageView(),
       );
     },
+    CategoryListPageRoute.name: (routeData) {
+      final args = routeData.argsAs<CategoryListPageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CategoryListPageView(
+          key: args.key,
+          categoryCardModel: args.categoryCardModel,
+        ),
+      );
+    },
     HomePageRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -74,6 +84,44 @@ class AuthStatePageRoute extends PageRouteInfo<void> {
   static const String name = 'AuthStatePageRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CategoryListPageView]
+class CategoryListPageRoute extends PageRouteInfo<CategoryListPageRouteArgs> {
+  CategoryListPageRoute({
+    Key? key,
+    required CategoryCardModel categoryCardModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CategoryListPageRoute.name,
+          args: CategoryListPageRouteArgs(
+            key: key,
+            categoryCardModel: categoryCardModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoryListPageRoute';
+
+  static const PageInfo<CategoryListPageRouteArgs> page =
+      PageInfo<CategoryListPageRouteArgs>(name);
+}
+
+class CategoryListPageRouteArgs {
+  const CategoryListPageRouteArgs({
+    this.key,
+    required this.categoryCardModel,
+  });
+
+  final Key? key;
+
+  final CategoryCardModel categoryCardModel;
+
+  @override
+  String toString() {
+    return 'CategoryListPageRouteArgs{key: $key, categoryCardModel: $categoryCardModel}';
+  }
 }
 
 /// generated route for

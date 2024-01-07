@@ -2,11 +2,14 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/firestore/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/models/comments_problem_model.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/models/comments_suggestions_model.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/models/profile_model.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/models/report_model.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_suggestions_entities.dart';
 
 abstract class FirestoreRemoteDataSource {
   Future<void> createProfile(ProfileModel profileModel);
@@ -24,7 +27,17 @@ abstract class FirestoreRemoteDataSource {
       CommentSuggestionModel commentSuggestionModel);
   Future<void> deleteCommentSuggestion(String uid);
   Future<void> createReport(ReportModel reportModel);
-  Future<Tuple2<List<CommentProblemModel?>,QueryDocumentSnapshot<Object?>?>> getCommentProblemListAccordingToTags(List<String> tags,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+  Future<Tuple2<List<CommentProblemModel?>, QueryDocumentSnapshot<Object?>?>>
+      getCommentProblemListAccordingToTags(
+          List<String> tags, QueryDocumentSnapshot<Object?>? startAfter,
+          {gettingData = 20});
+  Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>
+      getCommentProblemListAccordingToCategory(CategoriesEnum categoriesEnum,
+          QueryDocumentSnapshot<Object?>? startAfter,
+          {gettingData = 20});
+  Future<Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>>> getCommentProblemListAccordingToLikeCount(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+  Future<Tuple2<List<CommentSuggestionEntity?>,QueryDocumentSnapshot<Object?>?>> getCommentSuggestListAccordingToLikeCount(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+  Future<Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>> getCommentProblemListLast(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
 }
 
 class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
@@ -168,36 +181,148 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
         .doc(profileModel.uid)
         .update(profileModel.toJson());
   }
-  
+
   @override
-  Future<Tuple2<List<CommentProblemModel?>,QueryDocumentSnapshot<Object?>?>> getCommentProblemListAccordingToTags(List<String> tags,QueryDocumentSnapshot<Object?>? startAfter,{ gettingData = 20}) async{
+  Future<Tuple2<List<CommentProblemModel?>, QueryDocumentSnapshot<Object?>?>>
+      getCommentProblemListAccordingToTags(
+          List<String> tags, QueryDocumentSnapshot<Object?>? startAfter,
+          {gettingData = 20}) async {
     late QuerySnapshot<Map<String, dynamic>> querySnapshot;
     Query<Map<String, dynamic>> queryOrders = firestore
         .collection(FirestoreConstants.collectionCommentsProblems)
         .where('tags', arrayContainsAny: tags)
-        .orderBy('date',descending: true);
+        .orderBy('date', descending: true);
     print("1");
-    if(startAfter != null){
+    if (startAfter != null) {
       print("2");
       querySnapshot = await queryOrders
           .startAfterDocument(startAfter)
           .limit(gettingData)
-        .get();
-    }else{
-      print("3");
-      querySnapshot = await queryOrders
-          .limit(gettingData)
           .get();
+    } else {
+      print("3");
+      querySnapshot = await queryOrders.limit(gettingData).get();
     }
 
     print("4");
-    QueryDocumentSnapshot<Object?>? lastQuery=querySnapshot.docs.last;
+    QueryDocumentSnapshot<Object?>? lastQuery = querySnapshot.docs.last;
     print("5");
     print(querySnapshot.docs);
-    return Tuple2(querySnapshot.docs
-        .map((e) =>
-            CommentProblemModel.fromJson(e.data()))
-        .toList(),lastQuery);
+    return Tuple2(
+        querySnapshot.docs
+            .map((e) => CommentProblemModel.fromJson(e.data()))
+            .toList(),
+        lastQuery);
+  }
+
+  @override
+  Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>
+      getCommentProblemListAccordingToCategory(CategoriesEnum categoriesEnum,
+          QueryDocumentSnapshot<Object?>? startAfter,
+          {gettingData = 20}) async {
+    late QuerySnapshot<Map<String, dynamic>> querySnapshot;
+    Query<Map<String, dynamic>> queryOrders = firestore
+        .collection(FirestoreConstants.collectionCommentsProblems)
+        .where('category', isEqualTo: categoriesEnum.value)
+        .orderBy('date', descending: true);
+
+    if (startAfter != null) {
+      querySnapshot = await queryOrders
+          .startAfterDocument(startAfter)
+          .limit(gettingData)
+          .get();
+    } else {
+      querySnapshot = await queryOrders.limit(gettingData).get();
+    }
+
+    QueryDocumentSnapshot<Object?>? lastQuery = querySnapshot.docs.last;
+
+    return Tuple2(
+        querySnapshot.docs
+            .map((e) => CommentProblemModel.fromJson(e.data()))
+            .toList(),
+        lastQuery);
+  }
+  
+  @override
+  Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>>> getCommentProblemListAccordingToLikeCount(QueryDocumentSnapshot<Object?>? startAfter, {gettingData = 20}) async{
+    
+        late QuerySnapshot<Map<String, dynamic>> querySnapshot;
+    Query<Map<String, dynamic>> queryOrders = firestore
+        .collection(FirestoreConstants.collectionCommentsProblems)
+        .orderBy('likeCount', descending: true);
+
+    if (startAfter != null) {
+      querySnapshot = await queryOrders
+          .startAfterDocument(startAfter)
+          .limit(gettingData)
+          .get();
+    } else {
+      querySnapshot = await queryOrders.limit(gettingData).get();
+    }
+
+    QueryDocumentSnapshot<Object?>? lastQuery = querySnapshot.docs.last;
+
+    return Tuple2(
+        querySnapshot.docs
+            .map((e) => CommentProblemModel.fromJson(e.data()))
+            .toList(),
+        lastQuery);
+
+
+  }
+  
+  @override
+  Future<Tuple2<List<CommentSuggestionEntity?>, QueryDocumentSnapshot<Object?>?>> getCommentSuggestListAccordingToLikeCount(QueryDocumentSnapshot<Object?>? startAfter, {gettingData = 20}) async {
+    
+    late QuerySnapshot<Map<String, dynamic>> querySnapshot;
+    Query<Map<String, dynamic>> queryOrders = firestore
+        .collection(FirestoreConstants.collectionCommentsSuggestions)
+        .orderBy('likeCount', descending: true);
+
+    if (startAfter != null) {
+      querySnapshot = await queryOrders
+          .startAfterDocument(startAfter)
+          .limit(gettingData)
+          .get();
+    } else {
+      querySnapshot = await queryOrders.limit(gettingData).get();
+    }
+
+    QueryDocumentSnapshot<Object?>? lastQuery = querySnapshot.docs.last;
+
+    return Tuple2(
+        querySnapshot.docs
+            .map((e) => CommentSuggestionModel.fromJson(e.data()))
+            .toList(),
+        lastQuery);
+
+  }
+  
+  @override
+  Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>> getCommentProblemListLast(QueryDocumentSnapshot<Object?>? startAfter, {gettingData = 20}) async{
+    
+    late QuerySnapshot<Map<String, dynamic>> querySnapshot;
+    Query<Map<String, dynamic>> queryOrders = firestore
+        .collection(FirestoreConstants.collectionCommentsProblems)
+        .orderBy('date', descending: true);
+
+    if (startAfter != null) {
+      querySnapshot = await queryOrders
+          .startAfterDocument(startAfter)
+          .limit(gettingData)
+          .get();
+    } else {
+      querySnapshot = await queryOrders.limit(gettingData).get();
+    }
+
+    QueryDocumentSnapshot<Object?>? lastQuery = querySnapshot.docs.last;
+
+    return Tuple2(
+        querySnapshot.docs
+            .map((e) => CommentProblemModel.fromJson(e.data()))
+            .toList(),
+        lastQuery);
 
   }
 }
