@@ -27,22 +27,32 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthStatePageView(),
       );
     },
+    CategoryListPageRoute.name: (routeData) {
+      final args = routeData.argsAs<CategoryListPageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CategoryListPageView(
+          key: args.key,
+          categoryCardModel: args.categoryCardModel,
+        ),
+      );
+    },
     HomePageRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const HomePageView(),
       );
     },
+    MainWrapperRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MainWrapperView(),
+      );
+    },
     SplashRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SplashView(),
-      );
-    },
-    WelcomePageRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const WelcomePageView(),
       );
     },
   };
@@ -77,6 +87,44 @@ class AuthStatePageRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [CategoryListPageView]
+class CategoryListPageRoute extends PageRouteInfo<CategoryListPageRouteArgs> {
+  CategoryListPageRoute({
+    Key? key,
+    required CategoryCardModel categoryCardModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CategoryListPageRoute.name,
+          args: CategoryListPageRouteArgs(
+            key: key,
+            categoryCardModel: categoryCardModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoryListPageRoute';
+
+  static const PageInfo<CategoryListPageRouteArgs> page =
+      PageInfo<CategoryListPageRouteArgs>(name);
+}
+
+class CategoryListPageRouteArgs {
+  const CategoryListPageRouteArgs({
+    this.key,
+    required this.categoryCardModel,
+  });
+
+  final Key? key;
+
+  final CategoryCardModel categoryCardModel;
+
+  @override
+  String toString() {
+    return 'CategoryListPageRouteArgs{key: $key, categoryCardModel: $categoryCardModel}';
+  }
+}
+
+/// generated route for
 /// [HomePageView]
 class HomePageRoute extends PageRouteInfo<void> {
   const HomePageRoute({List<PageRouteInfo>? children})
@@ -91,6 +139,20 @@ class HomePageRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MainWrapperView]
+class MainWrapperRoute extends PageRouteInfo<void> {
+  const MainWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          MainWrapperRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MainWrapperRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [SplashView]
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})
@@ -100,20 +162,6 @@ class SplashRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SplashRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [WelcomePageView]
-class WelcomePageRoute extends PageRouteInfo<void> {
-  const WelcomePageRoute({List<PageRouteInfo>? children})
-      : super(
-          WelcomePageRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'WelcomePageRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
