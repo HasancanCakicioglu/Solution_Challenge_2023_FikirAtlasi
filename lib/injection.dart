@@ -25,6 +25,9 @@ abstract final class LocatorGetIt {
     await onBoardInjectionContainer();
     await appInjectionContainer();
     await firestoreInjectionContainer();
+
+    
+    
       
 
 

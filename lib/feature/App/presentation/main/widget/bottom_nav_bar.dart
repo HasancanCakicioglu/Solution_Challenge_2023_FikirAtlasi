@@ -8,15 +8,25 @@ class MainWrapperNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    return BlocBuilder<BottomNavCubit, BottomNavBarPages>(
-        builder: (BuildContext context, BottomNavBarPages state) {
-      return NavigationBar(
-          selectedIndex: BlocProvider.of<BottomNavCubit>(context).state.index,
-          onDestinationSelected: (index) =>
-              BlocProvider.of<BottomNavCubit>(context)
-                  .onDestinationSelected(index),
-          destinations: _navigationBarDestinations);
+    return BlocBuilder<BottomNavCubit, BottomNavBarState>(
+        
+        builder: (BuildContext context, BottomNavBarState state) {
+          
+      return AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        height: (state.bottomNavBarVisibleState.isVisible) ? kBottomNavigationBarHeight + 15 : 0.0,
+        child: Wrap(
+          children: [
+            NavigationBar(
+                selectedIndex:
+                    BlocProvider.of<BottomNavCubit>(context).state.bottomNavBarPages.index,
+                onDestinationSelected: (index) =>
+                    BlocProvider.of<BottomNavCubit>(context)
+                        .onDestinationSelected(index),
+                destinations: _navigationBarDestinations)
+          ],
+        ),
+      );
     });
   }
 }

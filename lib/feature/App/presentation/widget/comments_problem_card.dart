@@ -12,7 +12,8 @@ class CommentsProblemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
           elevation: 4.0,
-          margin: const EdgeInsets.all(8.0),
+          //margin: const EdgeInsets.all(8.0),
+          margin: const EdgeInsets.symmetric(vertical: 100),
           child: ListTile(
             contentPadding: const EdgeInsets.all(16.0),
             title: Text(commentProblemEntity.title!),

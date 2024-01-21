@@ -13,19 +13,16 @@ class MainWrapperView extends StatefulWidget {
   State<MainWrapperView> createState() => _MainWrapperViewState();
 }
 
-class _MainWrapperViewState extends State<MainWrapperView>{
-
-
-
+class _MainWrapperViewState extends State<MainWrapperView> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: BlocBuilder<BottomNavCubit, BottomNavBarPages>(
-        builder: (BuildContext context, BottomNavBarPages state) {
-          print("Bura çalıştı");
-          
-          return LazyLoadIndexedStack(index: state.index, children: BlocProvider.of<BottomNavCubit>(context).pages);
+      body: BlocBuilder<BottomNavCubit, BottomNavBarState>(
+        builder: (BuildContext context, BottomNavBarState state) {
+          return LazyLoadIndexedStack(
+              index: state.bottomNavBarPages.index,
+              children: BlocProvider.of<BottomNavCubit>(context).pages);
         },
       ),
       bottomNavigationBar: const MainWrapperNavigationBar(),
