@@ -6,12 +6,14 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_home_lastSent/home_last_sent_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/last_sent_page.dart';
 
+
 mixin LastSentPageMixin<T extends StatefulWidget> on State<LastSentPageView> {
   late CustomScrollController scrollControllerLastSentPage;
 
   @override
   void initState() {
     super.initState();
+
     context.read<HomeLastSentCubit>().getCommentProblemListLastRefresh();
 
     scrollControllerLastSentPage = CustomScrollController();

@@ -41,6 +41,7 @@ dependencies:
   firebase_auth: ^4.15.3
   google_sign_in: ^6.2.1
   cloud_firestore: ^4.13.6
+  cloud_functions: ^4.6.0
 
   # Cache
   hive: ^2.2.3
