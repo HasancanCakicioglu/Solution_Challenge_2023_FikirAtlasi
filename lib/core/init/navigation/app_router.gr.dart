@@ -49,6 +49,28 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MainWrapperView(),
       );
     },
+    ProfilePageRoute.name: (routeData) {
+      final args = routeData.argsAs<ProfilePageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ProfilePageView(
+          key: args.key,
+          profileID: args.profileID,
+        ),
+      );
+    },
+    SettingsLanguageOptionsPageRoute.name: (routeData) {
+      return AutoRoutePage<Locale?>(
+        routeData: routeData,
+        child: const SettingsLanguageOptionsPageView(),
+      );
+    },
+    SettingsPageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsPageView(),
+      );
+    },
     SplashRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -148,6 +170,72 @@ class MainWrapperRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MainWrapperRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProfilePageView]
+class ProfilePageRoute extends PageRouteInfo<ProfilePageRouteArgs> {
+  ProfilePageRoute({
+    Key? key,
+    required String profileID,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ProfilePageRoute.name,
+          args: ProfilePageRouteArgs(
+            key: key,
+            profileID: profileID,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfilePageRoute';
+
+  static const PageInfo<ProfilePageRouteArgs> page =
+      PageInfo<ProfilePageRouteArgs>(name);
+}
+
+class ProfilePageRouteArgs {
+  const ProfilePageRouteArgs({
+    this.key,
+    required this.profileID,
+  });
+
+  final Key? key;
+
+  final String profileID;
+
+  @override
+  String toString() {
+    return 'ProfilePageRouteArgs{key: $key, profileID: $profileID}';
+  }
+}
+
+/// generated route for
+/// [SettingsLanguageOptionsPageView]
+class SettingsLanguageOptionsPageRoute extends PageRouteInfo<void> {
+  const SettingsLanguageOptionsPageRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsLanguageOptionsPageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsLanguageOptionsPageRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsPageView]
+class SettingsPageRoute extends PageRouteInfo<void> {
+  const SettingsPageRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsPageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsPageRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

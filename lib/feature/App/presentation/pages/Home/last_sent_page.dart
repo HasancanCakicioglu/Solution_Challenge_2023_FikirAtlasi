@@ -58,16 +58,18 @@ class _LastSentPageViewState extends State<LastSentPageView>
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
+      floatingActionButton: FloatingActionButton(
+        heroTag: "btn2",
+        onPressed: (){
         var commentim = CommentProblemEntity(
-          text: "ekonomi çok kötü yeğen",
-          title: "ekonomi",
-          date: DateTime.now(),
-          category: "Economy",
-          likeCount: 0,
-          profileId: "ecpnmoyprofileid123",
-          uid: "ec12",
-          tags: ["economy","okul","ders"],
+          text: "son dememe tarih ile birliktehghgg",
+          title: "Transportationhhh",
+          date: DateTime.now().toIso8601String(),
+          category: "Transport",
+          likeCount: 149,
+          profileId: "transportid12345",
+          uid: "tp999",
+          tags: ["transport","economy","ders"],
           
         );
         var veri = sl.get<CreateCommentProblemUsecase>().call(commentim).then((value){

@@ -12,7 +12,7 @@ import 'package:solution_challenge_2023_recommender_app/injection.dart';
 // Import the generated file
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 void main() async {
   // Initialize the application
@@ -48,13 +48,17 @@ final class ApplicationInitialize {
     // Setup dependency injection with GetIt
     LocatorGetIt.setup();
     
-
     // Ensure localization is initialized
     await EasyLocalization.ensureInitialized();
 
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+
+    await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+    appleProvider: AppleProvider.appAttest,
+  );
 
     // Initialize Hive for Flutter
     await Hive.initFlutter();
@@ -71,7 +75,8 @@ final class ApplicationInitialize {
     // Handle Flutter errors
     // FlutterError.onError = (details) {
     //   // Log the Flutter error using the AppLogger
-    //   LocatorGetIt.get<AppLogger>().e("FlutterError.onError $details");
+    //   sl.get<AppLogger>().e("FlutterError.onError $details");
+      
     // };
   }
 }

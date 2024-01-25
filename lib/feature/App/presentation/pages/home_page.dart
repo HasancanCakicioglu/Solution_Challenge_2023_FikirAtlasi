@@ -62,10 +62,10 @@ class _HomePageViewState extends State<HomePageView> {
                     name: "test",
                     surname: "test",
                     email: "test",
-                    dateOfJoin: DateTime.now(),
+                    dateOfJoin: DateTime.now().toIso8601String(),
                     profileUrl: "test",
                     describeYourself: "test",
-                    lastLookedContents: "test"));
+                    ));
               },
               child: const Text("create profile")),
           ElevatedButton(
@@ -78,13 +78,13 @@ class _HomePageViewState extends State<HomePageView> {
                         title: "test",
                         category: "test",
                         text: "test",
-                        date: DateTime.now(),
+                        date: DateTime.now().toIso8601String(),
                         tags: ["test"],
                         photoURL: "test",
                         videoURL: "test",
                         hasGoogleMaps: true,
                         likeCount: 1,
-                        pdf: "test"))
+                        ))
                     .then((value) => value.fold((l) => print("left $l"),
                         (r) => print("right ${e.toString()}")));
               },
@@ -111,14 +111,14 @@ class _HomePageViewState extends State<HomePageView> {
                           category:
                               "Category $i", // Her öğe için farklı kategori
                           text: "Text $i", // Her öğe için farklı metin
-                          date: DateTime.now(),
+                          date: DateTime.now().toIso8601String(),
                           tags: [randomTag], // Rastgele bir etiket
                           photoURL: "test",
                           videoURL: "test",
                           hasGoogleMaps: true,
                           likeCount:
                               Random().nextInt(100), // Rastgele like sayısı
-                          pdf: "test",
+                          
                         ),
                       );
                       print("finish one");
@@ -127,7 +127,7 @@ class _HomePageViewState extends State<HomePageView> {
               child: const Text("createCommentProblem 10")),
               ElevatedButton(
               onPressed: () async{
-               await sl.get<GetCommentProblemListAccordingToTagsUsecase>().call(["ekonomi","sanat"],null,gettingData: 3).then((value) => value.fold((l) => print("left $l"), (r) {
+               await sl.get<GetCommentProblemListAccordingToTagsUsecase>().call(null,gettingData: 3).then((value) => value.fold((l) => print("left $l"), (r) {
                 var listem = r.value1;
                 var startem = r.value2;
 

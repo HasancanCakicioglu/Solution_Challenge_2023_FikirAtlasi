@@ -7,15 +7,20 @@ class CommentProblemEntity extends Equatable {
   final String? title;
   final String? category;
   final String? text;
-  final DateTime? date;
+  final String? date;
   final List<String>? tags;
   final String? photoURL;
   final String? videoURL;
   final bool? hasGoogleMaps;
   final int? likeCount;
-  final String? pdf;
 
-  const CommentProblemEntity({
+  final List<String>? pdf;
+  final List<String>? images;
+  final List<String>? videos;
+
+
+
+  const CommentProblemEntity( {
     this.uid,
     this.profileId,
     this.title,
@@ -28,6 +33,8 @@ class CommentProblemEntity extends Equatable {
     this.hasGoogleMaps,
     this.likeCount,
     this.pdf,
+    this.images,
+    this.videos,
   });
 
   @override
@@ -44,5 +51,41 @@ class CommentProblemEntity extends Equatable {
         hasGoogleMaps,
         likeCount,
         pdf,
+        images,
+        videos,
       ];
+
+  CommentProblemEntity copyWith({
+    String? uid,
+    String? profileId,
+    String? title,
+    String? category,
+    String? text,
+    String? date,
+    List<String>? tags,
+    String? photoURL,
+    String? videoURL,
+    bool? hasGoogleMaps,
+    int? likeCount,
+    List<String>? pdf,
+    List<String>? images,
+    List<String>? videos,
+  }) {
+    return CommentProblemEntity(
+      uid: uid ?? this.uid,
+      profileId: profileId ?? this.profileId,
+      title: title ?? this.title,
+      category: category ?? this.category,
+      text: text ?? this.text,
+      date: date ?? this.date,
+      tags: tags ?? this.tags,
+      photoURL: photoURL ?? this.photoURL,
+      videoURL: videoURL ?? this.videoURL,
+      hasGoogleMaps: hasGoogleMaps ?? this.hasGoogleMaps,
+      likeCount: likeCount ?? this.likeCount,
+      pdf: pdf ?? this.pdf,
+      images: images ?? this.images,
+      videos: videos ?? this.videos,
+    );
+  }
 }

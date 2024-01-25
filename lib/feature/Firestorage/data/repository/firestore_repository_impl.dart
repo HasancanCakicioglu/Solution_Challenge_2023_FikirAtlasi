@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/core/errors/failure/failure.dart';
@@ -46,7 +47,7 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
   }
 
   @override
-  Future<Either<FirebaseUnknowFailure, void>> createProfile(
+  Future<Either<FirebaseUnknowFailure, String?>> createProfile(
       ProfileEntity profileEntity) async {
     try {
       return Right(await dataSource
@@ -157,9 +158,9 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
   }
   
   @override
-  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToTags(List<String> tags,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20}) async{
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToTags(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20}) async{
     try {
-      return Right(await dataSource.getCommentProblemListAccordingToTags(tags,startAfter,gettingData: gettingData));
+      return Right(await dataSource.getCommentProblemListAccordingToTags(startAfter,gettingData: gettingData));
     } catch (e) {
       return Left(FirebaseUnknowFailure(
           title: "FirebaseUnknowFailure getCommentProblemListAccordingToTags", message: e.toString()));
@@ -205,11 +206,38 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
           title: "FirebaseUnknowFailure getCommentProblemListLast", message: e.toString()));
     }
   }
+
+  @override
+  Future<List<File?>?> selectFiles() async{
+    
+    return await dataSource.selectFiles();
+  }
+
+  @override
+  Future<Map<String, List<String>>> uploadFiles(String profileID,String commendID, FirestoreAllowedFileTypes firestoreAllowedFileTypes,List<File> files) async{
+      
+      return await dataSource.uploadFiles(profileID,commendID ,firestoreAllowedFileTypes,files);
+  }
   
-
+  @override
+  Future<Either<FirebaseUnknowFailure, List<CommentProblemEntity?>?>> getCommentProblemListSearched(List<String> text,{gettingData = 20}) async{
+    try {
+      return Right(await dataSource.getCommentProblemListSearched(text,gettingData: gettingData));
+    } catch (e) {
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure getCommentProblemListSearched", message: e.toString()));
+    }
+  }
   
-
-
-
+  @override
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToProfileID(String profileID, QueryDocumentSnapshot<Object?>? startAfter, {gettingData = 20}) async{
+    try{
+      return Right(await dataSource.getCommentProblemListAccordingToProfileID(profileID, startAfter, gettingData: gettingData));
+    }catch(e){
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure getCommentProblemListAccordingToProfileID", message: e.toString()));
+    }
+  }
+  
 
 }

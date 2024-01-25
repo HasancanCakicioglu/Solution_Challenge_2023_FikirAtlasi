@@ -39,9 +39,9 @@ exports.semanticSearch = onCall({region: "europe-west3"},
     // Call Pinecone for semantic search with default parameters
     const results = await semanticSearchPinecone(embeddedData);
     const idList: string[] = results.matches.map((item) => item.id);
-    console.log(results);
-    console.log(idList);
-    return { idList };
+
+    const jsonData = JSON.stringify(idList);
+    return jsonData;
   }
 );
 
@@ -75,15 +75,20 @@ exports.OpenAIembeddingAndSaveToPineCone = onDocumentCreated(
   async (event: typeof DocumentSnapshot) => {
     // Extract data from the Firestore document
     const documentData = event.data.data();
+    console.log(documentData);
     const uid = documentData.uid;
     const text = documentData.text;
     const title = documentData.title;
-    const date = documentData.date;
+
+
+    const date = Date.parse(documentData.date);
 
     // Convert date string to a Date object
-    const dateObject = new Date(date);
-    const yourText = text + title;
+    const dateObject:Date = new Date(date);
 
+    const yourText = text + title;
+    
+    console.log(dateObject);
     // Fetch OpenAI embedding for the text
     const embeddedData = await getOpenAIEmbedding(
       yourText,
@@ -123,7 +128,6 @@ async function getOpenAIEmbedding(
   });
 
   try {
-    console.log(openaiApiKey);
     const response = await fetch(url, { method: "POST", headers, body });
     const data = await response.json();
 

@@ -5,6 +5,9 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/data/models/category_card_model.dart';
 
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Category/category_list_page.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Profile/profile_page.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Settings/settings_language_options.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Settings/settings_page.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Auth/presentation/pages/auth_page.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Auth/presentation/pages/auth_state_wrapper.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/home_page.dart';
@@ -27,5 +30,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: CategoryListPageRoute.page, path: NavigationConstants.CategoryList),
 
         AutoRoute(page: HomePageRoute.page, path: NavigationConstants.Home),
+
+        AutoRoute(page: ProfilePageRoute.page,path: NavigationConstants.Profile),
+        AutoRoute(page: SettingsPageRoute.page,path:NavigationConstants.Settings),
+
+        AutoRoute(page: SettingsLanguageOptionsPageRoute.page,path:NavigationConstants.SettingsLanguageOptions),
       ];
 }

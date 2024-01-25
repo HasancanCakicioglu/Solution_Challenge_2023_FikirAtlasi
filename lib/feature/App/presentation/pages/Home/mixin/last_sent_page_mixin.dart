@@ -6,7 +6,6 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_home_lastSent/home_last_sent_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/last_sent_page.dart';
 
-
 mixin LastSentPageMixin<T extends StatefulWidget> on State<LastSentPageView> {
   late CustomScrollController scrollControllerLastSentPage;
 
@@ -19,8 +18,9 @@ mixin LastSentPageMixin<T extends StatefulWidget> on State<LastSentPageView> {
     scrollControllerLastSentPage = CustomScrollController();
     scrollControllerLastSentPage.addListener(
       () {
-
-        widget.scrollControllerNested.jumpTo(widget.scrollControllerNested.position.pixels+scrollControllerLastSentPage.distanceOfScroll());
+        widget.scrollControllerNested.jumpTo(
+            widget.scrollControllerNested.position.pixels +
+                scrollControllerLastSentPage.distanceOfScroll());
 
         if (scrollControllerLastSentPage.isMaxExtent()) {
           context.read<HomeLastSentCubit>().getCommentProblemListLast();
@@ -28,18 +28,22 @@ mixin LastSentPageMixin<T extends StatefulWidget> on State<LastSentPageView> {
 
         if (scrollControllerLastSentPage.position.userScrollDirection ==
             ScrollDirection.reverse) {
-
-          if (context.read<BottomNavCubit>().state.bottomNavBarVisibleState.isVisible) {
+          if (context
+              .read<BottomNavCubit>()
+              .state
+              .bottomNavBarVisibleState
+              .isVisible) {
             context.read<BottomNavCubit>().setIsVisible(false);
-
           }
         }
         if (scrollControllerLastSentPage.position.userScrollDirection ==
             ScrollDirection.forward) {
-
-          if (!context.read<BottomNavCubit>().state.bottomNavBarVisibleState.isVisible) {
+          if (!context
+              .read<BottomNavCubit>()
+              .state
+              .bottomNavBarVisibleState
+              .isVisible) {
             context.read<BottomNavCubit>().setIsVisible(true);
-
           }
         }
       },

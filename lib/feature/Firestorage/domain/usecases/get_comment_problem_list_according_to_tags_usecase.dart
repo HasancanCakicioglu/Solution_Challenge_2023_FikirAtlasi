@@ -11,7 +11,7 @@ class GetCommentProblemListAccordingToTagsUsecase{
 
   GetCommentProblemListAccordingToTagsUsecase(this.repository);
 
-  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> call(List<String> tags,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20}) async{
-    return await repository.getCommentProblemListAccordingToTags(tags,startAfter,gettingData: gettingData);
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> call(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20}) async{
+    return await repository.getCommentProblemListAccordingToTags(startAfter,gettingData: gettingData);
   }
 }

@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/data/models/category_card_model.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_category/category_cubit.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Category/category_list_page_body.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Category/mixin/category_mixin.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_problem_card.dart';
-
-import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_problem_list_according_to_category_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
 @RoutePage()
@@ -21,38 +21,34 @@ class _CategoryListPageViewState extends State<CategoryListPageView>
     with CategoryMixin {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.categoryCardModel.categoriesEnum.value),
+    return BlocProvider(
+      create: (context) => sl.get<CategoryCubit>(),
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            body: NestedScrollView(
+              controller: scrollControllerNested,
+              floatHeaderSlivers: true,
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  const SliverAppBar(
+                    title: Text('Category'),
+                    centerTitle: true,
+                    floating: true,
+                    snap: true,
+                    pinned: false,
+                  ),
+                ];
+              },
+              body: CategoryListPageBody(
+                scrollControllerNested: scrollControllerNested,
+                categoryEnum: widget.categoryCardModel.categoriesEnum,
+              ),
+            ),
+          );
+        },
       ),
-      body: FutureBuilder(
-          future: sl
-              .get<GetCommentProblemListAccordingToCategoryUsecase>()
-              .call(widget.categoryCardModel.categoriesEnum, null),
-          builder: ((context, snapshot) {
-            print(widget.categoryCardModel.categoriesEnum.value);
-            if (snapshot.hasData) {
-              print("1");
-              return snapshot.data!.fold(
-                  (l) => Center(
-                        child: Text("Error ${l.message}"),
-                      ), (r) {
-                return ListView.builder(
-                  itemCount: r.value1.length,
-                  itemBuilder: (context, index) {
-                    return CommentsProblemCard(
-                      commentProblemEntity: r.value1[index]!,
-                    );
-                  },
-                );
-              });
-            } else {
-              print("2");
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          })),
     );
   }
 }

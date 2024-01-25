@@ -73,7 +73,7 @@ class BottomNavCubit extends Cubit<BottomNavBarState> {
 
   final List<Widget> pages = [
     const HomePageView(),
-    const searchPage(),
+    const SearchPage(),
     CategoryPageView(),
     const LeaderBoard(),
   ];

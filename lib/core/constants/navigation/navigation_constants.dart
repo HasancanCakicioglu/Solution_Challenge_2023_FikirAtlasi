@@ -9,6 +9,9 @@ class NavigationConstants {
   static const mainWrapper = '/MainWrapper';
   static const OnBoarding = '/OnBoarding';
   static const CategoryList = '/CategoryList';
+  static const Profile = '/Profile';
+  static const Settings = '/Settings';
+  static const SettingsLanguageOptions = '/SettingsLanguageOptions';
 
 
 }

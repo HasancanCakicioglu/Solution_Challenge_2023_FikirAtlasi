@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_suggestions_entities.dart';
 
 class CommentSuggestionModel extends CommentSuggestionEntity {
@@ -13,8 +12,9 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
     String? videoURL,
     required bool hasGoogleMaps,
     required int likeCount,
-    String? pdf,
-  }) : super(
+    List<String>? pdf,
+    List<String>? images,
+    List<String>? videos,  }) : super(
           uid: uid,
           profileId: profileId,
           commentProblemID: commentProblemID,
@@ -26,6 +26,8 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
           hasGoogleMaps: hasGoogleMaps,
           likeCount: likeCount,
           pdf: pdf,
+          images: images,
+          videos: videos,
         );
 
   factory CommentSuggestionModel.fromJson(Map<String, dynamic> json) {
@@ -35,12 +37,14 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
       commentProblemID: json['commentProblemID'],
       title: json['title'],
       text: json['text'],
-      date: (json['date'] as Timestamp).toDate(),
+      date: (json['date']),
       photoURL: json['photoURL'],
       videoURL: json['videoURL'],
       hasGoogleMaps: json['hasGoogleMaps'],
       likeCount: json['likeCount'],
-      pdf: json['pdf'],
+      pdf: json['pdf']?.cast<String>(),
+      images: json['images']?.cast<String>(),
+      videos: json['videos']?.cast<String>(),
     );
   }
 
@@ -57,6 +61,8 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
       'hasGoogleMaps': hasGoogleMaps,
       'likeCount': likeCount,
       'pdf': pdf,
+      'images': images,
+      'videos': videos,
     };
   }
 
@@ -75,6 +81,8 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
     hasGoogleMaps: commentProblemEntity.hasGoogleMaps ?? false,
     likeCount: commentProblemEntity.likeCount!,
     pdf: commentProblemEntity.pdf,
+    images: commentProblemEntity.images,
+    videos: commentProblemEntity.videos,
   );
 
 }

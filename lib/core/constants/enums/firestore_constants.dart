@@ -16,3 +16,10 @@ enum CategoriesEnum {
 }
 
 
+enum FirestoreAllowedFileTypes{
+  image,
+  video,
+  audio,
+  pdf,
+}
+
