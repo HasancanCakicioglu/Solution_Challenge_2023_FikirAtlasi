@@ -18,20 +18,21 @@ class CategoryPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Category Page'),
-      ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0,
-        ),
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          return CategoryCard(category: categories[index]);
-        },
-      ),
-    );
+            appBar: AppBar(
+              title: const Text('Category Page'),
+            ),
+            body: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+              ),
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                return CategoryCard(category: categories[index]);
+              },
+            ),
+          );
+      
   }
 }

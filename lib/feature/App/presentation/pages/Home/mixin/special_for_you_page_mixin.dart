@@ -4,21 +4,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/core/utility/custom_scroll.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/bottomNavBar/bottomNavBar_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_home_specialForYou/home_special_for_you_cubit.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_profile_entity/profile_entity_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/speacial_for_you_page.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/profile_entites.dart';
 
-mixin SpeacialForYouPageMixin<T extends StatefulWidget> on State<SpeacialForYouPageView> {
+mixin SpeacialForYouPageMixin<T extends StatefulWidget>
+    on State<SpeacialForYouPageView> {
   late CustomScrollController scrollControllerSpecialForYouPage;
 
   @override
   void initState() {
     super.initState();
+
+
     context.read<HomeSpecialForYouCubit>().getCommentProblemListLastRefresh();
 
     scrollControllerSpecialForYouPage = CustomScrollController();
     scrollControllerSpecialForYouPage.addListener(
       () {
-
-        widget.scrollControllerNested.jumpTo(widget.scrollControllerNested.position.pixels+scrollControllerSpecialForYouPage.distanceOfScroll());
+        widget.scrollControllerNested.jumpTo(
+            widget.scrollControllerNested.position.pixels +
+                scrollControllerSpecialForYouPage.distanceOfScroll());
 
         if (scrollControllerSpecialForYouPage.isMaxExtent()) {
           context.read<HomeSpecialForYouCubit>().getCommentProblemListLast();
@@ -26,18 +32,22 @@ mixin SpeacialForYouPageMixin<T extends StatefulWidget> on State<SpeacialForYouP
 
         if (scrollControllerSpecialForYouPage.position.userScrollDirection ==
             ScrollDirection.reverse) {
-
-          if (context.read<BottomNavCubit>().state.bottomNavBarVisibleState.isVisible) {
+          if (context
+              .read<BottomNavCubit>()
+              .state
+              .bottomNavBarVisibleState
+              .isVisible) {
             context.read<BottomNavCubit>().setIsVisible(false);
-
           }
         }
         if (scrollControllerSpecialForYouPage.position.userScrollDirection ==
             ScrollDirection.forward) {
-
-          if (!context.read<BottomNavCubit>().state.bottomNavBarVisibleState.isVisible) {
+          if (!context
+              .read<BottomNavCubit>()
+              .state
+              .bottomNavBarVisibleState
+              .isVisible) {
             context.read<BottomNavCubit>().setIsVisible(true);
-
           }
         }
       },

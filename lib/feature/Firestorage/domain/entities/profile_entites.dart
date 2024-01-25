@@ -1,6 +1,3 @@
-
-
-
 import 'package:equatable/equatable.dart';
 
 class ProfileEntity extends Equatable {
@@ -8,13 +5,13 @@ class ProfileEntity extends Equatable {
   final String? name;
   final String? surname;
   final String? email;
-  final DateTime? dateOfJoin;
+  final String? dateOfJoin;
   final String? profileUrl;
   final String? describeYourself;
-  final String? lastLookedContents;
+  final List<String>? lastLookedContents;
 
   const ProfileEntity({
-    required this.uid,
+    this.uid,
     this.name,
     this.surname,
     this.email,
@@ -24,7 +21,20 @@ class ProfileEntity extends Equatable {
     this.lastLookedContents,
   });
 
+  @override
+  String toString() {
+    return 'ProfileEntity{uid: $uid, name: $name, surname: $surname, email: $email, dateOfJoin: $dateOfJoin, profileUrl: $profileUrl, describeYourself: $describeYourself, lastLookedContents: $lastLookedContents}';
+  }
 
   @override
-  List<Object?> get props => [uid];
+  List<Object?> get props => [
+        uid,
+        name,
+        surname,
+        email,
+        dateOfJoin,
+        profileUrl,
+        describeYourself,
+        lastLookedContents
+      ];
 }

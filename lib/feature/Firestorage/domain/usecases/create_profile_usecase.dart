@@ -10,7 +10,7 @@ class CreateProfileUsecase{
 
   CreateProfileUsecase(this.repository);
 
-  Future<Either<FirebaseUnknowFailure, void>> call(ProfileEntity profileEntity)async {
+  Future<Either<FirebaseUnknowFailure, String?>> call(ProfileEntity profileEntity)async {
     return await repository.createProfile(profileEntity);
   }
 }

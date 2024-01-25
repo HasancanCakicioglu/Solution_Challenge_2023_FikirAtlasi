@@ -3,6 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_home_lastSent/home_last_sent_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/mixin/last_sent_page_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_problem_card.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/create_comment_problem_usecase.dart';
+
+import '../../../../../injection.dart';
 
 class LastSentPageView extends StatefulWidget {
   const LastSentPageView({super.key, required this.scrollControllerNested});
@@ -54,6 +58,27 @@ class _LastSentPageViewState extends State<LastSentPageView>
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        heroTag: "btn2",
+        onPressed: (){
+        var commentim = CommentProblemEntity(
+          text: "son dememe tarih ile birliktehghgg",
+          title: "Transportationhhh",
+          date: DateTime.now().toIso8601String(),
+          category: "Transport",
+          likeCount: 149,
+          profileId: "transportid12345",
+          uid: "tp999",
+          tags: ["transport","economy","ders"],
+          
+        );
+        var veri = sl.get<CreateCommentProblemUsecase>().call(commentim).then((value){
+          print(value.fold((l){
+            print(l);
+          }, (r) => print("ekledi")));
+        });
+        print(veri);
+      }),
     );
   }
 

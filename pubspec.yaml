@@ -41,6 +41,10 @@ dependencies:
   firebase_auth: ^4.15.3
   google_sign_in: ^6.2.1
   cloud_firestore: ^4.13.6
+  cloud_functions: ^4.6.0
+  google_mlkit_translation: ^0.9.0
+  firebase_storage: ^11.6.0
+  firebase_app_check: ^0.2.1+8
 
   # Cache
   hive: ^2.2.3
@@ -72,6 +76,7 @@ dependencies:
   path_provider: ^2.1.1
   uuid: ^4.2.2
   dartz: ^0.10.1
+  file_picker: ^6.1.1
 
   
 

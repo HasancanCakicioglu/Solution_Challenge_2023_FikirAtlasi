@@ -12,13 +12,15 @@ mixin LastSentPageMixin<T extends StatefulWidget> on State<LastSentPageView> {
   @override
   void initState() {
     super.initState();
+
     context.read<HomeLastSentCubit>().getCommentProblemListLastRefresh();
 
     scrollControllerLastSentPage = CustomScrollController();
     scrollControllerLastSentPage.addListener(
       () {
-
-        widget.scrollControllerNested.jumpTo(widget.scrollControllerNested.position.pixels+scrollControllerLastSentPage.distanceOfScroll());
+        widget.scrollControllerNested.jumpTo(
+            widget.scrollControllerNested.position.pixels +
+                scrollControllerLastSentPage.distanceOfScroll());
 
         if (scrollControllerLastSentPage.isMaxExtent()) {
           context.read<HomeLastSentCubit>().getCommentProblemListLast();
@@ -26,18 +28,22 @@ mixin LastSentPageMixin<T extends StatefulWidget> on State<LastSentPageView> {
 
         if (scrollControllerLastSentPage.position.userScrollDirection ==
             ScrollDirection.reverse) {
-
-          if (context.read<BottomNavCubit>().state.bottomNavBarVisibleState.isVisible) {
+          if (context
+              .read<BottomNavCubit>()
+              .state
+              .bottomNavBarVisibleState
+              .isVisible) {
             context.read<BottomNavCubit>().setIsVisible(false);
-
           }
         }
         if (scrollControllerLastSentPage.position.userScrollDirection ==
             ScrollDirection.forward) {
-
-          if (!context.read<BottomNavCubit>().state.bottomNavBarVisibleState.isVisible) {
+          if (!context
+              .read<BottomNavCubit>()
+              .state
+              .bottomNavBarVisibleState
+              .isVisible) {
             context.read<BottomNavCubit>().setIsVisible(true);
-
           }
         }
       },

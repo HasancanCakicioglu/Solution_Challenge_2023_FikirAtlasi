@@ -5,6 +5,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/last_sent_page.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/mixin/home_page_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/speacial_for_you_page.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/sliver_appbar.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
 class HomePageView extends StatefulWidget {
@@ -14,8 +15,7 @@ class HomePageView extends StatefulWidget {
   State<HomePageView> createState() => _HomePageViewState();
 }
 
-class _HomePageViewState extends State<HomePageView> with HomePageMixin{
-
+class _HomePageViewState extends State<HomePageView> with HomePageMixin {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -26,13 +26,9 @@ class _HomePageViewState extends State<HomePageView> with HomePageMixin{
           floatHeaderSlivers: true,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
-              const SliverAppBar(
-                title: Text('Home'),
-                centerTitle: true,
-                floating: true,
-                snap: true,
-                pinned: false,
-                bottom: TabBar(
+              const SliverAppBarWidget(
+                text: 'Home',
+                tabbar: TabBar(
                   tabs: [
                     Tab(text: 'Sana Özel'),
                     Tab(text: 'En Son Paylaşılanlar'),

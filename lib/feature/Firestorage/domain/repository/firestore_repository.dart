@@ -1,5 +1,7 @@
 
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
@@ -11,7 +13,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/doma
 
 abstract class FirestoreRepository {
 
-  Future<Either<FirebaseUnknowFailure, void>> createProfile(ProfileEntity profileEntity);
+  Future<Either<FirebaseUnknowFailure, String?>> createProfile(ProfileEntity profileEntity);
   Future<Either<FirebaseUnknowFailure, void>> updateProfile(ProfileEntity profileEntity);
   Future<ProfileEntity> getProfile(String uid);
   Future<Either<FirebaseUnknowFailure, void>> deleteProfile(String uid);
@@ -22,10 +24,15 @@ abstract class FirestoreRepository {
   Future<CommentProblemEntity> getCommentProblem(String uid);
   Future<Either<FirebaseUnknowFailure, void>> deleteCommentProblem(String uid);
 
-  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToTags(List<String> tags,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToTags(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
   Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToCategory(CategoriesEnum categoriesEnum,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
   Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToLikeCount(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListAccordingToProfileID(String profileID,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+
   Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentProblemListLast(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+
+  Future<Either<FirebaseUnknowFailure, List<CommentProblemEntity?>?>> getCommentProblemListSearched(List<String> text,{gettingData = 20});
+
 
 
   Future<List<CommentSuggestionEntity>> getCommentSuggestion(String uid);
@@ -39,5 +46,9 @@ abstract class FirestoreRepository {
   Future<Either<FirebaseUnknowFailure, void>> createReport(ReportEntity reportEntity);
 
   
+  Future<List<File?>?> selectFiles();
+  Future<Map<String, List<String>>> uploadFiles(String profileID,String commendID,FirestoreAllowedFileTypes firestoreAllowedFileTypes,List<File> files);
+
+
 }
 

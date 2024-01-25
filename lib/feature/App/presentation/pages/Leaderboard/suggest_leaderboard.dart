@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Leaderboard/mixin/leaderboard_suggest_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_suggestion_card.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_suggest_list_according_to_likecount_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
 class SuggestLeaderBoardPageView extends StatefulWidget {
-  const SuggestLeaderBoardPageView({super.key});
+  const SuggestLeaderBoardPageView({super.key, required this.scrollControllerNested});
+  final ScrollController scrollControllerNested;
 
   @override
   State<SuggestLeaderBoardPageView> createState() => _SuggestLeaderBoardPageViewState();
 }
 
-class _SuggestLeaderBoardPageViewState extends State<SuggestLeaderBoardPageView> with AutomaticKeepAliveClientMixin{
+class _SuggestLeaderBoardPageViewState extends State<SuggestLeaderBoardPageView> with AutomaticKeepAliveClientMixin,LeaderBoardSuggestMixin{
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -19,6 +21,7 @@ class _SuggestLeaderBoardPageViewState extends State<SuggestLeaderBoardPageView>
 
         return snapshot.hasData ? snapshot.data!.fold((l) => Center(child: Text("Error ${l.message}"),), (r) {
           return ListView.builder(
+            controller: scrollControllerLeaderboardSuggest,
             itemCount: r.value1.length,
             itemBuilder: (context, index) {
               return CommentsSuggestionCard(

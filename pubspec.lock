@@ -201,6 +201,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.8.10"
+  cloud_functions:
+    dependency: "direct main"
+    description:
+      name: cloud_functions
+      sha256: "88cf33c79249908461e500c507ccb88fe4ee26755555d837f29ade8eb340c0df"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.6.0"
+  cloud_functions_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_functions_platform_interface
+      sha256: "8e291d2677010fd85021698a3906ef090fd2f53528e2bc1bf45fbe5dbbddf037"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.5.11"
+  cloud_functions_web:
+    dependency: transitive
+    description:
+      name: cloud_functions_web
+      sha256: "1d3799204b8b367952bb7ca292bdcec1ed07129b04a8be9f2c298aa77e6f1aa0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.6.11"
   code_builder:
     dependency: transitive
     description:
@@ -313,6 +337,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  file_picker:
+    dependency: "direct main"
+    description:
+      name: file_picker
+      sha256: "4e42aacde3b993c5947467ab640882c56947d9d27342a5b6f2895b23956954a6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.1"
+  firebase_app_check:
+    dependency: "direct main"
+    description:
+      name: firebase_app_check
+      sha256: "0a4758407ef89adca086236b35b102eedbb4f272efeaf6741e76ed9f1d2b99d6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1+8"
+  firebase_app_check_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_app_check_platform_interface
+      sha256: "7067fbde5e416ea4e127d24b3d8ef40f82a0e9472c8448ac07152f8c776e69bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0+10"
+  firebase_app_check_web:
+    dependency: transitive
+    description:
+      name: firebase_app_check_web
+      sha256: "998d640cd37422816cce9efa2adbf9f06822913943f386c08ca4032229410022"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0+10"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -361,6 +417,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  firebase_storage:
+    dependency: "direct main"
+    description:
+      name: firebase_storage
+      sha256: "75e6cb6bed65138b5bbd86bfd7cf9bc9a175fb0c31aacc400e9203df117ffbe6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.6.0"
+  firebase_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_storage_platform_interface
+      sha256: "545a3a8edf337850403bb0fa03c8074a53deb87c0107d19755c77a82ce07919e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.3"
+  firebase_storage_web:
+    dependency: transitive
+    description:
+      name: firebase_storage_web
+      sha256: ee6870ff79aa304b8996ba18a4aefe1e8b3fc31fd385eab6574180267aa8d393
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.6.17"
   fixnum:
     dependency: transitive
     description:
@@ -403,6 +483,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.8"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      sha256: b068ffc46f82a55844acfa4fdbb61fad72fa2aef0905548419d97f0f95c456da
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.17"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -453,6 +541,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0+2"
+  google_mlkit_commons:
+    dependency: transitive
+    description:
+      name: google_mlkit_commons
+      sha256: "046586b381cdd139f7f6a05ad6998f7e339d061bd70158249907358394b5f496"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
+  google_mlkit_translation:
+    dependency: "direct main"
+    description:
+      name: google_mlkit_translation
+      sha256: b8f9c3de545f54ed5285e4a57b205d84a912c26003705a9f1eec2a40fc8a5471
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.0"
   google_sign_in:
     dependency: "direct main"
     description:

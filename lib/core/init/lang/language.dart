@@ -12,7 +12,7 @@ final class LanguageManager extends EasyLocalization {
     super.key,
   }) : super(
           saveLocale: true,
-          supportedLocales: _supportedLocalesLanguages,
+          supportedLocales: supportedLocalesLanguages,
           path: _translationPath,
           useOnlyLangCode: true,
         );
@@ -21,7 +21,7 @@ final class LanguageManager extends EasyLocalization {
   static const String _translationPath = 'assets/translations';
 
   /// A list of supported locales in the app.
-  static List<Locale> get _supportedLocalesLanguages => [
+  static List<Locale> get supportedLocalesLanguages => [
         Locales.tr.locale,
         Locales.en.locale,
       ];
@@ -29,9 +29,9 @@ final class LanguageManager extends EasyLocalization {
   /// Method to update the language.
   static Future<void> updateLanguage({
     required BuildContext context,
-    required Locales value,
+    required Locale value,
   }) =>
-      context.setLocale(value.locale);
+      context.setLocale(value);
 
 
   /// Method to reset the language.

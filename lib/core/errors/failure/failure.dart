@@ -36,3 +36,25 @@ class FirebaseUnknowFailure extends Failure {
     return 'FirebaseUnknowFailure{title: $title, message: $message}';
   }
 }
+
+class UnknowFailure extends Failure {
+  /// Constructs a [UnknowFailure] with optional [title] and [message].
+  const UnknowFailure({String title = 'Unknow Error', String message = 'An error occurred during operation'})
+      : super(title: title, message: message);
+
+  @override
+  String toString() {
+    return 'UnknowFailure{title: $title, message: $message}';
+  }
+}
+
+class GoogleCloudFailure extends Failure {
+  /// Constructs a [GoogleCloudFailure] with optional [title] and [message].
+  const GoogleCloudFailure({String title = 'Google Cloud Error', String message = 'An error occurred during google cloud operation'})
+      : super(title: title, message: message);
+
+  @override
+  String toString() {
+    return 'GoogleCloudFailure{title: $title, message: $message}';
+  }
+}

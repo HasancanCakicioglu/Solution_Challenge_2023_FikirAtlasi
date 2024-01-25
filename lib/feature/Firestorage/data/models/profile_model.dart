@@ -4,14 +4,14 @@ import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/doma
 class ProfileModel extends ProfileEntity {
 
   const ProfileModel({
-    required String uid,
+    String? uid,
     String? name,
     String? surname,
     String? email,
-    DateTime? dateOfJoin,
+    String? dateOfJoin,
     String? profileUrl,
     String? describeYourself,
-    String? lastLookedContents,
+    List<String>? lastLookedContents,
   }) : super(
           uid: uid,
           name: name,
@@ -32,7 +32,7 @@ class ProfileModel extends ProfileEntity {
       dateOfJoin: json['dateOfJoin'],
       profileUrl: json['profileUrl'],
       describeYourself: json['describeYourself'],
-      lastLookedContents: json['lastLookedContents'],
+      lastLookedContents: json['lastLookedContents'].cast<String>(),
     );
   }
 
@@ -50,17 +50,17 @@ class ProfileModel extends ProfileEntity {
   }
 
   ProfileModel copyWith({
-    required String uid,
+    String? uid,
     String? name,
     String? surname,
     String? email,
-    DateTime? dateOfJoin,
+    String? dateOfJoin,
     String? profileUrl,
     String? describeYourself,
-    String? lastLookedContents,
+    List<String>? lastLookedContents,
   }) {
     return ProfileModel(
-      uid: uid,
+      uid: uid ?? this.uid,
       name: name ?? this.name,
       surname: surname ?? this.surname,
       email: email ?? this.email,
@@ -72,7 +72,7 @@ class ProfileModel extends ProfileEntity {
   }
 
   factory ProfileModel.fromEntity(ProfileEntity profileEntity) => ProfileModel(
-    uid: profileEntity.uid!,
+    uid: profileEntity.uid,
     name: profileEntity.name,
     surname: profileEntity.surname,
     email: profileEntity.email,

@@ -12,7 +12,10 @@ class CommentSuggestionEntity extends Equatable {
   final String? videoURL;
   final bool? hasGoogleMaps;
   final int? likeCount;
-  final String? pdf;
+
+  final List<String>? pdf;
+  final List<String>? images;
+  final List<String>? videos;
 
   const CommentSuggestionEntity({
     this.uid,
@@ -26,6 +29,8 @@ class CommentSuggestionEntity extends Equatable {
     this.hasGoogleMaps,
     this.likeCount,
     this.pdf,
+    this.images,
+    this.videos,
   });
 
   @override
@@ -41,5 +46,7 @@ class CommentSuggestionEntity extends Equatable {
         hasGoogleMaps,
         likeCount,
         pdf,
+        images,
+        videos,
       ];
 }

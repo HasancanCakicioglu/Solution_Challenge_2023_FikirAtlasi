@@ -5,6 +5,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/app_injectio
 import 'package:solution_challenge_2023_recommender_app/feature/Auth/auth_injection_container.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/firestorage_injection_container.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Onboard/onboard_injection_container.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Services/services_injection_container.dart';
 
 final sl = GetIt.instance;
 
@@ -25,6 +26,7 @@ abstract final class LocatorGetIt {
     await onBoardInjectionContainer();
     await appInjectionContainer();
     await firestoreInjectionContainer();
+    await servicesInjectionContainer();
 
     
     
