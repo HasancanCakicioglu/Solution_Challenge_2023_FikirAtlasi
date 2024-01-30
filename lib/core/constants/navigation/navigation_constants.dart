@@ -12,6 +12,8 @@ class NavigationConstants {
   static const Profile = '/Profile';
   static const Settings = '/Settings';
   static const SettingsLanguageOptions = '/SettingsLanguageOptions';
+  static const Post = '/Post';
+  static const GoogleMaps = '/GoogleMaps';
 
 
 }

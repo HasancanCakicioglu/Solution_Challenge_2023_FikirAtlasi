@@ -6,7 +6,7 @@ class SelectFilesUsecase{
 
   SelectFilesUsecase(this.repository);
 
-  Future<List<File?>?> call() async {
+  Future<List<File>?> call() async {
     return await repository.selectFiles();
   }
 }

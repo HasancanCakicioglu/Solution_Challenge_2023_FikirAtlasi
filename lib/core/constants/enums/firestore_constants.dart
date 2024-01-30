@@ -9,7 +9,8 @@ enum CategoriesEnum {
   entertainment("Entertainment"),
   environment("Environment"),
   policy("Policy"),
-  security("Security");
+  security("Security"),
+  other("Other");
 
   final String value;
   const CategoriesEnum(this.value);
@@ -21,5 +22,6 @@ enum FirestoreAllowedFileTypes{
   video,
   audio,
   pdf,
+  unknown
 }
 

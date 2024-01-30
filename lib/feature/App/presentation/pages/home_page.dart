@@ -80,9 +80,7 @@ class _HomePageViewState extends State<HomePageView> {
                         text: "test",
                         date: DateTime.now().toIso8601String(),
                         tags: ["test"],
-                        photoURL: "test",
-                        videoURL: "test",
-                        hasGoogleMaps: true,
+
                         likeCount: 1,
                         ))
                     .then((value) => value.fold((l) => print("left $l"),
@@ -113,9 +111,7 @@ class _HomePageViewState extends State<HomePageView> {
                           text: "Text $i", // Her öğe için farklı metin
                           date: DateTime.now().toIso8601String(),
                           tags: [randomTag], // Rastgele bir etiket
-                          photoURL: "test",
-                          videoURL: "test",
-                          hasGoogleMaps: true,
+
                           likeCount:
                               Random().nextInt(100), // Rastgele like sayısı
                           

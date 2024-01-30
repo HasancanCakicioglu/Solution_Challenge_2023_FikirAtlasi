@@ -11,7 +11,7 @@ class UploadFilesUsecase{
 
   UploadFilesUsecase(this.repository);
 
-  Future<Map<String, List<String>>> call(String profileID,String commendID,FirestoreAllowedFileTypes firestoreAllowedFileTypes,List<File> files)async {
-    return await repository.uploadFiles(profileID,commendID,firestoreAllowedFileTypes,files);
+  Future<Map<String, List<String>>> call(FirestoreAllowedFileTypes firestoreAllowedFileTypes,List<File> files)async {
+    return await repository.uploadFiles(firestoreAllowedFileTypes,files);
   }
 }

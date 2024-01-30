@@ -20,8 +20,5 @@ abstract final class FirestoreConstants {
   static const String categoryPolicy = 'Policy';
   static const String categoryOther = "Security";
 
-  
-
-
 
 }
