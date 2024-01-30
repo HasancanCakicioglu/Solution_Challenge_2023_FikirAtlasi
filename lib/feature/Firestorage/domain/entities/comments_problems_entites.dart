@@ -9,9 +9,8 @@ class CommentProblemEntity extends Equatable {
   final String? text;
   final String? date;
   final List<String>? tags;
-  final String? photoURL;
-  final String? videoURL;
-  final bool? hasGoogleMaps;
+  final double? latitude;
+  final double? longitude;
   final int? likeCount;
 
   final List<String>? pdf;
@@ -28,9 +27,8 @@ class CommentProblemEntity extends Equatable {
     this.text,
     this.date,
     this.tags,
-    this.photoURL,
-    this.videoURL,
-    this.hasGoogleMaps,
+    this.longitude,
+    this.latitude,
     this.likeCount,
     this.pdf,
     this.images,
@@ -46,9 +44,8 @@ class CommentProblemEntity extends Equatable {
         text,
         date,
         tags,
-        photoURL,
-        videoURL,
-        hasGoogleMaps,
+        latitude,
+        longitude,
         likeCount,
         pdf,
         images,
@@ -63,9 +60,8 @@ class CommentProblemEntity extends Equatable {
     String? text,
     String? date,
     List<String>? tags,
-    String? photoURL,
-    String? videoURL,
-    bool? hasGoogleMaps,
+    double? latitude,
+    double? longitude,
     int? likeCount,
     List<String>? pdf,
     List<String>? images,
@@ -79,9 +75,8 @@ class CommentProblemEntity extends Equatable {
       text: text ?? this.text,
       date: date ?? this.date,
       tags: tags ?? this.tags,
-      photoURL: photoURL ?? this.photoURL,
-      videoURL: videoURL ?? this.videoURL,
-      hasGoogleMaps: hasGoogleMaps ?? this.hasGoogleMaps,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
       likeCount: likeCount ?? this.likeCount,
       pdf: pdf ?? this.pdf,
       images: images ?? this.images,

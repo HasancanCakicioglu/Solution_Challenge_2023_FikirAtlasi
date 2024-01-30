@@ -53,16 +53,18 @@ abstract class FirestoreRemoteDataSource {
   Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>
       getCommentProblemListLast(QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
-  Future<Tuple2<List<CommentProblemEntity?>,QueryDocumentSnapshot<Object?>?>> getCommentProblemListAccordingToProfileID(String profileID,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
-  
-  Future<List<CommentProblemEntity?>?> getCommentProblemListSearched(List<String> text,{gettingData = 20});
+  Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>
+      getCommentProblemListAccordingToProfileID(
+          String profileID, QueryDocumentSnapshot<Object?>? startAfter,
+          {gettingData = 20});
 
-  Future<List<File?>?> selectFiles();
+  Future<List<CommentProblemEntity?>?> getCommentProblemListSearched(
+      List<String> text,
+      {gettingData = 20});
+
+  Future<List<File>?> selectFiles();
   Future<Map<String, List<String>>> uploadFiles(
-      String profileID,
-      String commendID,
-      FirestoreAllowedFileTypes firestoreAllowedFileTypes,
-      List<File> files);
+      FirestoreAllowedFileTypes firestoreAllowedFileTypes, List<File> files);
 }
 
 class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
@@ -79,9 +81,16 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
     await firestore
         .collection(FirestoreConstants.collectionCommentsProblems)
         .doc(customID)
-        .set(commentProblemModel.copyWith(uid: customID).toJson()).catchError((e){
-          print(e);
-        });
+        .set(commentProblemModel
+            .copyWith(
+                uid: customID,
+                date: DateTime.now().toIso8601String(),
+                likeCount: 0,
+                profileId: firebaseAuth.currentUser!.uid)
+            .toJson())
+        .catchError((e) {
+      print(e);
+    });
   }
 
   @override
@@ -374,7 +383,7 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
   }
 
   @override
-  Future<List<File?>?> selectFiles() async {
+  Future<List<File>?> selectFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.any,
       allowMultiple: true,
@@ -390,15 +399,14 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
 
   @override
   Future<Map<String, List<String>>> uploadFiles(
-      String profileID,
-      String commendID,
       FirestoreAllowedFileTypes firestoreAllowedFileTypes,
       List<File> files) async {
     Map<String, List<String>> links = {};
 
     for (var file in files) {
-      String uploadFileName =
-          "${profileID}_${commendID}_${HelperClass.getUuid()} ";
+      String ex = p.extension(file.path);
+      String timestamp = Timestamp.now().millisecondsSinceEpoch.toString();
+      String uploadFileName = "${timestamp}_${HelperClass.getUuid()}$ex";
       Reference reference = firebaseStorage.ref().child(uploadFileName);
 
       UploadTask uploadTask = reference.putFile(file);
@@ -417,27 +425,28 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
 
     return links;
   }
-  
-  @override
-  Future<List<CommentProblemEntity?>?> getCommentProblemListSearched(List<String> text,{gettingData = 20}) async{
 
-      late QuerySnapshot<Map<String, dynamic>> querySnapshot;
+  @override
+  Future<List<CommentProblemEntity?>?> getCommentProblemListSearched(
+      List<String> text,
+      {gettingData = 20}) async {
+    late QuerySnapshot<Map<String, dynamic>> querySnapshot;
     Query<Map<String, dynamic>> queryOrders = firestore
-        .collection(FirestoreConstants.collectionCommentsProblems).where('uid',whereIn: text );
-        
-    querySnapshot = await queryOrders.limit(gettingData).get();
-  
+        .collection(FirestoreConstants.collectionCommentsProblems)
+        .where('uid', whereIn: text);
 
-    return 
-        querySnapshot.docs
-            .map((e) => CommentProblemModel.fromJson(e.data()))
-            .toList();
-      
-    
+    querySnapshot = await queryOrders.limit(gettingData).get();
+
+    return querySnapshot.docs
+        .map((e) => CommentProblemModel.fromJson(e.data()))
+        .toList();
   }
-  
+
   @override
-  Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>> getCommentProblemListAccordingToProfileID(String profileID, QueryDocumentSnapshot<Object?>? startAfter, {gettingData = 20}) async {
+  Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>
+      getCommentProblemListAccordingToProfileID(
+          String profileID, QueryDocumentSnapshot<Object?>? startAfter,
+          {gettingData = 20}) async {
     late QuerySnapshot<Map<String, dynamic>> querySnapshot;
     Query<Map<String, dynamic>> queryOrders = firestore
         .collection(FirestoreConstants.collectionCommentsProblems)

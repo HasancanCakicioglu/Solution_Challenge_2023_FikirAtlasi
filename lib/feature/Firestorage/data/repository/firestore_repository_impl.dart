@@ -208,15 +208,15 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
   }
 
   @override
-  Future<List<File?>?> selectFiles() async{
+  Future<List<File>?> selectFiles() async{
     
     return await dataSource.selectFiles();
   }
 
   @override
-  Future<Map<String, List<String>>> uploadFiles(String profileID,String commendID, FirestoreAllowedFileTypes firestoreAllowedFileTypes,List<File> files) async{
+  Future<Map<String, List<String>>> uploadFiles(FirestoreAllowedFileTypes firestoreAllowedFileTypes,List<File> files) async{
       
-      return await dataSource.uploadFiles(profileID,commendID ,firestoreAllowedFileTypes,files);
+      return await dataSource.uploadFiles(firestoreAllowedFileTypes,files);
   }
   
   @override

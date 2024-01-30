@@ -5,6 +5,8 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/data/models/category_card_model.dart';
 
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Category/category_list_page.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/google_maps_page.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Post/post_page.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Profile/profile_page.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Settings/settings_language_options.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Settings/settings_page.dart';
@@ -35,5 +37,9 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: SettingsPageRoute.page,path:NavigationConstants.Settings),
 
         AutoRoute(page: SettingsLanguageOptionsPageRoute.page,path:NavigationConstants.SettingsLanguageOptions),
+
+        AutoRoute(page: PostPageRoute.page,path:NavigationConstants.Post),
+
+        AutoRoute(page: GoogleMapsPageRoute.page,path:NavigationConstants.GoogleMaps),
       ];
 }

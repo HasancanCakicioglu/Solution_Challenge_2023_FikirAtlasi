@@ -37,6 +37,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    GoogleMapsPageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const GoogleMapsPageView(),
+      );
+    },
     HomePageRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -47,6 +53,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const MainWrapperView(),
+      );
+    },
+    PostPageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PostPageView(),
       );
     },
     ProfilePageRoute.name: (routeData) {
@@ -147,6 +159,20 @@ class CategoryListPageRouteArgs {
 }
 
 /// generated route for
+/// [GoogleMapsPageView]
+class GoogleMapsPageRoute extends PageRouteInfo<void> {
+  const GoogleMapsPageRoute({List<PageRouteInfo>? children})
+      : super(
+          GoogleMapsPageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GoogleMapsPageRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [HomePageView]
 class HomePageRoute extends PageRouteInfo<void> {
   const HomePageRoute({List<PageRouteInfo>? children})
@@ -170,6 +196,20 @@ class MainWrapperRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MainWrapperRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PostPageView]
+class PostPageRoute extends PageRouteInfo<void> {
+  const PostPageRoute({List<PageRouteInfo>? children})
+      : super(
+          PostPageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PostPageRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

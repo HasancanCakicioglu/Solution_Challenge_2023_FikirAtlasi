@@ -46,8 +46,8 @@ abstract class FirestoreRepository {
   Future<Either<FirebaseUnknowFailure, void>> createReport(ReportEntity reportEntity);
 
   
-  Future<List<File?>?> selectFiles();
-  Future<Map<String, List<String>>> uploadFiles(String profileID,String commendID,FirestoreAllowedFileTypes firestoreAllowedFileTypes,List<File> files);
+  Future<List<File>?> selectFiles();
+  Future<Map<String, List<String>>> uploadFiles(FirestoreAllowedFileTypes firestoreAllowedFileTypes,List<File> files);
 
 
 }

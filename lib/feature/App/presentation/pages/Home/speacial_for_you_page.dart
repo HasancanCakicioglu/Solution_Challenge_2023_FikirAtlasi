@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/navigation/navigation_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_home_specialForYou/home_special_for_you_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/mixin/special_for_you_page_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_problem_card.dart';
@@ -67,13 +70,19 @@ class _SpeacialForYouPageViewState extends State<SpeacialForYouPageView>
           //cloudfuncdeneme();
           //translateDeneme();
           //isDownloaded();
-          searched();
+          //searched();
           //uploadFiles();
           //createComment();
-          
+          context.router.pushNamed(NavigationConstants.Post);
+          //locationSelect();
         },
       ),
     );
+  }
+
+  void locationSelect(){
+    
+    
   }
 
   void createComment() async{
@@ -201,8 +210,7 @@ class _SpeacialForYouPageViewState extends State<SpeacialForYouPageView>
     await sl.get<SelectFilesUsecase>().call().then((value) async {
       if (value != null) {
         print("girdiiiiiiiiiiiiiiii $value");
-        var gelen = await sl.get<UploadFilesUsecase>().call("profileID",
-            "commendID", FirestoreAllowedFileTypes.image, value as List<File>);
+        var gelen = await sl.get<UploadFilesUsecase>().call(FirestoreAllowedFileTypes.image, value as List<File>);
         print("gleen ===== $gelen");
         print(gelen[".jpg"]);
         var yeni = entitym.copyWith(
