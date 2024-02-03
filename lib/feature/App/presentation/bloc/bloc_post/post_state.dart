@@ -11,7 +11,8 @@ class PostState extends Equatable {
       this.tags = const [],
       this.latitude,
       this.longitude,
-      this.files=const []});
+      this.files = const [],
+      this.isProblem = true});
   final String title;
   final String content;
   final List<String> videos;
@@ -22,6 +23,7 @@ class PostState extends Equatable {
   final double? latitude;
   final double? longitude;
   final List<File> files;
+  final bool isProblem;
 
   PostState copyWith(
       {String? title,
@@ -33,7 +35,8 @@ class PostState extends Equatable {
       List<String>? tags,
       double? latitude,
       double? longitude,
-      List<File>? files}) {
+      List<File>? files,
+      bool? isProblem}) {
     return PostState(
       title: title ?? this.title,
       content: content ?? this.content,
@@ -45,6 +48,7 @@ class PostState extends Equatable {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       files: files ?? this.files,
+      isProblem: isProblem ?? this.isProblem,
     );
   }
 
@@ -59,11 +63,12 @@ class PostState extends Equatable {
         tags.length,
         latitude,
         longitude,
-        files
+        files.length.hashCode,
+        isProblem
       ];
 
   @override
   String toString() {
-    return 'PostState{title: $title, content: $content, videos: $videos, images: $images, pdf: $pdf , category: $category} , tags: $tags , latitude: $latitude , longitude: $longitude , files: $files';
+    return 'PostState{title: $title, content: $content, videos: $videos, images: $images, pdf: $pdf , category: $category} , tags: $tags , latitude: $latitude , longitude: $longitude , files: $files , isProblem: $isProblem';
   }
 }

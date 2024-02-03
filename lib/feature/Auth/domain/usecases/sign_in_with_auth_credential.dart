@@ -6,7 +6,7 @@ class SignInWithAuthCredentialUsecase{
 
   SignInWithAuthCredentialUsecase(this.repository);
 
-  Future<UserCredential> call(AuthCredential credential){
-    return repository.signInWithAuthCredential(credential);
+  Future<UserCredential> call(AuthCredential credential)async{
+    return await repository.signInWithAuthCredential(credential);
   }
 }

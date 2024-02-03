@@ -3,10 +3,9 @@ abstract final class ImageConstants {
 
   ImageConstants._init();
 
-  String get logo => toPng('veli');
+  static String get google => toPng('google');
+  static String get apple => toPng('apple');
 
-  String get hotDog => toPng('hotdogs');
-  String get projeIcon => toPng('cirlce_hwa');
 
-  String toPng(String name) => 'assets/image/$name.png';
+  static String toPng(String name) => 'assets/image/$name.png';
 }

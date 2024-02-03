@@ -10,12 +10,11 @@ class CommentProblemModel extends CommentProblemEntity {
     String? text,
     required String? date,
     required List<String>? tags,
-    final double? latitude,
-    final double? longitude,
     required int? likeCount,
     List<String>? pdf,
     List<String>? images,
     List<String>? videos,
+    Map<String,dynamic>? geoFirePoint,
   }) : super(
           uid: uid,
           profileId: profileId,
@@ -24,12 +23,11 @@ class CommentProblemModel extends CommentProblemEntity {
           text: text,
           date: date,
           tags: tags,
-          latitude: latitude,
-          longitude: longitude,
           likeCount: likeCount,
           pdf: pdf,
           images: images,
           videos: videos,
+          geoFirePoint: geoFirePoint,
         );
 
   factory CommentProblemModel.fromJson(Map<String, dynamic> json) {
@@ -41,12 +39,11 @@ class CommentProblemModel extends CommentProblemEntity {
       text: json['text'],
       date: (json['date']),
       tags: json['tags']?.cast<String>(),
-      longitude: json['longitude'],
-      latitude: json['latitude'],
       likeCount: json['likeCount'],
       pdf: json['pdf']?.cast<String>(),
       images: json['images']?.cast<String>(),
       videos: json['videos']?.cast<String>(),
+      geoFirePoint: json['geoFirePoint'],
 
     );
   }
@@ -60,12 +57,11 @@ class CommentProblemModel extends CommentProblemEntity {
       'text': text,
       'date': date,
       'tags': tags,
-      'longitude': longitude,
-      'latitude': latitude,
       'likeCount': likeCount,
       'pdf': pdf,
       'images': images,
       'videos': videos,
+      'geoFirePoint': geoFirePoint,
     };
   }
 
@@ -78,14 +74,13 @@ class CommentProblemModel extends CommentProblemEntity {
       String? text,
       String? date,
       List<String>? tags,
-      String? photoURL,
-      String? videoURL,
       double? latitude,
       double? longitude,
       int? likeCount,
       List<String>? pdf,
       List<String>? images,
       List<String>? videos,
+      Map<String, dynamic>? geoFirePoint,
     }) {
       return CommentProblemModel(
         uid: uid ?? this.uid,
@@ -95,12 +90,11 @@ class CommentProblemModel extends CommentProblemEntity {
         text: text ?? this.text,
         date: date ?? this.date,
         tags: tags ?? this.tags,
-        latitude: latitude ?? this.latitude,
-        longitude: longitude ?? this.longitude,
         likeCount: likeCount ?? this.likeCount,
         pdf: pdf ?? this.pdf,
         images: images ?? this.images,
         videos: videos ?? this.videos,
+        geoFirePoint: geoFirePoint ?? this.geoFirePoint,
       );
     }
 
@@ -117,12 +111,11 @@ class CommentProblemModel extends CommentProblemEntity {
     text: commentProblemEntity.text,
     date: commentProblemEntity.date,
     tags: commentProblemEntity.tags,
-    latitude: commentProblemEntity.latitude,
-    longitude: commentProblemEntity.longitude,
     likeCount: commentProblemEntity.likeCount,
     pdf: commentProblemEntity.pdf,
     images: commentProblemEntity.images,
     videos: commentProblemEntity.videos,
+    geoFirePoint: commentProblemEntity.geoFirePoint,
   );
 
 }

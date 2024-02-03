@@ -1,6 +1,7 @@
 
 import 'package:equatable/equatable.dart';
 
+
 class CommentProblemEntity extends Equatable {
   final String? uid;
   final String? profileId;
@@ -9,9 +10,8 @@ class CommentProblemEntity extends Equatable {
   final String? text;
   final String? date;
   final List<String>? tags;
-  final double? latitude;
-  final double? longitude;
   final int? likeCount;
+  final Map<String, dynamic>? geoFirePoint;
 
   final List<String>? pdf;
   final List<String>? images;
@@ -27,12 +27,11 @@ class CommentProblemEntity extends Equatable {
     this.text,
     this.date,
     this.tags,
-    this.longitude,
-    this.latitude,
     this.likeCount,
     this.pdf,
     this.images,
     this.videos,
+    this.geoFirePoint,
   });
 
   @override
@@ -44,12 +43,11 @@ class CommentProblemEntity extends Equatable {
         text,
         date,
         tags,
-        latitude,
-        longitude,
         likeCount,
         pdf,
         images,
         videos,
+        geoFirePoint,
       ];
 
   CommentProblemEntity copyWith({
@@ -60,12 +58,11 @@ class CommentProblemEntity extends Equatable {
     String? text,
     String? date,
     List<String>? tags,
-    double? latitude,
-    double? longitude,
     int? likeCount,
     List<String>? pdf,
     List<String>? images,
     List<String>? videos,
+    Map<String, dynamic>? geoFirePoint,
   }) {
     return CommentProblemEntity(
       uid: uid ?? this.uid,
@@ -75,12 +72,11 @@ class CommentProblemEntity extends Equatable {
       text: text ?? this.text,
       date: date ?? this.date,
       tags: tags ?? this.tags,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
       likeCount: likeCount ?? this.likeCount,
       pdf: pdf ?? this.pdf,
       images: images ?? this.images,
       videos: videos ?? this.videos,
+      geoFirePoint: geoFirePoint ?? this.geoFirePoint,
     );
   }
 }

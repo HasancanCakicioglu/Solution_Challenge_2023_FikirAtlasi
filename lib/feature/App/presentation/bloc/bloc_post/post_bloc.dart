@@ -6,6 +6,8 @@ import 'package:solution_challenge_2023_recommender_app/core/constants/enums/fir
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/create_comment_problem_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/upload_files_usecase.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Services/domain/usecases/get_geo_fire_point_usecase.dart';
 
 part 'post_event.dart';
 part 'post_state.dart';
@@ -13,8 +15,10 @@ part 'post_state.dart';
 class PostBloc extends Bloc<PostEvent, PostState> {
   CreateCommentProblemUsecase createCommentProblemUsecase;
   UploadFilesUsecase uploadFilesUsecase;
+  GetGeoFirePointUsecase getGeoFirePointUsecase;
 
-  PostBloc(this.createCommentProblemUsecase, this.uploadFilesUsecase)
+  PostBloc(this.createCommentProblemUsecase, this.uploadFilesUsecase,
+      this.getGeoFirePointUsecase)
       : super(const PostState()) {
     on<PostEvent>((event, emit) {});
     on<PostTitleChanged>(_onEmailChanged);
@@ -75,51 +79,38 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
       emit(state.copyWith(
           images: imageFiles, videos: videoFiles, pdf: pdfFiles));
-
     });
 
+    GeoFirePoint? geoFirePoint;
 
+    if (state.latitude != null && state.longitude != null) {
+      geoFirePoint =
+          getGeoFirePointUsecase.call(state.latitude!, state.longitude!);
+    }
 
-    CommentProblemEntity commentProblemEntity = CommentProblemEntity(
-      title: state.title,
-      category: state.category.value.toString(),
-      tags: state.tags,
-      text: state.content,
-      images: state.images,
-      videos: state.videos,
-      pdf: state.pdf,
-      latitude: state.latitude,
-      longitude: state.longitude,
-    );
-    print(commentProblemEntity.toString());
-    createCommentProblemUsecase.call(commentProblemEntity);
+    if (state.isProblem) {
+      CommentProblemEntity commentProblemEntity = CommentProblemEntity(
+          title: state.title,
+          category: state.category.value.toString(),
+          tags: state.tags,
+          text: state.content,
+          images: state.images,
+          videos: state.videos,
+          pdf: state.pdf,
+          geoFirePoint: geoFirePoint?.data);
+      createCommentProblemUsecase.call(commentProblemEntity);
+    }else{
+      print("öneri budur");
+    }
   }
-
-  // void _onMediaAdded(PostMediaAdded event, Emitter<PostState> emit) {
-  //   // Create new lists by adding the elements from the event to the existing state lists
-  //   List<String> newVideos = List.from(state.videos)..addAll(event.video);
-  //   List<String> newImages = List.from(state.images)..addAll(event.images);
-  //   List<String> newPdf = List.from(state.pdf)..addAll(event.pdf);
-
-  //   // Update the state with the new lists
-  //   emit(state.copyWith(
-  //     videos: newVideos,
-  //     images: newImages,
-  //     pdf: newPdf,
-  //   ));
-  // }
 
   void _onMediaAdded(PostMediaAdded event, Emitter<PostState> emit) {
     emit(state.copyWith(files: List.from(state.files)..addAll(event.files)));
   }
 
   void _onMediaRemoved(PostMediaRemoved event, Emitter<PostState> emit) {
-    if (state.videos.contains(event.media)) {
-      emit(state.copyWith(videos: state.videos..remove(event.media)));
-    } else if (state.images.contains(event.media)) {
-      emit(state.copyWith(images: state.images..remove(event.media)));
-    } else if (state.pdf.contains(event.media)) {
-      emit(state.copyWith(pdf: state.pdf..remove(event.media)));
+    if (state.files.contains(event.media)) {
+      emit(state.copyWith(files: List.from(state.files)..remove(event.media)));
     }
   }
 
@@ -127,6 +118,4 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     emit(state.copyWith(
         images: event.images, videos: event.video, pdf: event.pdf));
   }
-
-  void uploadFiles() {}
 }

@@ -3,10 +3,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as p;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/extension/file_extension.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/firestore/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/core/utility/helper_class.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/models/comments_problem_model.dart';
@@ -15,6 +18,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/models/report_model.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_suggestions_entities.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 abstract class FirestoreRemoteDataSource {
   Future<String?> createProfile(ProfileModel profileModel);
@@ -65,12 +69,20 @@ abstract class FirestoreRemoteDataSource {
   Future<List<File>?> selectFiles();
   Future<Map<String, List<String>>> uploadFiles(
       FirestoreAllowedFileTypes firestoreAllowedFileTypes, List<File> files);
+
+  Future<
+          Tuple2<List<CommentSuggestionEntity?>,
+              QueryDocumentSnapshot<Object?>?>>
+      getCommentSuggestListAccordingToCommentID(
+          String commentID, QueryDocumentSnapshot<Object?>? startAfter,
+          {gettingData = 20});
 }
 
 class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   @override
   Future<void> createCommentProblem(
@@ -96,9 +108,19 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
   @override
   Future<void> createCommentSuggestion(
       CommentSuggestionModel commentSuggestionModel) async {
+    String customID = HelperClass.getUuid();
+
     await firestore
         .collection(FirestoreConstants.collectionCommentsSuggestions)
-        .add(commentSuggestionModel.toJson());
+        .doc(customID)
+        .set(commentSuggestionModel
+            .copyWith(
+              date: DateTime.now().toIso8601String(),
+              uid: customID,
+              profileId: firebaseAuth.currentUser!.uid,
+              likeCount: 0,
+            )
+            .toJson());
   }
 
   @override
@@ -115,11 +137,19 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
       if (documentSnapshot.exists) {
         return uid;
       }
+      String? fmcToken = await firebaseMessaging.getToken();
 
       await firestore
           .collection(FirestoreConstants.collectionProfiles)
           .doc(uid)
-          .set(profileModel.copyWith(uid: uid).toJson());
+          .set(profileModel
+              .copyWith(
+                  uid: uid,
+                  fcmToken: fmcToken,
+                  email: user.email,
+                  name: user.displayName,
+                  profileUrl: user.photoURL)
+              .toJson());
 
       return uid;
     }
@@ -218,9 +248,9 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
   @override
   Future<void> updateProfile(ProfileModel profileModel) async {
     await firestore
-        .collection(FirestoreConstants.collectionCommentsSuggestions)
-        .doc(profileModel.uid)
-        .update(profileModel.toJson());
+        .collection(FirestoreConstants.collectionProfiles)
+        .doc(firebaseAuth.currentUser!.uid)
+        .set(profileModel.toJson(), SetOptions(merge: true));
   }
 
   @override
@@ -409,6 +439,23 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
       String uploadFileName = "${timestamp}_${HelperClass.getUuid()}$ex";
       Reference reference = firebaseStorage.ref().child(uploadFileName);
 
+      if (file.isImage) {
+        Directory appDocDir = await getApplicationDocumentsDirectory();
+        String appDocPath = appDocDir.path;
+
+        String targetPath =
+            '$appDocPath/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+        var result = await FlutterImageCompress.compressAndGetFile(
+          file.absolute.path,
+          targetPath,
+          quality: 10,
+        );
+        if (result != null) {
+          file = File(result.path);
+        }
+      }
+
       UploadTask uploadTask = reference.putFile(file);
 
       await uploadTask.whenComplete(() async {
@@ -467,6 +514,38 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
     return Tuple2(
         querySnapshot.docs
             .map((e) => CommentProblemModel.fromJson(e.data()))
+            .toList(),
+        lastQuery);
+  }
+
+  @override
+  Future<
+          Tuple2<List<CommentSuggestionEntity?>,
+              QueryDocumentSnapshot<Object?>?>>
+      getCommentSuggestListAccordingToCommentID(
+          String commentID, QueryDocumentSnapshot<Object?>? startAfter,
+          {gettingData = 20}) async {
+    late QuerySnapshot<Map<String, dynamic>> querySnapshot;
+
+    Query<Map<String, dynamic>> queryOrders = firestore
+        .collection(FirestoreConstants.collectionCommentsSuggestions)
+        .where('commentProblemID', isEqualTo: commentID)
+        .orderBy('likeCount', descending: true);
+
+    if (startAfter != null) {
+      querySnapshot = await queryOrders
+          .startAfterDocument(startAfter)
+          .limit(gettingData)
+          .get();
+    } else {
+      querySnapshot = await queryOrders.limit(gettingData).get();
+    }
+
+    QueryDocumentSnapshot<Object?>? lastQuery = querySnapshot.docs.last;
+
+    return Tuple2(
+        querySnapshot.docs
+            .map((e) => CommentSuggestionModel.fromJson(e.data()))
             .toList(),
         lastQuery);
   }

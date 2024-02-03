@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthPageView(),
       );
     },
+    AuthRegisterPageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AuthRegisterPageView(),
+      );
+    },
     AuthStatePageRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -37,8 +43,28 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    GoogleMapsPageRoute.name: (routeData) {
+    CommentProblemPageRoute.name: (routeData) {
+      final args = routeData.argsAs<CommentProblemPageRouteArgs>();
       return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CommentProblemPageView(
+          key: args.key,
+          commentProblemEntity: args.commentProblemEntity,
+        ),
+      );
+    },
+    CommentSuggestionPageRoute.name: (routeData) {
+      final args = routeData.argsAs<CommentSuggestionPageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CommentSuggestionPageView(
+          key: args.key,
+          commentSuggestionEntity: args.commentSuggestionEntity,
+        ),
+      );
+    },
+    GoogleMapsPageRoute.name: (routeData) {
+      return AutoRoutePage<LatLng?>(
         routeData: routeData,
         child: const GoogleMapsPageView(),
       );
@@ -107,6 +133,20 @@ class AuthPageRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [AuthRegisterPageView]
+class AuthRegisterPageRoute extends PageRouteInfo<void> {
+  const AuthRegisterPageRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthRegisterPageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthRegisterPageRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [AuthStatePageView]
 class AuthStatePageRoute extends PageRouteInfo<void> {
   const AuthStatePageRoute({List<PageRouteInfo>? children})
@@ -155,6 +195,84 @@ class CategoryListPageRouteArgs {
   @override
   String toString() {
     return 'CategoryListPageRouteArgs{key: $key, categoryCardModel: $categoryCardModel}';
+  }
+}
+
+/// generated route for
+/// [CommentProblemPageView]
+class CommentProblemPageRoute
+    extends PageRouteInfo<CommentProblemPageRouteArgs> {
+  CommentProblemPageRoute({
+    Key? key,
+    required CommentProblemEntity commentProblemEntity,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CommentProblemPageRoute.name,
+          args: CommentProblemPageRouteArgs(
+            key: key,
+            commentProblemEntity: commentProblemEntity,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CommentProblemPageRoute';
+
+  static const PageInfo<CommentProblemPageRouteArgs> page =
+      PageInfo<CommentProblemPageRouteArgs>(name);
+}
+
+class CommentProblemPageRouteArgs {
+  const CommentProblemPageRouteArgs({
+    this.key,
+    required this.commentProblemEntity,
+  });
+
+  final Key? key;
+
+  final CommentProblemEntity commentProblemEntity;
+
+  @override
+  String toString() {
+    return 'CommentProblemPageRouteArgs{key: $key, commentProblemEntity: $commentProblemEntity}';
+  }
+}
+
+/// generated route for
+/// [CommentSuggestionPageView]
+class CommentSuggestionPageRoute
+    extends PageRouteInfo<CommentSuggestionPageRouteArgs> {
+  CommentSuggestionPageRoute({
+    Key? key,
+    required CommentSuggestionEntity commentSuggestionEntity,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CommentSuggestionPageRoute.name,
+          args: CommentSuggestionPageRouteArgs(
+            key: key,
+            commentSuggestionEntity: commentSuggestionEntity,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CommentSuggestionPageRoute';
+
+  static const PageInfo<CommentSuggestionPageRouteArgs> page =
+      PageInfo<CommentSuggestionPageRouteArgs>(name);
+}
+
+class CommentSuggestionPageRouteArgs {
+  const CommentSuggestionPageRouteArgs({
+    this.key,
+    required this.commentSuggestionEntity,
+  });
+
+  final Key? key;
+
+  final CommentSuggestionEntity commentSuggestionEntity;
+
+  @override
+  String toString() {
+    return 'CommentSuggestionPageRouteArgs{key: $key, commentSuggestionEntity: $commentSuggestionEntity}';
   }
 }
 

@@ -49,3 +49,11 @@ extension VideoFileListExtension on List<File> {
     }).toList();
   }
 }
+
+
+extension ImageFileExtension on File {
+  bool get isImage {
+    String extension = path.extension(this.path).toLowerCase();
+    return extension == '.jpg' || extension == '.jpeg' || extension == '.png';
+  }
+}

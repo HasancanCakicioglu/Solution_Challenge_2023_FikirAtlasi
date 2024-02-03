@@ -239,5 +239,15 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
     }
   }
   
+  @override
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentSuggestionEntity?>, QueryDocumentSnapshot<Object?>?>>> getCommentSuggestListAccordingToCommentID(String commentID, QueryDocumentSnapshot<Object?>? startAfter, {gettingData = 20}) async{
+    try{
+      return Right(await dataSource.getCommentSuggestListAccordingToCommentID(commentID, startAfter, gettingData: gettingData));
+    }catch(e){
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure getCommentSuggestListAccordingToCommentID", message: e.toString()));
+    }
+  }
+  
 
 }

@@ -2,16 +2,16 @@ import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/doma
 
 class CommentSuggestionModel extends CommentSuggestionEntity {
   const CommentSuggestionModel({
-    required String uid,
-    required String profileId,
-    required String commentProblemID,
-    required String title,
+    required String? uid,
+    required String? profileId,
+    required String? commentProblemID,
+    required String? title,
     String? text,
-    required DateTime date,
+    required String? date,
     String? photoURL,
     String? videoURL,
-    required bool hasGoogleMaps,
-    required int likeCount,
+    required Map<String, dynamic>? geoFirePoint,
+    required int? likeCount,
     List<String>? pdf,
     List<String>? images,
     List<String>? videos,  }) : super(
@@ -21,7 +21,7 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
           title: title,
           text: text,
           date: date,
-          hasGoogleMaps: hasGoogleMaps,
+          geoFirePoint: geoFirePoint,
           likeCount: likeCount,
           pdf: pdf,
           images: images,
@@ -36,7 +36,7 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
       title: json['title'],
       text: json['text'],
       date: (json['date']),
-      hasGoogleMaps: json['hasGoogleMaps'],
+      geoFirePoint: json['geoFirePoint'],
       likeCount: json['likeCount'],
       pdf: json['pdf']?.cast<String>(),
       images: json['images']?.cast<String>(),
@@ -52,7 +52,7 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
       'title': title,
       'text': text,
       'date': date,
-      'hasGoogleMaps': hasGoogleMaps,
+      'geoFirePoint': geoFirePoint,
       'likeCount': likeCount,
       'pdf': pdf,
       'images': images,
@@ -64,17 +64,46 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
 
   //from entity
   factory CommentSuggestionModel.fromEntity(CommentSuggestionEntity commentProblemEntity) => CommentSuggestionModel(
-    uid: commentProblemEntity.uid!,
-    commentProblemID: commentProblemEntity.commentProblemID!,
-    profileId: commentProblemEntity.profileId!,
-    title: commentProblemEntity.title!,
+    uid: commentProblemEntity.uid,
+    commentProblemID: commentProblemEntity.commentProblemID,
+    profileId: commentProblemEntity.profileId,
+    title: commentProblemEntity.title,
     text: commentProblemEntity.text,
-    date: commentProblemEntity.date!,
-    hasGoogleMaps: commentProblemEntity.hasGoogleMaps ?? false,
-    likeCount: commentProblemEntity.likeCount!,
+    date: commentProblemEntity.date,
+    geoFirePoint: commentProblemEntity.geoFirePoint,
+    likeCount: commentProblemEntity.likeCount,
     pdf: commentProblemEntity.pdf,
     images: commentProblemEntity.images,
     videos: commentProblemEntity.videos,
   );
+
+
+  CommentSuggestionModel copyWith({
+    String? uid,
+    String? profileId,
+    String? commentProblemID,
+    String? title,
+    String? text,
+    String? date,
+    Map<String, dynamic>? geoFirePoint,
+    int? likeCount,
+    List<String>? pdf,
+    List<String>? images,
+    List<String>? videos,
+  }) {
+    return CommentSuggestionModel(
+      uid: uid ?? this.uid,
+      profileId: profileId ?? this.profileId,
+      commentProblemID: commentProblemID ?? this.commentProblemID,
+      title: title ?? this.title,
+      text: text ?? this.text,
+      date: date ?? this.date,
+      geoFirePoint: geoFirePoint ?? this.geoFirePoint,
+      likeCount: likeCount ?? this.likeCount,
+      pdf: pdf ?? this.pdf,
+      images: images ?? this.images,
+      videos: videos ?? this.videos,
+    );
+  }
 
 }

@@ -7,7 +7,7 @@ class SignOutUsecase{
 
   SignOutUsecase(this.repository);
 
-  Future<void> call(){
-    return repository.signOut();
+  Future<void> call()async{
+    return await repository.signOut();
   }
 }

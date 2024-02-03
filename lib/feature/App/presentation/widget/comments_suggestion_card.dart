@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:solution_challenge_2023_recommender_app/core/init/navigation/app_router.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_suggestions_entities.dart';
 
 class CommentsSuggestionCard extends StatelessWidget {
@@ -9,7 +11,12 @@ class CommentsSuggestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return InkWell(
+      onTap: (){
+        
+        AutoRouter.of(context).push(CommentSuggestionPageRoute(commentSuggestionEntity: commentSuggestionEntity));
+      },
+      child: Card(
       elevation: 4.0,
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
@@ -20,8 +27,7 @@ class CommentsSuggestionCard extends StatelessWidget {
           child: Text(commentSuggestionEntity.profileId!),
         ),
         trailing: Text(commentSuggestionEntity.date.toString()),
-        onTap: () {},
       ),
-    );
+    ),);
   }
 }

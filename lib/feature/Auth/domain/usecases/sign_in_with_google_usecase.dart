@@ -7,7 +7,7 @@ class SignInWithGoogleUsecase{
 
   SignInWithGoogleUsecase(this.repository);
 
-  Future<void> call(){
-    return repository.signInWithGoogle();
+  Future<void> call()async{
+    return await repository.signInWithGoogle();
   }
 }

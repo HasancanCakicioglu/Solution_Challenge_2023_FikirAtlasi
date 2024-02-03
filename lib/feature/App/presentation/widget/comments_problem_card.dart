@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:solution_challenge_2023_recommender_app/core/init/navigation/app_router.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
 
 class CommentsProblemCard extends StatelessWidget {
@@ -9,8 +11,9 @@ class CommentsProblemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        
+      onTap: () {
+        AutoRouter.of(context).push(CommentProblemPageRoute(
+            commentProblemEntity: commentProblemEntity));
       },
       child: Card(
         elevation: 4.0,
@@ -26,14 +29,22 @@ class CommentsProblemCard extends StatelessWidget {
                 child: Text(commentProblemEntity.profileId!),
               ),
               trailing: Text(commentProblemEntity.date.toString()),
-              onTap: () {},
             ),
             commentProblemEntity.images != null &&
                     commentProblemEntity.images!.isNotEmpty
-                ? Image.network(commentProblemEntity.images![0])
-                  
+                ? Image.network(
+                    commentProblemEntity.images![0],
+                    filterQuality: FilterQuality.low,
+                    loadingBuilder: (context, widget, imageChunk) {
+                      return imageChunk == null
+                          ? widget
+                          : const CircularProgressIndicator();
+                    },
+                  )
                 : Container()
           ],
-        )),);
+        ),
+      ),
+    );
   }
 }

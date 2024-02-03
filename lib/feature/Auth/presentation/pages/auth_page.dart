@@ -1,71 +1,206 @@
+// Import necessary packages and files
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:solution_challenge_2023_recommender_app/core/constants/navigation/navigation_constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/extension/context_extension.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/extension/padding.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/image/image_constants.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/material3/material3_desing_constant.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/material3/text_style_constant.dart';
+import 'package:solution_challenge_2023_recommender_app/core/init/navigation/app_router.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Auth/presentation/bloc/auth_page_bloc/auth_page_bloc.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Auth/presentation/widget/square_box.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/svg/svg_constants.dart';
 
+// Annotate the class with @RoutePage for auto-routing
 @RoutePage()
 class AuthPageView extends StatefulWidget {
-  const AuthPageView({super.key});
+  const AuthPageView({Key? key}) : super(key: key);
 
   @override
-  State<AuthPageView> createState() => _AuthPageViewState();
+  AuthPageViewState createState() => AuthPageViewState();
 }
 
-class _AuthPageViewState extends State<AuthPageView> {
+class AuthPageViewState extends State<AuthPageView> {
   @override
   Widget build(BuildContext context) {
+    // Check if the app is in dark mode
+    final isDark = context.isDarkMode;
+    
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Auth Page"),
-      ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Email",
-              ),
-            
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Password",
-              ),
-            ),
-            ElevatedButton(onPressed: (){
-              denemeGOOGLE();
-            }, child: const Text("Google sign in")),
-            ElevatedButton(onPressed: (){
-            signOutGoogle();
-            }, child: const Text("Google sign out")),
-            ElevatedButton(onPressed: (){
-              AutoRouter.of(context).replaceNamed(NavigationConstants.Home);
-            }, child: const Text("Go to Home"))
-          ],
+            _buildSvgImage(),
+            const SizedBox(height: 20),
+            _buildEmailTextField(),
+            const SizedBox(height: 20),
+            _buildPasswordTextField(),
+            const SizedBox(height: Material3Paddings.mediumPadding),
+            _buildForgotPasswordText(),
+            const SizedBox(height: Material3Paddings.mediumPadding),
+            _buildSignInButton(),
+            _buildDivider(),
+            _buildSocialMediaButtons(isDark),
+            const SizedBox(height: Material3Paddings.largePadding),
+            _buildRegisterText(),
+          ]
+        ).paddedAll(Material3Paddings.largePagePadding).padded(
+          EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.1,
+          ),
         ),
       ),
     );
   }
-}
 
-
-Future<void> signOutGoogle()async{
-
-
-  await GoogleSignIn().signOut();
-
-}
-
-Future<void> denemeGOOGLE()async{
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
-  final OAuthCredential credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
-  final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-  final User? user = userCredential.user;
-  print(user);
-  
+  /// Widget function to build the SVG image
+  Widget _buildSvgImage() {
+    return SvgPicture.asset(
+      SVGConstants.login,
+      height: MediaQuery.of(context).size.width / 1.7,
+    );
   }
+
+  /// Widget function to build the email text field
+  Widget _buildEmailTextField() {
+    return TextFormField(
+      onChanged: (value) {
+        context.read<AuthPageBloc>().add(AuthPageEmailChanged(email: value));
+      },
+      decoration: const InputDecoration(
+        labelText: "Email",
+        prefixIcon: Icon(Icons.email),
+        border: OutlineInputBorder(),
+      ),
+    );
+  }
+
+  /// Widget function to build the password text field
+  Widget _buildPasswordTextField() {
+    return BlocBuilder<AuthPageBloc, AuthPageBlocState>(
+      buildWhen: (previous, current) =>
+          previous.passwordIsObscure != current.passwordIsObscure,
+      builder: (context, state) {
+        return TextFormField(
+          onChanged: (value) {
+            context
+                .read<AuthPageBloc>()
+                .add(AuthPagePasswordChanged(password: value));
+          },
+          obscureText: state.passwordIsObscure,
+          decoration: InputDecoration(
+            labelText: "Password",
+            prefixIcon: const Icon(Icons.lock),
+            border: const OutlineInputBorder(),
+            suffixIcon: IconButton(
+              onPressed: () {
+                context.read<AuthPageBloc>().add(
+                    AuthPagePasswordObscureChanged(
+                        passwordIsObscure: !state.passwordIsObscure));
+              },
+              icon: Icon(
+                state.passwordIsObscure
+                    ? Icons.visibility
+                    : Icons.visibility_off,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Widget function to build the "Forgot Password?" text
+  Widget _buildForgotPasswordText() {
+    return const Text(
+      "Forgot Password ?",
+      style: AppTextStyle.MINI_BOLD_DESCRIPTION_TEXT,
+    );
+  }
+
+  /// Widget function to build the "Sign in" button
+  Widget _buildSignInButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          context.read<AuthPageBloc>().add(const AuthPageSubmitted());
+        },
+        child: const Text("Sign in"),
+      ),
+    );
+  }
+
+  /// Widget function to build the divider
+  Widget _buildDivider() {
+    return Row(
+      children: [
+        Expanded(
+          child: Divider(
+            indent: 50,
+            thickness: 0.5,
+            color: Colors.grey[400],
+          ),
+        ),
+        const Text(
+          "Or Contunie with",
+          style: AppTextStyle.MINI_DESCRIPTION_TEXT,
+        ).paddedSymmetric(horizontal: 10),
+        Expanded(
+          child: Divider(
+            endIndent: 50,
+            thickness: 0.5,
+            color: Colors.grey[400],
+          ),
+        ),
+      ],
+    ).paddedSymmetric(vertical: Material3Paddings.smallPadding);
+  }
+
+  /// Widget function to build the social media buttons
+  Widget _buildSocialMediaButtons(bool isDark) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SquareBox(
+          imagePath: ImageConstants.google,
+          color: isDark ? Colors.white12 : Colors.black12,
+          onTap: () {
+            context.read<AuthPageBloc>().signInWithGoogle();
+          },
+        ),
+        const SizedBox(width: 25),
+        SquareBox(
+          imagePath: ImageConstants.apple,
+          color: isDark ? Colors.white12 : Colors.black12,
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
+  /// Widget function to build the "Not a member?" and "Register Now" text
+  Widget _buildRegisterText() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          "Not a member ?",
+          style: AppTextStyle.MINI_DEFAULT_DESCRIPTION_TEXT,
+        ),
+        const SizedBox(width: 4),
+        GestureDetector(
+          onTap: () {
+            AutoRouter.of(context).push(const AuthRegisterPageRoute());
+          },
+          child: const Text(
+            "Register Now",
+            style: AppTextStyle.MINI_DESCRIPTION_TEXT,
+          ),
+        ),
+      ],
+    );
+  }
+}

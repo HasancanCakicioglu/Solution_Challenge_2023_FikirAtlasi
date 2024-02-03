@@ -7,7 +7,7 @@ class IsSignInUsecase{
 
   IsSignInUsecase(this.repository);
 
-  Future<bool> call(){
-    return repository.isSignIn();
+  Future<bool> call()async{
+    return await repository.isSignIn();
   }
 }
