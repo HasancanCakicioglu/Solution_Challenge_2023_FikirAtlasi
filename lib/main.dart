@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -17,7 +19,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 void main() async {
   // Initialize the application
   await ApplicationInitialize().init();
-
+  
   // Run the application with language management
   runApp(
     LanguageManager(child: const MyApp()),
@@ -44,10 +46,9 @@ final class ApplicationInitialize {
 
   /// This method is used to initialize the application process
   Future<void> _initialize() async {
-
     // Setup dependency injection with GetIt
     LocatorGetIt.setup();
-    
+
     // Ensure localization is initialized
     await EasyLocalization.ensureInitialized();
 
@@ -56,16 +57,43 @@ final class ApplicationInitialize {
     );
 
     await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug,
-    appleProvider: AppleProvider.appAttest,
-  );
+      androidProvider: AndroidProvider.debug,
+      appleProvider: AppleProvider.appAttest,
+    );
+
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    FirebaseAnalyticsObserver observer =
+        FirebaseAnalyticsObserver(analytics: analytics);
+
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: true,
+      sound: true,
+    );
+    await FirebaseMessaging.instance.getNotificationSettings();
+    // FirebaseMessaging.onBackgroundMessage((message) async {
+    //   print("onBackgroundMessage: $message");
+    // });
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print("onMessageOpenedApp: $message");
+    });
+    FirebaseMessaging.onMessage.listen((message) {
+      FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    });
 
     // Initialize Hive for Flutter
     await Hive.initFlutter();
 
     // Set preferred screen orientations
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
 
     // Configure HydratedBloc storage
     HydratedBloc.storage = await HydratedStorage.build(
@@ -76,7 +104,7 @@ final class ApplicationInitialize {
     // FlutterError.onError = (details) {
     //   // Log the Flutter error using the AppLogger
     //   sl.get<AppLogger>().e("FlutterError.onError $details");
-      
+
     // };
   }
 }

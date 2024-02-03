@@ -7,8 +7,8 @@ class CommentSuggestionEntity extends Equatable {
   final String? commentProblemID;
   final String? title;
   final String? text;
-  final DateTime? date;
-  final bool? hasGoogleMaps;
+  final String? date;
+  final Map<String, dynamic>? geoFirePoint;
   final int? likeCount;
 
   final List<String>? pdf;
@@ -22,7 +22,7 @@ class CommentSuggestionEntity extends Equatable {
     this.title,
     this.text,
     this.date,
-    this.hasGoogleMaps,
+    this.geoFirePoint,
     this.likeCount,
     this.pdf,
     this.images,
@@ -37,7 +37,7 @@ class CommentSuggestionEntity extends Equatable {
         title,
         text,
         date,
-        hasGoogleMaps,
+        geoFirePoint,
         likeCount,
         pdf,
         images,

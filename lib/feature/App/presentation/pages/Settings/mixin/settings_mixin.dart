@@ -8,6 +8,9 @@ import 'package:solution_challenge_2023_recommender_app/core/init/lang/language.
 import 'package:solution_challenge_2023_recommender_app/core/init/navigation/app_router.dart';
 import 'package:solution_challenge_2023_recommender_app/core/init/theme/cubit/app_theme_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Settings/settings_page.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/profile_entites.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/index.dart';
+import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
 mixin SettingsMixin<T extends StatefulWidget> on State<SettingsPageView> {
   late bool themeIsLight;
@@ -49,6 +52,9 @@ mixin SettingsMixin<T extends StatefulWidget> on State<SettingsPageView> {
     setState(() {
       notificationIsOpen = value;
     });
+    sl
+        .get<UpdateProfileUsecase>()
+        .call(ProfileEntity(isNotificationOpen: notificationIsOpen));
   }
 
   void updateLocale(Locale locale) {
@@ -75,10 +81,9 @@ mixin SettingsMixin<T extends StatefulWidget> on State<SettingsPageView> {
   }
 
   Future<void> signOutGoogle() async {
-    FirebaseAuth.instance.signOut().then((value){
+    FirebaseAuth.instance.signOut().then((value) {
       AutoRouter.of(context).replaceNamed(NavigationConstants.AuthState);
     });
-
   }
 
   @override

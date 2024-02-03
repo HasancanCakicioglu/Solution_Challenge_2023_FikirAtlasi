@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Auth/domain/usecases/sign_in_with_email_usecase.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Auth/domain/usecases/sign_in_with_google_usecase.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Auth/domain/usecases/sign_up_with_email_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Auth/domain/usecases/user_usecase.dart';
 
 part 'auth_firebase_event.dart';
@@ -9,10 +12,18 @@ part 'auth_firebase_state.dart';
 
 class AuthFirebaseBloc extends Bloc<AuthFirebaseEvent, AuthFirebaseState> {
   final UserUsecase userUsecase;
+  final SignInWithGoogleUsecase signInWithGoogleUsecase;
+  final SignInWithEmailAndPasswordUsecase signInWithEmailAndPasswordUsecase;
+  final SignUpWithEmailAndPasswordUsecase signUpWithEmailAndPasswordUsecase;
 
   late final StreamSubscription<User?> _userSubscription;
 
-  AuthFirebaseBloc({required this.userUsecase}) : super(AuthInitial()) {
+  AuthFirebaseBloc(
+      {required this.userUsecase,
+      required this.signInWithGoogleUsecase,
+      required this.signInWithEmailAndPasswordUsecase,
+      required this.signUpWithEmailAndPasswordUsecase})
+      : super(AuthInitial()) {
     _userSubscription = userUsecase.call().listen((authUser) {
       add(AuthStateChanged(authUser));
     });
@@ -32,9 +43,20 @@ class AuthFirebaseBloc extends Bloc<AuthFirebaseEvent, AuthFirebaseState> {
     });
   }
 
+  void signInWithGoogle() async {
+    await signInWithGoogleUsecase.call();
+  }
+
+  void signUpWithEmailAndPassword(String email, String password) async {
+    await signUpWithEmailAndPasswordUsecase.call(email, password);
+  }
+
+  void signInWithEmailAndPassword(String email, String password) async {
+    await signInWithEmailAndPasswordUsecase.call(email, password);
+  }
+
   @override
   Future<void> close() {
-    print("dispose çalıştı");
     _userSubscription.cancel();
     return super.close();
   }

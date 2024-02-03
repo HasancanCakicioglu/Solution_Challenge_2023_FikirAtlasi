@@ -14,6 +14,9 @@ class NavigationConstants {
   static const SettingsLanguageOptions = '/SettingsLanguageOptions';
   static const Post = '/Post';
   static const GoogleMaps = '/GoogleMaps';
+  static const CommentsPage = '/CommentsPage';
+  static const SuggestionsPage = '/SuggestionsPage';
+  static const RegisterPage = '/RegisterPage';
 
 
 }

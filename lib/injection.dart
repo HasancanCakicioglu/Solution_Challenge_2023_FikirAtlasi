@@ -10,9 +10,6 @@ import 'package:solution_challenge_2023_recommender_app/feature/Services/service
 final sl = GetIt.instance;
 
 abstract final class LocatorGetIt {
-
-  
-
   /// Responsible for registering all the dependencies
   static Future<void> setup() async {
     // Blocs
@@ -20,20 +17,10 @@ abstract final class LocatorGetIt {
       ..registerFactory<AppLogger>(() => AppLogger())
       ..registerSingleton<AppRouter>(AppRouter());
 
-
-
     await authInjectionContainer();
     await onBoardInjectionContainer();
     await appInjectionContainer();
     await firestoreInjectionContainer();
     await servicesInjectionContainer();
-
-    
-    
-      
-
-
   }
 }
-
-

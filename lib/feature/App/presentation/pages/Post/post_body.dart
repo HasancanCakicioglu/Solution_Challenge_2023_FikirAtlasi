@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/extension/file_extension.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/material3/material3_desing_constant.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/navigation/navigation_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/bloc_post/post_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Post/mixin/post_mixin.dart';
@@ -14,7 +15,8 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/video_player_widget.dart';
 
 class PostBody extends StatefulWidget {
-  const PostBody({super.key});
+  const PostBody({super.key, this.isProblem = true});
+  final bool isProblem;
 
   @override
   State<PostBody> createState() => _PostBodyState();
@@ -29,8 +31,9 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
         centerTitle: true,
       ),
       body: BlocBuilder<PostBloc, PostState>(
+        bloc: context.read<PostBloc>()
+          ..state.copyWith(isProblem: widget.isProblem),
         builder: (context, state) {
-          print("rebuilt ${state.tags}");
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -41,6 +44,7 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
                       controller: titleController,
                       decoration: const InputDecoration(
                         hintText: 'Title',
+                        border: OutlineInputBorder(),
                       ),
                       onChanged: (value) {
                         context
@@ -53,6 +57,7 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
                       controller: contentController,
                       maxLines: 10,
                       decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
                         hintText: 'Content',
                       ),
                       onChanged: (value) {
@@ -61,16 +66,8 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
                             .add(PostContentChanged(content: value));
                       },
                     ),
-                    const Divider(),
-                    SizedBox(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width,
-                      child:  GoogleMap(
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(state.latitude ??  37.7749,state.longitude ??  -122.4194), // Örnek bir konum
-                          zoom: 12.0,
-                        ),
-                      ),
+                    const SizedBox(
+                      height: Material3Paddings.mediumPadding,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -117,18 +114,60 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
                         ),
                       ],
                     ),
-                    const Divider(),
-                    TextField(
-                      controller: textControllerTags,
-                      decoration: InputDecoration(
-                        prefixIcon: IconButton(
-                            onPressed: () {
-                              addTags();
-                            },
-                            icon: const Icon(Icons.add)),
-                        hintText: 'Tags',
-                      ),
+                    Row(
+                      children: state.files.onlyImages
+                          .map((file) => Stack(
+                                children: [
+                                  SizedBox(
+                                    width: 100,
+                                    height: 100,
+                                    child: FileImageWidget(
+                                      imageFile: file,
+                                      size: const Size(80, 80),
+                                    ),
+                                  ),
+                                  Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: InkWell(
+                                        onTap: () {
+                                          context.read<PostBloc>().add(
+                                              PostMediaRemoved(media: file));
+                                        },
+                                        child: Container(
+                                          width: 25,
+                                          height: 25,
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.black
+                                              // Çarpı işareti rengi
+                                              ),
+                                          child: const Icon(
+                                            Icons.close,
+                                            color: Colors
+                                                .white, // Çarpı işareti rengi
+                                          ),
+                                        ),
+                                      )),
+                                ],
+                              ))
+                          .toList(),
                     ),
+                    Row(
+                      children: state.files.onlyVideos
+                          .map(
+                            (file) => FileVideoPlayerWidget(
+                              videoFile: file,
+                              size: const Size(50, 50),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    ...state.files.onlyPdfs
+                        .map((file) => PdfWidget(
+                              file: file,
+                            ))
+                        .toList(),
                     Wrap(
                       children: context.read<PostBloc>().state.tags.map((tag) {
                         return Chip(
@@ -142,23 +181,30 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
                         );
                       }).toList(),
                     ),
+                    SizedBox(
+                      height: 200,
+                      width: MediaQuery.of(context).size.width,
+                      child: GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(state.latitude ?? 37.7749,
+                              state.longitude ?? -122.4194), // Örnek bir konum
+                          zoom: 12.0,
+                        ),
+                      ),
+                    ),
+                    const Divider(),
+                    TextField(
+                      controller: textControllerTags,
+                      decoration: InputDecoration(
+                        prefixIcon: IconButton(
+                            onPressed: () {
+                              addTags();
+                            },
+                            icon: const Icon(Icons.add)),
+                        hintText: 'Tags',
+                      ),
+                    ),
                     Divider(),
-                    Row(
-                      children: state.files.onlyImages
-                          .map((file) => FileImageWidget(imageFile: file,size: Size(50,50),))
-                          .toList(),
-                    ),
-                    Row(
-                      children: state.files.onlyVideos
-                          .map((file) => 
-                                
-                                 FileVideoPlayerWidget(videoFile: file,size: const Size(50,50),),
-                              )
-                          .toList(),
-                    ),
-                    ...state.files.onlyPdfs
-                        .map((file) => PdfWidget(file: file,))
-                        .toList(),
                     const Divider(),
                     const Divider(),
                     const SizedBox(height: 16.0),

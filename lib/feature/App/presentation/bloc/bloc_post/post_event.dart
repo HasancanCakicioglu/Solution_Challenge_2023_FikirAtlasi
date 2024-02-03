@@ -62,17 +62,6 @@ class PostSubmitted extends PostEvent {
   List<Object> get props => [];
 }
 
-// class PostMediaAdded extends PostEvent {
-//   final List<String> video;
-//   final List<String> images;
-//   final List<String> pdf;
-
-//   const PostMediaAdded({required this.video, required this.images, required this.pdf});
-
-//   @override
-//   List<Object> get props => [video, images, pdf];
-// }
-
 
 class PostMediaSplitted extends PostEvent {
   final List<String> video;
@@ -97,7 +86,7 @@ class PostMediaAdded extends PostEvent {
 
 
 class PostMediaRemoved extends PostEvent {
-  final String media;
+  final File media;
 
   const PostMediaRemoved({required this.media});
 

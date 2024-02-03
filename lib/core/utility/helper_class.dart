@@ -1,14 +1,9 @@
 import 'package:uuid/uuid.dart';
 
-
-class HelperClass{
-
+class HelperClass {
   static const Uuid _uuid = Uuid();
 
-  static String getUuid(){
-    
+  static String getUuid() {
     return _uuid.v4();
   }
-
-
 }

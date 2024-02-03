@@ -9,21 +9,27 @@ class ProfileEntity extends Equatable {
   final String? profileUrl;
   final String? describeYourself;
   final List<String>? lastLookedContents;
+  final String? fcmToken;
+  final Map<String, dynamic>? geoFirePoint;
+  final bool? isNotificationOpen;
 
-  const ProfileEntity({
-    this.uid,
-    this.name,
-    this.surname,
-    this.email,
-    this.dateOfJoin,
-    this.profileUrl,
-    this.describeYourself,
-    this.lastLookedContents,
-  });
+  const ProfileEntity(
+      {this.uid,
+      this.name,
+      this.surname,
+      this.email,
+      this.dateOfJoin,
+      this.profileUrl,
+      this.describeYourself,
+      this.lastLookedContents,
+      this.fcmToken,
+      this.geoFirePoint,
+      this.isNotificationOpen
+      });
 
   @override
   String toString() {
-    return 'ProfileEntity{uid: $uid, name: $name, surname: $surname, email: $email, dateOfJoin: $dateOfJoin, profileUrl: $profileUrl, describeYourself: $describeYourself, lastLookedContents: $lastLookedContents}';
+    return 'ProfileEntity{uid: $uid, name: $name, surname: $surname, email: $email, dateOfJoin: $dateOfJoin, profileUrl: $profileUrl, describeYourself: $describeYourself, lastLookedContents: $lastLookedContents , geofirePoint: $geoFirePoint } ';
   }
 
   @override
@@ -35,6 +41,9 @@ class ProfileEntity extends Equatable {
         dateOfJoin,
         profileUrl,
         describeYourself,
-        lastLookedContents
+        lastLookedContents,
+        fcmToken,
+        geoFirePoint,
+        isNotificationOpen
       ];
 }

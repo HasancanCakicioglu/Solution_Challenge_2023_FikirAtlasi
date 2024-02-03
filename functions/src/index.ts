@@ -2,21 +2,25 @@
 /* eslint-disable max-len, no-trailing-spaces, object-curly-spacing*/
 
 // Import necessary modules and libraries
-const { DocumentSnapshot } = require("firebase-functions/v2/firestore");
+const { DocumentSnapshot} = require("firebase-functions/v2/firestore");
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
-const {onCall} = require("firebase-functions/v2/https");
+const { onCall } = require("firebase-functions/v2/https");
 import { initializeApp } from "firebase-admin/app";
 import fetch from "node-fetch";
-import { Pinecone, QueryResponse} from "@pinecone-database/pinecone";
+import { Pinecone, QueryResponse } from "@pinecone-database/pinecone";
 require("dotenv").config();
-
+const admin = require("firebase-admin");
 import { setGlobalOptions } from "firebase-functions/v2";
+
+
 // Set the maximum instances to 10 for all functions
+
 setGlobalOptions({ maxInstances: 1 });
 
 // Initialize Firebase Admin
 initializeApp();
-
+const firestore = admin.firestore();
+const messaging = admin.messaging();
 // Set Pinecone API key from environment variables
 const PineconeApi = process.env.PINECONE_API;
 const pc = new Pinecone({ apiKey: PineconeApi as string });
@@ -25,7 +29,7 @@ const index = pc.index(process.env.INDEX_NAME as string);
 // Get OpenAI API key from environment variables
 const OpenAIApiKey = process.env.OPENAI_API;
 
-exports.semanticSearch = onCall({region: "europe-west3"},
+exports.semanticSearch = onCall({ region: "europe-west3" },
   async (request: any) => {
     // Check if the request is authenticated
 
@@ -55,7 +59,7 @@ exports.semanticSearch = onCall({region: "europe-west3"},
  * @return {Promise<QueryResponse>} - A promise that resolves with the search results.
  */
 async function semanticSearchPinecone(
-  vector:number[],
+  vector: number[],
   topK = 20,
   includeValues = true
 ): Promise<QueryResponse> {
@@ -75,20 +79,43 @@ exports.OpenAIembeddingAndSaveToPineCone = onDocumentCreated(
   async (event: typeof DocumentSnapshot) => {
     // Extract data from the Firestore document
     const documentData = event.data.data();
-    console.log(documentData);
     const uid = documentData.uid;
     const text = documentData.text;
     const title = documentData.title;
+    const geoHash = documentData.geoFirePoint;
 
+    if (geoHash !== null) {
+      console.log(geoHash);
+      const geohashFieldName = geoHash.geohash.substring(0, 2);
+      console.log(geohashFieldName);
+      const querySnapshot = await firestore.collection("Profiles")
+        .where("geoFirePoint.geohash", ">=", geohashFieldName)
+        .where("geoFirePoint.geohash", "<", geohashFieldName + "\uf8ff")
+        .where("isNotificationOpen", "==", true)
+        .get();
+
+      const matchingFcmTokens: string[] = [];
+      querySnapshot.forEach((doc: typeof DocumentSnapshot) => {
+        const fcmToken = doc.data()["fcmToken"];
+        matchingFcmTokens.push(fcmToken);
+      });
+
+      const message = {
+        tokens: matchingFcmTokens,
+        notification: {title: "Yakınınızda bir problem çıktı!", body: title},
+      };
+      console.log(matchingFcmTokens.length);
+      if (matchingFcmTokens.length > 0) {
+        messaging.sendEachForMulticast(message);
+      }
+    }
 
     const date = Date.parse(documentData.date);
 
     // Convert date string to a Date object
-    const dateObject:Date = new Date(date);
-
+    const dateObject: Date = new Date(date);
     const yourText = text + title;
     
-    console.log(dateObject);
     // Fetch OpenAI embedding for the text
     const embeddedData = await getOpenAIEmbedding(
       yourText,

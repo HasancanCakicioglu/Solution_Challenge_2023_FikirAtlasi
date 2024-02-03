@@ -40,7 +40,9 @@ abstract class FirestoreRepository {
   Future<Either<FirebaseUnknowFailure, void>> updateCommentSuggestion(CommentSuggestionEntity commentSuggestionEntity);
   Future<Either<FirebaseUnknowFailure, void>> deleteCommentSuggestion(String uid);
 
+
   Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentSuggestionEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentSuggestListAccordingToLikeCount(QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
+  Future<Either<FirebaseUnknowFailure, Tuple2<List<CommentSuggestionEntity?>,QueryDocumentSnapshot<Object?>?>>> getCommentSuggestListAccordingToCommentID(String commentID,QueryDocumentSnapshot<Object?>? startAfter,{gettingData = 20});
 
 
   Future<Either<FirebaseUnknowFailure, void>> createReport(ReportEntity reportEntity);
