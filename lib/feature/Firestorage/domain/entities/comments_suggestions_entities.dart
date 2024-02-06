@@ -5,12 +5,9 @@ class CommentSuggestionEntity extends Equatable {
   final String? uid;
   final String? profileId;
   final String? commentProblemID;
-  final String? title;
   final String? text;
   final String? date;
-  final Map<String, dynamic>? geoFirePoint;
   final int? likeCount;
-
   final List<String>? pdf;
   final List<String>? images;
   final List<String>? videos;
@@ -19,10 +16,8 @@ class CommentSuggestionEntity extends Equatable {
     this.uid,
     this.profileId,
     this.commentProblemID,
-    this.title,
     this.text,
     this.date,
-    this.geoFirePoint,
     this.likeCount,
     this.pdf,
     this.images,
@@ -34,10 +29,8 @@ class CommentSuggestionEntity extends Equatable {
         uid,
         profileId,
         commentProblemID,
-        title,
         text,
         date,
-        geoFirePoint,
         likeCount,
         pdf,
         images,

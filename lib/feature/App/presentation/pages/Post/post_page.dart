@@ -7,7 +7,9 @@ import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
 @RoutePage()
 class PostPageView extends StatefulWidget {
-  const PostPageView({Key? key}) : super(key: key);
+  const PostPageView({Key? key,this.isProblem = true,this.commentID}) : super(key: key);
+  final bool isProblem;
+  final String? commentID;
 
   @override
   State<PostPageView> createState() => _PostPageViewState();
@@ -19,7 +21,7 @@ class _PostPageViewState extends State<PostPageView> {
     return BlocProvider(
       create: (context) => sl.get<PostBloc>(),
       
-      child: const PostBody()
+      child: PostBody(isProblem: widget.isProblem,commendID: widget.commentID,)
     );
   }
 }

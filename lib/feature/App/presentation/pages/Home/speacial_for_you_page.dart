@@ -1,10 +1,7 @@
-import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
-import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/navigation/navigation_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_home_specialForYou/home_special_for_you_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/mixin/special_for_you_page_mixin.dart';
@@ -13,8 +10,6 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_problem_list_searched_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/index.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/select_files_usecase.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/upload_files_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Services/domain/usecases/get_searched_comments.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
@@ -207,23 +202,7 @@ class _SpeacialForYouPageViewState extends State<SpeacialForYouPageView>
 
     await sl.get<CreateCommentProblemUsecase>().call(entitym);
 
-    await sl.get<SelectFilesUsecase>().call().then((value) async {
-      if (value != null) {
-        print("girdiiiiiiiiiiiiiiii $value");
-        var gelen = await sl.get<UploadFilesUsecase>().call(FirestoreAllowedFileTypes.image, value as List<File>);
-        print("gleen ===== $gelen");
-        print(gelen[".jpg"]);
-        var yeni = entitym.copyWith(
-          images: gelen[".jpg"],
-          videos: gelen[".mp4"],
-          pdf: gelen[".pdf"],
-        );
 
-        await sl.get<UpdateCommentProblemUsecase>().call(yeni);
-      }
-
-      print("bitttiiiiiiiiiiiiiiii hadi bakalım ");
-    });
   }
 
   void searched() async {

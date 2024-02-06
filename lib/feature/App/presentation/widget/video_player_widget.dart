@@ -5,8 +5,9 @@ import 'package:video_player/video_player.dart';
 class FileVideoPlayerWidget extends StatefulWidget {
   final File videoFile;
   final Size size;
+  final bool isFile;
 
-  const FileVideoPlayerWidget({Key? key, required this.videoFile,required this.size})
+  const FileVideoPlayerWidget({Key? key, required this.videoFile,required this.size,this.isFile = true})
       : super(key: key);
 
   @override
@@ -20,7 +21,12 @@ class _FileVideoPlayerWidgetState extends State<FileVideoPlayerWidget> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.file(widget.videoFile);
+    if(widget.isFile){
+       _controller = VideoPlayerController.file(widget.videoFile);
+    }else{
+     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoFile.path));
+    }
+   
     _initializeVideoPlayerFuture = _controller.initialize();
   }
 
@@ -80,10 +86,10 @@ class FullScreenVideoPlayer extends StatefulWidget {
       : super(key: key);
 
   @override
-  _FullScreenVideoPlayerState createState() => _FullScreenVideoPlayerState();
+  FullScreenVideoPlayerState createState() => FullScreenVideoPlayerState();
 }
 
-class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
+class FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
   late Future<void> _initializeVideoPlayerFuture;
 
   @override
@@ -101,7 +107,15 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+      onPopInvoked: (e){
+        if(widget.videoController.value.isPlaying){
+          widget.videoController.pause();
+        }else{
+          widget.videoController.pause();
+        }
+      },
+      child: Scaffold(
         body: Center(
           child: GestureDetector(
             onTap: () {
@@ -127,6 +141,6 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
           ),
         ),
       
-    );
+    ),);
   }
 }

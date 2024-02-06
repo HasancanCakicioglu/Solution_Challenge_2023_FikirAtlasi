@@ -37,16 +37,16 @@ class AuthPageViewState extends State<AuthPageView> {
             _buildEmailTextField(),
             const SizedBox(height: 20),
             _buildPasswordTextField(),
-            const SizedBox(height: Material3Paddings.mediumPadding),
+            const SizedBox(height: Material3Design.mediumPadding),
             _buildForgotPasswordText(),
-            const SizedBox(height: Material3Paddings.mediumPadding),
+            const SizedBox(height: Material3Design.mediumPadding),
             _buildSignInButton(),
             _buildDivider(),
             _buildSocialMediaButtons(isDark),
-            const SizedBox(height: Material3Paddings.largePadding),
+            const SizedBox(height: Material3Design.largePadding),
             _buildRegisterText(),
           ]
-        ).paddedAll(Material3Paddings.largePagePadding).padded(
+        ).paddedAll(Material3Design.largePagePadding).padded(
           EdgeInsets.only(
             top: MediaQuery.of(context).size.height * 0.1,
           ),
@@ -156,7 +156,7 @@ class AuthPageViewState extends State<AuthPageView> {
           ),
         ),
       ],
-    ).paddedSymmetric(vertical: Material3Paddings.smallPadding);
+    ).paddedSymmetric(vertical: Material3Design.smallPadding);
   }
 
   /// Widget function to build the social media buttons

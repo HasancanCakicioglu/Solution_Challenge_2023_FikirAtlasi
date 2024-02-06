@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_suggestions_entities.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/create_comment_problem_usecase.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/create_comment_suggestion_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/upload_files_usecase.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Services/domain/usecases/get_geo_fire_point_usecase.dart';
@@ -14,11 +16,12 @@ part 'post_state.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
   CreateCommentProblemUsecase createCommentProblemUsecase;
+  CreateCommentSuggestionUsecase createCommentSuggestionUsecase;
   UploadFilesUsecase uploadFilesUsecase;
   GetGeoFirePointUsecase getGeoFirePointUsecase;
 
   PostBloc(this.createCommentProblemUsecase, this.uploadFilesUsecase,
-      this.getGeoFirePointUsecase)
+      this.getGeoFirePointUsecase,this.createCommentSuggestionUsecase)
       : super(const PostState()) {
     on<PostEvent>((event, emit) {});
     on<PostTitleChanged>(_onEmailChanged);
@@ -30,6 +33,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<PostTagsChanged>(_onTagsChanged);
     on<PostLocationChanged>(_onLocationChanged);
     on<PostMediaSplitted>(_onMediaSplitted);
+    on<PostIsProblemChanged>(_onIsProblemChanged);
   }
 
   void _onEmailChanged(PostTitleChanged event, Emitter<PostState> emit) {
@@ -100,8 +104,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           geoFirePoint: geoFirePoint?.data);
       createCommentProblemUsecase.call(commentProblemEntity);
     }else{
-      print("öneri budur");
+      CommentSuggestionEntity commentSuggestionEntity = CommentSuggestionEntity(
+          text: state.content,
+          commentProblemID: state.commentID,
+          images: state.images,
+          videos: state.videos,
+          pdf: state.pdf);
+      createCommentSuggestionUsecase.call(commentSuggestionEntity);
     }
+
   }
 
   void _onMediaAdded(PostMediaAdded event, Emitter<PostState> emit) {
@@ -117,5 +128,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   void _onMediaSplitted(PostMediaSplitted event, Emitter<PostState> emit) {
     emit(state.copyWith(
         images: event.images, videos: event.video, pdf: event.pdf));
+  }
+
+  void _onIsProblemChanged(PostIsProblemChanged event, Emitter<PostState> emit) {
+    emit(state.copyWith(isProblem: event.isProblem, commentID: event.commentID));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -31,42 +32,9 @@ mixin PostPageMixin<T extends StatefulWidget> on State<PostBody> {
     location = null;
   }
 
-  // void addImage() {
-  //   selectFilesUsecase.call().then((value) {
-  //     if (value != null && value.isNotEmpty) {
-  //       uploadFilesUsecase
-  //           .call(FirestoreAllowedFileTypes.image, value)
-  //           .then((value) {
-  //         List<String> imageFiles = [];
-  //         List<String> videoFiles = [];
-  //         List<String> pdfFiles = [];
 
-  //         value.forEach((key, fileList) {
-  //           if (key.endsWith('.jpg') ||
-  //               key.endsWith('.png') ||
-  //               key.endsWith('.jpeg')) {
-  //             // Resim dosyası
-  //             imageFiles.addAll(fileList);
-  //           } else if (key.endsWith('.mp4') ||
-  //               key.endsWith('.avi') ||
-  //               key.endsWith('.mov')) {
-  //             // Video dosyası
-  //             videoFiles.addAll(fileList);
-  //           } else if (key.endsWith('.pdf')) {
-  //             // PDF dosyası
-  //             pdfFiles.addAll(fileList);
-  //           }
-  //         });
-
-  //         context.read<PostBloc>().add(PostMediaAdded(
-  //             images: imageFiles, video: videoFiles, pdf: pdfFiles));
-  //       });
-  //     }
-  //   });
-  // }
-
-  void addImage(){
-    selectFilesUsecase.call().then((value) {
+  void addMedia(FileType fileType) async {
+    selectFilesUsecase.call(fileType).then((value) {
       if (value != null && value.isNotEmpty) {
         context.read<PostBloc>().add(PostMediaAdded(files: value));
       }
@@ -74,8 +42,11 @@ mixin PostPageMixin<T extends StatefulWidget> on State<PostBody> {
   }
 
   void addTags(){
-    chips.add(textControllerTags.text);
-    context.read<PostBloc>().add(PostTagsChanged(tags: chips));
+    if (textControllerTags.text.isNotEmpty) {
+      chips.add(textControllerTags.text);
+      textControllerTags.clear();
+      context.read<PostBloc>().add(PostTagsChanged(tags: chips));
+    }
   }
 
   @override

@@ -4,7 +4,7 @@ sealed class PostEvent extends Equatable {
   const PostEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class PostTitleChanged extends PostEvent {
@@ -92,4 +92,15 @@ class PostMediaRemoved extends PostEvent {
 
   @override
   List<Object> get props => [media];
+}
+
+
+class PostIsProblemChanged extends PostEvent {
+  final bool isProblem;
+  final String? commentID;
+
+  const PostIsProblemChanged({required this.isProblem,required this.commentID});
+
+  @override
+  List<Object?> get props => [isProblem,commentID];
 }

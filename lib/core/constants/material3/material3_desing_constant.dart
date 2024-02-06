@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Material3Paddings {
+class Material3Design {
   // Page Paddings
   static const double smallPagePadding = 8.0;
   static const double mediumPagePadding = 16.0;
@@ -21,5 +21,13 @@ class Material3Paddings {
   static const double smallPadding = 4.0;
   static const double mediumPadding = 8.0;
   static const double largePadding = 16.0;
+
+
+  // Text Styles
+  static const TextStyle smallText = TextStyle(fontSize: 12.0);
+  static const TextStyle mediumText = TextStyle(fontSize: 16.0);
+  static const TextStyle largeText = TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold);
+
+
 
 }

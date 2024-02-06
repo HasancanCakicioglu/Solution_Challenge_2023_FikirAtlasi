@@ -35,7 +35,7 @@ Future<void> appInjectionContainer() async {
 
   sl.registerFactory<CategoryCubit>(() => CategoryCubit(sl(),));
 
-  sl.registerFactory<PostBloc>(() => PostBloc(sl(),sl(),sl()));
+  sl.registerFactory<PostBloc>(() => PostBloc(sl(),sl(),sl(),sl()));
 
   sl.registerFactory<CommentProblemCubit>(() => CommentProblemCubit(sl()));
 

@@ -42,9 +42,9 @@ class _AuthRegisterPageViewState extends State<AuthRegisterPageView> {
           child: Column(
             children: [
               _buildSvgImage(),
-              const SizedBox(height: Material3Paddings.largePadding),
+              const SizedBox(height: Material3Design.largePadding),
               _buildEmailTextField(context),
-              const SizedBox(height: Material3Paddings.mediumPadding),
+              const SizedBox(height: Material3Design.mediumPadding),
               _buildPasswordTextField(
                 onChanged: (value) {
                   context
@@ -53,7 +53,7 @@ class _AuthRegisterPageViewState extends State<AuthRegisterPageView> {
                 },
                 context: context,
               ),
-              const SizedBox(height: Material3Paddings.mediumPadding),
+              const SizedBox(height: Material3Design.mediumPadding),
               _buildPasswordTextField(
                 onChanged: (value) {
                   context
@@ -62,14 +62,14 @@ class _AuthRegisterPageViewState extends State<AuthRegisterPageView> {
                 },
                 context: context,
               ),
-              const SizedBox(height: Material3Paddings.largePadding),
+              const SizedBox(height: Material3Design.largePadding),
               _buildRegisterButton(context),
             ],
           ),
         ),
       ),
     ).paddedSymmetric(
-      horizontal: Material3Paddings.largePagePadding,
+      horizontal: Material3Design.largePagePadding,
     );
   }
 

@@ -82,9 +82,15 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     PostPageRoute.name: (routeData) {
+      final args = routeData.argsAs<PostPageRouteArgs>(
+          orElse: () => const PostPageRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const PostPageView(),
+        child: PostPageView(
+          key: args.key,
+          isProblem: args.isProblem,
+          commentID: args.commentID,
+        ),
       );
     },
     ProfilePageRoute.name: (routeData) {
@@ -320,16 +326,45 @@ class MainWrapperRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [PostPageView]
-class PostPageRoute extends PageRouteInfo<void> {
-  const PostPageRoute({List<PageRouteInfo>? children})
-      : super(
+class PostPageRoute extends PageRouteInfo<PostPageRouteArgs> {
+  PostPageRoute({
+    Key? key,
+    bool isProblem = true,
+    String? commentID,
+    List<PageRouteInfo>? children,
+  }) : super(
           PostPageRoute.name,
+          args: PostPageRouteArgs(
+            key: key,
+            isProblem: isProblem,
+            commentID: commentID,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'PostPageRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<PostPageRouteArgs> page =
+      PageInfo<PostPageRouteArgs>(name);
+}
+
+class PostPageRouteArgs {
+  const PostPageRouteArgs({
+    this.key,
+    this.isProblem = true,
+    this.commentID,
+  });
+
+  final Key? key;
+
+  final bool isProblem;
+
+  final String? commentID;
+
+  @override
+  String toString() {
+    return 'PostPageRouteArgs{key: $key, isProblem: $isProblem, commentID: $commentID}';
+  }
 }
 
 /// generated route for

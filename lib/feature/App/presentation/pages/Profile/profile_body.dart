@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/extension/padding.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/extension/time_extension.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/material3/material3_desing_constant.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_profile/profile_cubit.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_profile_entity/profile_entity_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Profile/mixin/profile_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_problem_card.dart';
 
@@ -52,21 +57,37 @@ class _ProfileBodyState extends State<ProfileBody> with ProfileMixin {
   }
 
   Widget profileCard() {
-    return const Row(
+    final state = context.read<ProfileEntityCubit>().state;
+    final user = FirebaseAuth.instance.currentUser;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Column(
+        Row(
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: NetworkImage(
-                  'https://cdn-icons-png.flaticon.com/512/2838/2838912.png'),
+              backgroundImage:
+                  NetworkImage(state?.profileUrl ?? user?.photoURL ?? ""),
             ),
-            Text("tarih"),
-            Text("kim olduğu"),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(state?.name ?? user?.displayName ?? ""),
+                Text(state?.dateOfJoin ??
+                    user?.metadata.creationTime?.timeAgo() ??
+                    DateTime.now().timeAgo()),
+              ],
+            ).padded(
+                const EdgeInsets.only(left: Material3Design.largePadding * 2)),
           ],
         ),
-        Text('Username'),
+        const SizedBox(
+          height: Material3Design.largePadding,
+        ),
+        Text(state?.describeYourself ??
+            "Ben bir dil modeliyim, OpenAI tarafından geliştirilen GPT-3.5 mimarisini kullanıyorum. Metin tabanlı soruları yanıtlamak, metin oluşturmak ve çeşitli konularda yardımcı olmak için eğitildim. Geniş bir konu yelpazesinde bilgi sahibiyim ve kullanıcıların çeşitli sorularına yanıt verebilirim. Size nasıl yardımcı olabilirim?"),
       ],
-    );
+    ).padded(const EdgeInsets.all(Material3Design.largePagePadding));
   }
 }

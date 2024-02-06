@@ -65,6 +65,7 @@ final class ApplicationInitialize {
     FirebaseAnalyticsObserver observer =
         FirebaseAnalyticsObserver(analytics: analytics);
 
+       
     await FirebaseMessaging.instance.requestPermission(
       alert: true,
       announcement: false,
