@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/core/errors/failure/failure.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
@@ -48,7 +49,7 @@ abstract class FirestoreRepository {
   Future<Either<FirebaseUnknowFailure, void>> createReport(ReportEntity reportEntity);
 
   
-  Future<List<File>?> selectFiles();
+  Future<List<File>?> selectFiles(FileType fileType);
   Future<Map<String, List<String>>> uploadFiles(FirestoreAllowedFileTypes firestoreAllowedFileTypes,List<File> files);
 
 

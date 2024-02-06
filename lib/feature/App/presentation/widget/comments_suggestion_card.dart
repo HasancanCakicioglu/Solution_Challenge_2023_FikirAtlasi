@@ -21,7 +21,6 @@ class CommentsSuggestionCard extends StatelessWidget {
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16.0),
-        title: Text(commentSuggestionEntity.title!),
         subtitle: Text(commentSuggestionEntity.text!),
         leading: CircleAvatar(
           child: Text(commentSuggestionEntity.profileId!),

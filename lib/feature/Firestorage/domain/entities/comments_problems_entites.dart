@@ -17,6 +17,9 @@ class CommentProblemEntity extends Equatable {
   final List<String>? images;
   final List<String>? videos;
 
+  final String? profileName;
+  final String? profileImage;
+
 
 
   const CommentProblemEntity( {
@@ -32,6 +35,8 @@ class CommentProblemEntity extends Equatable {
     this.images,
     this.videos,
     this.geoFirePoint,
+    this.profileName,
+    this.profileImage,
   });
 
   @override
@@ -48,6 +53,8 @@ class CommentProblemEntity extends Equatable {
         images,
         videos,
         geoFirePoint,
+        profileName,
+        profileImage,
       ];
 
   CommentProblemEntity copyWith({
@@ -63,6 +70,8 @@ class CommentProblemEntity extends Equatable {
     List<String>? images,
     List<String>? videos,
     Map<String, dynamic>? geoFirePoint,
+    String? profileName,
+    String? profileImage,
   }) {
     return CommentProblemEntity(
       uid: uid ?? this.uid,
@@ -77,6 +86,8 @@ class CommentProblemEntity extends Equatable {
       images: images ?? this.images,
       videos: videos ?? this.videos,
       geoFirePoint: geoFirePoint ?? this.geoFirePoint,
+      profileName: profileName ?? this.profileName,
+      profileImage: profileImage ?? this.profileImage,
     );
   }
 }

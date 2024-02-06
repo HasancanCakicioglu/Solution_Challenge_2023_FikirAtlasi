@@ -1,7 +1,6 @@
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
 
 class CommentProblemModel extends CommentProblemEntity {
-
   const CommentProblemModel({
     required String? uid,
     required String? profileId,
@@ -14,7 +13,9 @@ class CommentProblemModel extends CommentProblemEntity {
     List<String>? pdf,
     List<String>? images,
     List<String>? videos,
-    Map<String,dynamic>? geoFirePoint,
+    Map<String, dynamic>? geoFirePoint,
+    String? profileName,
+    String? profileImage,
   }) : super(
           uid: uid,
           profileId: profileId,
@@ -28,6 +29,8 @@ class CommentProblemModel extends CommentProblemEntity {
           images: images,
           videos: videos,
           geoFirePoint: geoFirePoint,
+          profileName: profileName,
+          profileImage: profileImage,
         );
 
   factory CommentProblemModel.fromJson(Map<String, dynamic> json) {
@@ -44,7 +47,8 @@ class CommentProblemModel extends CommentProblemEntity {
       images: json['images']?.cast<String>(),
       videos: json['videos']?.cast<String>(),
       geoFirePoint: json['geoFirePoint'],
-
+      profileImage: json['profileImage'],
+      profileName: json['profileName'],
     );
   }
 
@@ -62,60 +66,64 @@ class CommentProblemModel extends CommentProblemEntity {
       'images': images,
       'videos': videos,
       'geoFirePoint': geoFirePoint,
+      'profileImage': profileImage,
+      'profileName': profileName,
     };
   }
 
-    @override
-    CommentProblemModel copyWith({
-      String? uid,
-      String? profileId,
-      String? title,
-      String? category,
-      String? text,
-      String? date,
-      List<String>? tags,
-      double? latitude,
-      double? longitude,
-      int? likeCount,
-      List<String>? pdf,
-      List<String>? images,
-      List<String>? videos,
-      Map<String, dynamic>? geoFirePoint,
-    }) {
-      return CommentProblemModel(
-        uid: uid ?? this.uid,
-        profileId: profileId ?? this.profileId,
-        title: title ?? this.title,
-        category: category ?? this.category,
-        text: text ?? this.text,
-        date: date ?? this.date,
-        tags: tags ?? this.tags,
-        likeCount: likeCount ?? this.likeCount,
-        pdf: pdf ?? this.pdf,
-        images: images ?? this.images,
-        videos: videos ?? this.videos,
-        geoFirePoint: geoFirePoint ?? this.geoFirePoint,
+  @override
+  CommentProblemModel copyWith({
+    String? uid,
+    String? profileId,
+    String? title,
+    String? category,
+    String? text,
+    String? date,
+    List<String>? tags,
+    double? latitude,
+    double? longitude,
+    int? likeCount,
+    List<String>? pdf,
+    List<String>? images,
+    List<String>? videos,
+    Map<String, dynamic>? geoFirePoint,
+    String? profileName,
+    String? profileImage,
+  }) {
+    return CommentProblemModel(
+      uid: uid ?? this.uid,
+      profileId: profileId ?? this.profileId,
+      title: title ?? this.title,
+      category: category ?? this.category,
+      text: text ?? this.text,
+      date: date ?? this.date,
+      tags: tags ?? this.tags,
+      likeCount: likeCount ?? this.likeCount,
+      pdf: pdf ?? this.pdf,
+      images: images ?? this.images,
+      videos: videos ?? this.videos,
+      geoFirePoint: geoFirePoint ?? this.geoFirePoint,
+      profileName: profileName ?? this.profileName,
+      profileImage: profileImage ?? this.profileImage,
+    );
+  }
+
+  factory CommentProblemModel.fromEntity(
+          CommentProblemEntity commentProblemEntity) =>
+      CommentProblemModel(
+        uid: commentProblemEntity.uid,
+        profileId: commentProblemEntity.profileId,
+        title: commentProblemEntity.title,
+        category: commentProblemEntity.category,
+        text: commentProblemEntity.text,
+        date: commentProblemEntity.date,
+        tags: commentProblemEntity.tags,
+        likeCount: commentProblemEntity.likeCount,
+        pdf: commentProblemEntity.pdf,
+        images: commentProblemEntity.images,
+        videos: commentProblemEntity.videos,
+        geoFirePoint: commentProblemEntity.geoFirePoint,
+        profileName: commentProblemEntity.profileName,
+        profileImage: commentProblemEntity.profileImage,
       );
-    }
-
-
-
-
-
-
-  factory CommentProblemModel.fromEntity(CommentProblemEntity commentProblemEntity) => CommentProblemModel(
-    uid: commentProblemEntity.uid,
-    profileId: commentProblemEntity.profileId,
-    title: commentProblemEntity.title,
-    category: commentProblemEntity.category,
-    text: commentProblemEntity.text,
-    date: commentProblemEntity.date,
-    tags: commentProblemEntity.tags,
-    likeCount: commentProblemEntity.likeCount,
-    pdf: commentProblemEntity.pdf,
-    images: commentProblemEntity.images,
-    videos: commentProblemEntity.videos,
-    geoFirePoint: commentProblemEntity.geoFirePoint,
-  );
-
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/core/errors/failure/failure.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/datasource/remote_datasource/firestore_remote_data_source.dart';
@@ -208,9 +209,9 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
   }
 
   @override
-  Future<List<File>?> selectFiles() async{
+  Future<List<File>?> selectFiles(FileType fileType) async{
     
-    return await dataSource.selectFiles();
+    return await dataSource.selectFiles(fileType);
   }
 
   @override

@@ -73,7 +73,7 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView>
             onBoardingContentsList[index].image,
             semanticsLabel: 'OnBoarding Page',
             height: MediaQuery.of(context).size.height * 0.45,
-          ).paddedSymmetric(horizontal: Material3Paddings.largePagePadding),
+          ).paddedSymmetric(horizontal: Material3Design.largePagePadding),
         ),
 
         Text(
@@ -83,12 +83,12 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView>
               .textTheme
               .headlineLarge!
               .copyWith(fontWeight: FontWeight.bold),
-        ).paddedSymmetric(horizontal: Material3Paddings.mediumPagePadding),
-        const SizedBox(height: Material3Paddings.mediumPagePadding),
+        ).paddedSymmetric(horizontal: Material3Design.mediumPagePadding),
+        const SizedBox(height: Material3Design.mediumPagePadding),
         Text(
           onBoardingContentsList[index].description,
           textAlign: TextAlign.center,
-        ).paddedSymmetric(horizontal: Material3Paddings.mediumPagePadding),
+        ).paddedSymmetric(horizontal: Material3Design.mediumPagePadding),
       ],
     ).padded(const EdgeInsets.only(top: 40));
   }
@@ -105,7 +105,7 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView>
             // Next button
             buildNextButton(),
           ],
-        ).paddedSymmetric(horizontal: Material3Paddings.largePadding).padded(
+        ).paddedSymmetric(horizontal: Material3Design.largePadding).padded(
               const EdgeInsets.only(top: 60),
             ));
   }

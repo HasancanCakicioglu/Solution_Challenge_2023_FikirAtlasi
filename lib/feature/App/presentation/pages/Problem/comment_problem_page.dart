@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solution_challenge_2023_recommender_app/core/init/navigation/app_router.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_comment_problem/comment_problem_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Problem/comment_problem_suggest.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
@@ -42,8 +43,10 @@ class _CommentProblemPageViewState extends State<CommentProblemPageView>
               ? Image.network(widget.commentProblemEntity.pdf![0])
               : Container(),
           const Divider(),
-          const Center(
-            child: Text("Çözüm yaz"),
+          Center(
+            child: ElevatedButton(onPressed: (){
+              AutoRouter.of(context).push(PostPageRoute(isProblem: false, commentID: widget.commentProblemEntity.uid!));
+            }, child: const Text("Çözüm yaz")),
           ),
           const Divider(height: 5),
           BlocProvider<CommentProblemCubit>(

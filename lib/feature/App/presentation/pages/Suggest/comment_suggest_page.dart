@@ -20,7 +20,6 @@ class _CommentSuggestionPageViewState extends State<CommentSuggestionPageView> {
       appBar: AppBar(),
       body: Column(
         children: [
-          Text(widget.commentSuggestionEntity.title!),
           Text(widget.commentSuggestionEntity.text!),
           Text(widget.commentSuggestionEntity.profileId!),
           Text(widget.commentSuggestionEntity.date.toString()),

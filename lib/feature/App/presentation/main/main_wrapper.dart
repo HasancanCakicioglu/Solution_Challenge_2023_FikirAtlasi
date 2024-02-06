@@ -21,9 +21,7 @@ class _MainWrapperViewState extends State<MainWrapperView> {
   @override
   Widget build(BuildContext context) {
     createProfile();
-    return BlocProvider<ProfileEntityCubit>(
-        create: (context) => sl.get<ProfileEntityCubit>(),
-        child: Scaffold(
+    return  Scaffold(
           body: BlocBuilder<BottomNavCubit, BottomNavBarState>(
             builder: (BuildContext context, BottomNavBarState state) {
               return LazyLoadIndexedStack(
@@ -32,7 +30,7 @@ class _MainWrapperViewState extends State<MainWrapperView> {
             },
           ),
           bottomNavigationBar: const MainWrapperNavigationBar(),
-        ));
+        );
   }
 
   void createProfile() async {

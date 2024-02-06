@@ -66,7 +66,7 @@ abstract class FirestoreRemoteDataSource {
       List<String> text,
       {gettingData = 20});
 
-  Future<List<File>?> selectFiles();
+  Future<List<File>?> selectFiles(FileType fileType);
   Future<Map<String, List<String>>> uploadFiles(
       FirestoreAllowedFileTypes firestoreAllowedFileTypes, List<File> files);
 
@@ -88,8 +88,7 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
   Future<void> createCommentProblem(
       CommentProblemModel commentProblemModel) async {
     String customID = HelperClass.getUuid();
-    print("geldi");
-    print(commentProblemModel);
+
     await firestore
         .collection(FirestoreConstants.collectionCommentsProblems)
         .doc(customID)
@@ -413,11 +412,20 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
   }
 
   @override
-  Future<List<File>?> selectFiles() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-      allowMultiple: true,
-    );
+  Future<List<File>?> selectFiles(FileType fileType) async {
+    late FilePickerResult? result;
+    if (fileType == FileType.custom) {
+      result = await FilePicker.platform.pickFiles(
+        type: fileType,
+        allowMultiple: true,
+        allowedExtensions: ["pdf"],
+      );
+    } else {
+      result = await FilePicker.platform.pickFiles(
+        type: fileType,
+        allowMultiple: true,
+      );
+    }
 
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path!)).toList();
@@ -435,8 +443,9 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
 
     for (var file in files) {
       String ex = p.extension(file.path);
+      String fileName = p.basename(file.path).split(".")[0];
       String timestamp = Timestamp.now().millisecondsSinceEpoch.toString();
-      String uploadFileName = "${timestamp}_${HelperClass.getUuid()}$ex";
+      String uploadFileName = "${fileName}_${timestamp}_${HelperClass.getUuid()}$ex";
       Reference reference = firebaseStorage.ref().child(uploadFileName);
 
       if (file.isImage) {
