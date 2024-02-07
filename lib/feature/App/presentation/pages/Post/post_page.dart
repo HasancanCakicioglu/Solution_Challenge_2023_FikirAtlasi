@@ -5,6 +5,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Post/post_body.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
+/// This page is the post page of the application.
 @RoutePage()
 class PostPageView extends StatefulWidget {
   const PostPageView({Key? key,this.isProblem = true,this.commentID}) : super(key: key);

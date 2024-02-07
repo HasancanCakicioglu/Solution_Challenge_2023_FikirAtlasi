@@ -2,6 +2,7 @@
 
 
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/bloc_post/post_bloc.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/bloc_search/search_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/bottomNavBar/bottomNavBar_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_category/category_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_comment_problem/comment_problem_cubit.dart';
@@ -11,10 +12,11 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_leaderboard_suggest/leaderboard_suggest_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_profile/profile_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_profile_entity/profile_entity_cubit.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_search/search_cubit.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/problemCardCubit/problem_card_cubit.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/solutionCardCubit/solution_card_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
-Future<void> appInjectionContainer() async {
+  void appInjectionContainer() {
 
   // Cubit or Bloc
   sl.registerSingleton<BottomNavCubit>(BottomNavCubit());
@@ -27,8 +29,6 @@ Future<void> appInjectionContainer() async {
 
   sl.registerFactory<ProfileCubit>(() => ProfileCubit(sl()));
 
-  sl.registerLazySingleton<SearchCubit>(() => SearchCubit(sl(),sl()));
-
   sl.registerLazySingleton<LeaderboardProblemCubit>(() => LeaderboardProblemCubit(sl()));
 
   sl.registerLazySingleton<LeaderboardSuggestCubit>(() => LeaderboardSuggestCubit(sl()));
@@ -39,15 +39,11 @@ Future<void> appInjectionContainer() async {
 
   sl.registerFactory<CommentProblemCubit>(() => CommentProblemCubit(sl()));
 
-  
+  sl.registerFactory<ProblemCardCubit>(() => ProblemCardCubit(sl(),sl()));
 
+  sl.registerFactory<SolutionCardCubit>(() => SolutionCardCubit(sl()));
 
-
-
-
-
-
-  
+  sl.registerFactory<SearchBloc>(() => SearchBloc(sl(),sl()));
 
 
 }

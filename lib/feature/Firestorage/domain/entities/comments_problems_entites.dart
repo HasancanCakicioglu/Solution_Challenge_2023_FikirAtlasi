@@ -2,6 +2,9 @@
 import 'package:equatable/equatable.dart';
 
 
+/// The model representing the comment problem entity for the Idea Atlas application.
+/// 
+/// The [uid], [profileId], [title], [category], [text], [date], [tags], [likeCount], [pdf], [images], [videos], [geoFirePoint], [profileName], and [profileImage] parameters are required.
 class CommentProblemEntity extends Equatable {
   final String? uid;
   final String? profileId;
@@ -19,6 +22,7 @@ class CommentProblemEntity extends Equatable {
 
   final String? profileName;
   final String? profileImage;
+  final int? solutionCount;
 
 
 
@@ -37,6 +41,7 @@ class CommentProblemEntity extends Equatable {
     this.geoFirePoint,
     this.profileName,
     this.profileImage,
+    this.solutionCount
   });
 
   @override
@@ -55,6 +60,7 @@ class CommentProblemEntity extends Equatable {
         geoFirePoint,
         profileName,
         profileImage,
+        solutionCount
       ];
 
   CommentProblemEntity copyWith({
@@ -72,6 +78,7 @@ class CommentProblemEntity extends Equatable {
     Map<String, dynamic>? geoFirePoint,
     String? profileName,
     String? profileImage,
+    int? solutionCount,
   }) {
     return CommentProblemEntity(
       uid: uid ?? this.uid,
@@ -88,6 +95,7 @@ class CommentProblemEntity extends Equatable {
       geoFirePoint: geoFirePoint ?? this.geoFirePoint,
       profileName: profileName ?? this.profileName,
       profileImage: profileImage ?? this.profileImage,
+      solutionCount: solutionCount ?? this.solutionCount,
     );
   }
 }

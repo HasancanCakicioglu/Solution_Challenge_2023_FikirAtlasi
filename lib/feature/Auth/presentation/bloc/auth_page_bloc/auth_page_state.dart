@@ -1,5 +1,6 @@
 part of 'auth_page_bloc.dart';
 
+/// Represents the state for user authentication.
 class AuthPageBlocState extends Equatable {
   const AuthPageBlocState({
     this.email = "",

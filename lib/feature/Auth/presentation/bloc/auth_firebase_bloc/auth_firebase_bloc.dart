@@ -10,6 +10,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/Auth/domain/usec
 part 'auth_firebase_event.dart';
 part 'auth_firebase_state.dart';
 
+/// A BLoC responsible for handling user authentication.
 class AuthFirebaseBloc extends Bloc<AuthFirebaseEvent, AuthFirebaseState> {
   final UserUsecase userUsecase;
   final SignInWithGoogleUsecase signInWithGoogleUsecase;
@@ -28,6 +29,7 @@ class AuthFirebaseBloc extends Bloc<AuthFirebaseEvent, AuthFirebaseState> {
       add(AuthStateChanged(authUser));
     });
 
+    /// Handles the authentication state change event.
     on<AuthStateChanged>((event, emit) {
       emit(AuthLoading());
 
@@ -43,14 +45,17 @@ class AuthFirebaseBloc extends Bloc<AuthFirebaseEvent, AuthFirebaseState> {
     });
   }
 
+  /// Triggers the sign-in process using Google.
   void signInWithGoogle() async {
     await signInWithGoogleUsecase.call();
   }
 
+  /// Handles the registration submission event.
   void signUpWithEmailAndPassword(String email, String password) async {
     await signUpWithEmailAndPasswordUsecase.call(email, password);
   }
 
+  /// Handles the authentication submission event.
   void signInWithEmailAndPassword(String email, String password) async {
     await signInWithEmailAndPasswordUsecase.call(email, password);
   }

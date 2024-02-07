@@ -1,12 +1,16 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/extension/context_extension.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/material3/material3_desing_constant.dart';
 
+/// [PdfWidget] is a widget that displays a PDF file.
+/// 
+/// It is used to display PDF files in the app.
+
+// ignore: must_be_immutable
 class PdfWidget extends StatelessWidget {
   PdfWidget({super.key, required this.file});
   File file;

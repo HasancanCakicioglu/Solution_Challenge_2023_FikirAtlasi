@@ -1,6 +1,8 @@
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
 
+/// A concrete implementation of [CommentProblemEntity] representing a comment problem model.
 class CommentProblemModel extends CommentProblemEntity {
+  /// Constructs a [CommentProblemModel] instance.
   const CommentProblemModel({
     required String? uid,
     required String? profileId,
@@ -16,6 +18,7 @@ class CommentProblemModel extends CommentProblemEntity {
     Map<String, dynamic>? geoFirePoint,
     String? profileName,
     String? profileImage,
+    int? solutionCount,
   }) : super(
           uid: uid,
           profileId: profileId,
@@ -31,8 +34,10 @@ class CommentProblemModel extends CommentProblemEntity {
           geoFirePoint: geoFirePoint,
           profileName: profileName,
           profileImage: profileImage,
+          solutionCount: solutionCount,
         );
 
+  /// Constructs a [CommentProblemModel] instance from a JSON map.
   factory CommentProblemModel.fromJson(Map<String, dynamic> json) {
     return CommentProblemModel(
       uid: json['uid'],
@@ -40,7 +45,7 @@ class CommentProblemModel extends CommentProblemEntity {
       title: json['title'],
       category: json['category'],
       text: json['text'],
-      date: (json['date']),
+      date: json['date'],
       tags: json['tags']?.cast<String>(),
       likeCount: json['likeCount'],
       pdf: json['pdf']?.cast<String>(),
@@ -49,9 +54,11 @@ class CommentProblemModel extends CommentProblemEntity {
       geoFirePoint: json['geoFirePoint'],
       profileImage: json['profileImage'],
       profileName: json['profileName'],
+      solutionCount: json['solutionCount'],
     );
   }
 
+  /// Converts this comment problem model to a JSON map.
   Map<String, dynamic> toJson() {
     return {
       'uid': uid,
@@ -68,6 +75,7 @@ class CommentProblemModel extends CommentProblemEntity {
       'geoFirePoint': geoFirePoint,
       'profileImage': profileImage,
       'profileName': profileName,
+      'solutionCount': solutionCount,
     };
   }
 
@@ -80,8 +88,6 @@ class CommentProblemModel extends CommentProblemEntity {
     String? text,
     String? date,
     List<String>? tags,
-    double? latitude,
-    double? longitude,
     int? likeCount,
     List<String>? pdf,
     List<String>? images,
@@ -89,6 +95,7 @@ class CommentProblemModel extends CommentProblemEntity {
     Map<String, dynamic>? geoFirePoint,
     String? profileName,
     String? profileImage,
+    int? solutionCount,
   }) {
     return CommentProblemModel(
       uid: uid ?? this.uid,
@@ -103,11 +110,13 @@ class CommentProblemModel extends CommentProblemEntity {
       images: images ?? this.images,
       videos: videos ?? this.videos,
       geoFirePoint: geoFirePoint ?? this.geoFirePoint,
-      profileName: profileName ?? this.profileName,
       profileImage: profileImage ?? this.profileImage,
+      profileName: profileName ?? this.profileName,
+      solutionCount: solutionCount ?? this.solutionCount,
     );
   }
 
+  /// Constructs a [CommentProblemModel] instance from a [CommentProblemEntity].
   factory CommentProblemModel.fromEntity(
           CommentProblemEntity commentProblemEntity) =>
       CommentProblemModel(
@@ -125,5 +134,7 @@ class CommentProblemModel extends CommentProblemEntity {
         geoFirePoint: commentProblemEntity.geoFirePoint,
         profileName: commentProblemEntity.profileName,
         profileImage: commentProblemEntity.profileImage,
+        solutionCount: commentProblemEntity.solutionCount,
       );
 }
+

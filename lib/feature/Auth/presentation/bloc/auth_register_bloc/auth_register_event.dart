@@ -1,5 +1,6 @@
 part of 'auth_register_bloc.dart';
 
+/// Represents the events for user registration/authentication.
 sealed class AuthRegisterEvent extends Equatable {
   const AuthRegisterEvent();
 
@@ -7,7 +8,7 @@ sealed class AuthRegisterEvent extends Equatable {
   List<Object> get props => [];
 }
 
-
+/// Event for changing the email during registration.
 class AuthRegisterEmailChanged extends AuthRegisterEvent {
   const AuthRegisterEmailChanged(this.email);
 
@@ -17,6 +18,7 @@ class AuthRegisterEmailChanged extends AuthRegisterEvent {
   List<Object> get props => [email];
 }
 
+/// Event for changing the first password during registration.
 class AuthRegisterPasswordFirstChanged extends AuthRegisterEvent {
   const AuthRegisterPasswordFirstChanged(this.password);
 
@@ -26,6 +28,7 @@ class AuthRegisterPasswordFirstChanged extends AuthRegisterEvent {
   List<Object> get props => [password];
 }
 
+/// Event for changing the second password during registration.
 class AuthRegisterPasswordSecondChanged extends AuthRegisterEvent {
   const AuthRegisterPasswordSecondChanged(this.password);
 
@@ -35,6 +38,7 @@ class AuthRegisterPasswordSecondChanged extends AuthRegisterEvent {
   List<Object> get props => [password];
 }
 
+/// Event for changing the obscuration status of the password during registration.
 class AuthRegisterPasswordObscureChanged extends AuthRegisterEvent {
   const AuthRegisterPasswordObscureChanged(this.passwordIsObscure);
 
@@ -44,6 +48,7 @@ class AuthRegisterPasswordObscureChanged extends AuthRegisterEvent {
   List<Object> get props => [passwordIsObscure];
 }
 
+/// Event for submitting the registration form.
 class AuthRegisterSubmitted extends AuthRegisterEvent {
   const AuthRegisterSubmitted();
 }

@@ -5,6 +5,7 @@ import 'package:solution_challenge_2023_recommender_app/core/utility/custom_scro
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/bottomNavBar/bottomNavBar_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Leaderboard/suggest_leaderboard.dart';
 
+/// This mixin is used to handle the scroll events of the [SuggestLeaderBoardPageView] page.
 mixin LeaderBoardSuggestMixin<T extends StatefulWidget> on State<SuggestLeaderBoardPageView> {
   late CustomScrollController scrollControllerLeaderboardSuggest;
 

@@ -1,31 +1,32 @@
+import 'package:easy_localization/easy_localization.dart';
 
-
+/// The `TimeAgoExtension` extension provides a mechanism for converting a [DateTime] object to a time ago string.
 extension TimeAgoExtension on DateTime {
   String timeAgo() {
     final now = DateTime.now();
     final difference = now.difference(this);
 
     if (difference.inSeconds < 60) {
-      return '${difference.inSeconds} saniye önce';
+      return 'secondago'.tr(args: ['${difference.inSeconds}']);
     } else if (difference.inMinutes < 60) {
-      return '${difference.inMinutes} dakika önce';
+      return 'minuteago'.tr(args: ['${difference.inMinutes}']);
     } else if (difference.inHours < 24) {
-      return '${difference.inHours} saat önce';
+      return 'hourago'.tr(args: ['${difference.inHours}']);
     } else if (difference.inDays < 7) {
-      return '${difference.inDays} gün önce';
+      return 'dayago'.tr(args: ['${difference.inDays}']);
     } else if ((difference.inDays / 7).floor() == 1) {
-      return '1 hafta önce';
+      return 'weekago'.tr(args: ["1"]);
     } else if (difference.inDays < 30) {
-      return '${(difference.inDays / 7).floor()} hafta önce';
+      return 'weekago'.tr(args: ['${(difference.inDays / 7).floor()}']);
     } else if (difference.inDays < 365) {
-      return '${(difference.inDays / 30).floor()} ay önce';
+      return 'monthago'.tr(args: ['${(difference.inDays / 30).floor()}']);
     } else {
-      return '${(difference.inDays / 365).floor()} yıl önce';
+      return 'yearago'.tr(args: ['${(difference.inDays / 365).floor()}']);
     }
   }
 }
 
-
+/// The `TimeAgoStringExtension` extension provides a mechanism for converting a [String] object to a time ago string.
 extension TimeAgoStringExtension on String {
   String timeAgoString() {
     final DateTime dateTime = DateTime.parse(this);

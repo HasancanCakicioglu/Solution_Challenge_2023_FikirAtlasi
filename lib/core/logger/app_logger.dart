@@ -1,16 +1,13 @@
 import 'package:logger/logger.dart';
 
-
 /// The `AppLogger` class provides a centralized logging mechanism for the Flutter app.
-final class AppLogger extends Logger{
-
+final class AppLogger extends Logger {
   /// Constructor to initialize `AppLogger`.
-  AppLogger() : super(
-    printer: _CustomPrinter(),
-  );
-
+  AppLogger()
+      : super(
+          printer: _CustomPrinter(),
+        );
 }
-
 
 final class _CustomPrinter extends PrettyPrinter {
   _CustomPrinter({
@@ -20,7 +17,6 @@ final class _CustomPrinter extends PrettyPrinter {
     bool colors = true,
     bool printEmojis = true,
     bool printTime = true,
-
   }) : super(
           methodCount: methodCount,
           errorMethodCount: errorMethodCount,
@@ -29,5 +25,4 @@ final class _CustomPrinter extends PrettyPrinter {
           printEmojis: printEmojis,
           printTime: printTime,
         );
-  
 }

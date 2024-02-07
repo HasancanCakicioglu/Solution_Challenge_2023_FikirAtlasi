@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/core/init/navigation/app_router.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_comment_problem/comment_problem_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Problem/comment_problem_suggest.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_problem_card.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_problems_entites.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
@@ -26,27 +28,12 @@ class _CommentProblemPageViewState extends State<CommentProblemPageView>
       ),
       body: Column(
         children: [
-          Text(widget.commentProblemEntity.title!),
-          Text(widget.commentProblemEntity.text!),
-          Text(widget.commentProblemEntity.profileId!),
-          Text(widget.commentProblemEntity.date.toString()),
-          widget.commentProblemEntity.images != null &&
-                  widget.commentProblemEntity.images!.isNotEmpty
-              ? Image.network(widget.commentProblemEntity.images![0])
-              : Container(),
-          widget.commentProblemEntity.videos != null &&
-                  widget.commentProblemEntity.videos!.isNotEmpty
-              ? Image.network(widget.commentProblemEntity.videos![0])
-              : Container(),
-          widget.commentProblemEntity.pdf != null &&
-                  widget.commentProblemEntity.pdf!.isNotEmpty
-              ? Image.network(widget.commentProblemEntity.pdf![0])
-              : Container(),
+          CommentsProblemCard(commentProblemEntity: widget.commentProblemEntity),
           const Divider(),
           Center(
             child: ElevatedButton(onPressed: (){
               AutoRouter.of(context).push(PostPageRoute(isProblem: false, commentID: widget.commentProblemEntity.uid!));
-            }, child: const Text("Çözüm yaz")),
+            }, child: const Text("writesolution").tr()),
           ),
           const Divider(height: 5),
           BlocProvider<CommentProblemCubit>(

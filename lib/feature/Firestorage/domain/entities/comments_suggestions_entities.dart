@@ -1,6 +1,9 @@
 
 import 'package:equatable/equatable.dart';
 
+/// The model representing the comment suggestion entity for the Idea Atlas application.
+/// 
+/// The [uid], [profileId], [commentProblemID], [text], [date], [likeCount], [pdf], [images], [videos], [profileName], and [profileImage] parameters are required.
 class CommentSuggestionEntity extends Equatable {
   final String? uid;
   final String? profileId;
@@ -11,6 +14,8 @@ class CommentSuggestionEntity extends Equatable {
   final List<String>? pdf;
   final List<String>? images;
   final List<String>? videos;
+  final String? profileName;
+  final String? profileImage;
 
   const CommentSuggestionEntity({
     this.uid,
@@ -22,6 +27,8 @@ class CommentSuggestionEntity extends Equatable {
     this.pdf,
     this.images,
     this.videos,
+    this.profileName,
+    this.profileImage,
   });
 
   @override
@@ -35,5 +42,7 @@ class CommentSuggestionEntity extends Equatable {
         pdf,
         images,
         videos,
+        profileName,
+        profileImage
       ];
 }

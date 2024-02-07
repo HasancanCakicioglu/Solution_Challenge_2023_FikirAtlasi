@@ -2,12 +2,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+/// FileVideoPlayerWidget
+///
+/// This widget is used to play video from file.
 class FileVideoPlayerWidget extends StatefulWidget {
   final File videoFile;
   final Size size;
   final bool isFile;
 
-  const FileVideoPlayerWidget({Key? key, required this.videoFile,required this.size,this.isFile = true})
+  const FileVideoPlayerWidget(
+      {Key? key,
+      required this.videoFile,
+      required this.size,
+      this.isFile = true})
       : super(key: key);
 
   @override
@@ -21,12 +28,13 @@ class _FileVideoPlayerWidgetState extends State<FileVideoPlayerWidget> {
   @override
   void initState() {
     super.initState();
-    if(widget.isFile){
-       _controller = VideoPlayerController.file(widget.videoFile);
-    }else{
-     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoFile.path));
+    if (widget.isFile) {
+      _controller = VideoPlayerController.file(widget.videoFile);
+    } else {
+      _controller =
+          VideoPlayerController.networkUrl(Uri.parse(widget.videoFile.path));
     }
-   
+
     _initializeVideoPlayerFuture = _controller.initialize();
   }
 
@@ -39,46 +47,48 @@ class _FileVideoPlayerWidgetState extends State<FileVideoPlayerWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: widget.size.width,
-        height: widget.size.height,
-        child: GestureDetector(
-          onTap: () {
-            _onVideoTap(context);
+      width: widget.size.width,
+      height: widget.size.height,
+      child: GestureDetector(
+        onTap: () {
+          _onVideoTap(context);
+        },
+        child: FutureBuilder(
+          future: _initializeVideoPlayerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
           },
-          child: FutureBuilder(
-            future: _initializeVideoPlayerFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
-                );
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            },
-          ),
         ),
-      
+      ),
     );
   }
 
+  /// _onVideoTap is used to navigate to full screen video player.
   void _onVideoTap(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FullScreenVideoPlayer(videoController: _controller),
+        builder: (context) =>
+            FullScreenVideoPlayer(videoController: _controller),
       ),
-    ).then((value){
-      if(_controller.value.isPlaying){
+    ).then((value) {
+      if (_controller.value.isPlaying) {
         _controller.pause();
       }
-     
-      
     });
   }
 }
 
+/// FullScreenVideoPlayer is used to play video in full screen mode.
+///
+/// This widget is used to play video in full screen mode.
 class FullScreenVideoPlayer extends StatefulWidget {
   final VideoPlayerController videoController;
 
@@ -97,7 +107,6 @@ class FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
     super.initState();
     _initializeVideoPlayerFuture = widget.videoController.initialize();
     widget.videoController.play();
-
   }
 
   @override
@@ -108,10 +117,10 @@ class FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (e){
-        if(widget.videoController.value.isPlaying){
+      onPopInvoked: (e) {
+        if (widget.videoController.value.isPlaying) {
           widget.videoController.pause();
-        }else{
+        } else {
           widget.videoController.pause();
         }
       },
@@ -119,9 +128,9 @@ class FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
         body: Center(
           child: GestureDetector(
             onTap: () {
-              if(widget.videoController.value.isPlaying){
+              if (widget.videoController.value.isPlaying) {
                 widget.videoController.pause();
-              }else{
+              } else {
                 widget.videoController.play();
               }
             },
@@ -140,7 +149,7 @@ class FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
             ),
           ),
         ),
-      
-    ),);
+      ),
+    );
   }
 }

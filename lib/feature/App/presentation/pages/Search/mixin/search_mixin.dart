@@ -6,11 +6,13 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 
 mixin SearchPageMixin<T extends StatefulWidget> on State<SearchPage> {
   late ScrollController scrollControllerNested;
+  late TextEditingController searchController;
 
   @override
   void initState() {
     super.initState();
     scrollControllerNested = ScrollController();
+    searchController = TextEditingController();
     scrollControllerNested.addListener(() {
       if (scrollControllerNested.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -38,6 +40,7 @@ mixin SearchPageMixin<T extends StatefulWidget> on State<SearchPage> {
   @override
   void dispose() {
     scrollControllerNested.dispose();
+    searchController.dispose();
     super.dispose();
   }
 }

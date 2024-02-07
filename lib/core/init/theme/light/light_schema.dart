@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:solution_challenge_2023_recommender_app/core/init/theme/custom_theme.dart';
 part 'light_theme.dart';
 
-
+/// Light Theme
 const _lightColorScheme = ColorScheme(
   brightness: Brightness.light,
   primary: Color(0xFF6750A4),
@@ -22,10 +22,10 @@ const _lightColorScheme = ColorScheme(
   errorContainer: Color(0xFFF9DEDC),
   onErrorContainer: Color(0xFF410E0B),
   outline: Color(0xFF79747E),
-  background: Color(0xFFFFFBFE),
+  background: Color.fromARGB(255, 255, 255, 255),
   onBackground: Color(0xFF1C1B1F),
   //surface: Color(0xFFFFFBFE),
-  surface: Color(0xFFf7f2fa),
+  surface: Color.fromARGB(245, 255, 255, 255),
   onSurface: Color(0xFF1C1B1F),
   surfaceVariant: Color(0xFFE7E0EC),
   onSurfaceVariant: Color(0xFF49454F),
@@ -33,7 +33,7 @@ const _lightColorScheme = ColorScheme(
   onInverseSurface: Color(0xFFF4EFF4),
   inversePrimary: Color(0xFFD0BCFF),
   shadow: Color(0xFF000000),
-  surfaceTint: Color(0xFF6750A4),
+  surfaceTint: Color.fromARGB(255, 255, 255, 255),
   outlineVariant: Color(0xFFCAC4D0),
   scrim: Color(0xFF000000),
 );

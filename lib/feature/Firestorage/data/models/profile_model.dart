@@ -1,6 +1,7 @@
 
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/profile_entites.dart';
 
+/// A concrete implementation of [ProfileEntity] representing a profile model.
 class ProfileModel extends ProfileEntity {
 
   const ProfileModel({
@@ -15,6 +16,8 @@ class ProfileModel extends ProfileEntity {
     final String? fcmToken,
     Map<String, dynamic>? geoFirePoint,
     bool? isNotificationOpen,
+    List<String>? problemIDs,
+    List<String>? solutionIDs,
   }) : super(
           uid: uid,
           name: name,
@@ -27,8 +30,11 @@ class ProfileModel extends ProfileEntity {
           fcmToken: fcmToken,
           geoFirePoint: geoFirePoint,
           isNotificationOpen: isNotificationOpen,
+          problemIDs: problemIDs,
+          solutionIDs: solutionIDs,
         );
-
+  
+  /// Constructs a [ProfileModel] instance from a JSON map.
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
       uid: json['uid'],
@@ -38,13 +44,15 @@ class ProfileModel extends ProfileEntity {
       dateOfJoin: json['dateOfJoin'],
       profileUrl: json['profileUrl'],
       describeYourself: json['describeYourself'],
-      lastLookedContents: json['lastLookedContents'].cast<String>(),
+      lastLookedContents: json['lastLookedContents']?.cast<String>(),
       fcmToken: json['fcmToken'],
       geoFirePoint: json['geoFirePoint'],
       isNotificationOpen: json['isNotificationOpen'],
+      problemIDs: json['problemIDs']?.cast<String>(),
+      solutionIDs : json['solutionIDs']?.cast<String>(),
     );
   }
-
+  /// Converts a [ProfileModel] instance to a JSON map.
   Map<String, dynamic> toJson() {
   return {
     if (uid != null) 'uid': uid,
@@ -58,9 +66,11 @@ class ProfileModel extends ProfileEntity {
     if (fcmToken != null) 'fcmToken': fcmToken,
     if (geoFirePoint != null) 'geoFirePoint': geoFirePoint,
     if (isNotificationOpen != null) 'isNotificationOpen': isNotificationOpen,
+    if (problemIDs != null) 'problemIDs': problemIDs,
+    if (solutionIDs != null) 'solutionIDs': solutionIDs,
   };
 }
-
+  /// Constructs a [ProfileModel] instance from a [ProfileEntity] instance.
   ProfileModel copyWith({
     String? uid,
     String? name,
@@ -73,6 +83,8 @@ class ProfileModel extends ProfileEntity {
     String? fcmToken,
     Map<String, dynamic>? geoFirePoint,
     bool? isNotificationOpen,
+    List<String>? problemIDs,
+    List<String>? solutionIDs,
   }) {
     return ProfileModel(
       uid: uid ?? this.uid,
@@ -86,9 +98,11 @@ class ProfileModel extends ProfileEntity {
       fcmToken: fcmToken ?? this.fcmToken,
       geoFirePoint: geoFirePoint ?? this.geoFirePoint,
       isNotificationOpen: isNotificationOpen ?? this.isNotificationOpen,
+      problemIDs: problemIDs ?? this.problemIDs,
+      solutionIDs: solutionIDs ?? this.solutionIDs,
     );
   }
-
+  /// Constructs a [ProfileModel] instance from a [ProfileEntity] instance.
   factory ProfileModel.fromEntity(ProfileEntity profileEntity) => ProfileModel(
     uid: profileEntity.uid,
     name: profileEntity.name,
@@ -101,6 +115,8 @@ class ProfileModel extends ProfileEntity {
     fcmToken: profileEntity.fcmToken,
     geoFirePoint: profileEntity.geoFirePoint,
     isNotificationOpen: profileEntity.isNotificationOpen,
+    problemIDs: profileEntity.problemIDs,
+    solutionIDs: profileEntity.solutionIDs,
   );
 
 }

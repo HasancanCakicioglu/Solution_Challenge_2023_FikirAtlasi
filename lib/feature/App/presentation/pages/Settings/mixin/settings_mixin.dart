@@ -7,6 +7,7 @@ import 'package:solution_challenge_2023_recommender_app/core/constants/navigatio
 import 'package:solution_challenge_2023_recommender_app/core/init/lang/language.dart';
 import 'package:solution_challenge_2023_recommender_app/core/init/navigation/app_router.dart';
 import 'package:solution_challenge_2023_recommender_app/core/init/theme/cubit/app_theme_cubit.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_profile_entity/profile_entity_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Settings/settings_page.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/profile_entites.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/index.dart';
@@ -17,13 +18,15 @@ mixin SettingsMixin<T extends StatefulWidget> on State<SettingsPageView> {
   late bool notificationIsOpen;
   late Locale localeLang;
   late bool phoneVerification;
+  late ProfileEntity? profileEntity;
 
   @override
   void initState() {
     super.initState();
-    notificationIsOpen = false;
+    profileEntity = context.read<ProfileEntityCubit>().state;
+    notificationIsOpen = profileEntity?.isNotificationOpen ?? false;
     phoneVerification = false;
-
+    
     themeIsLight =
         BlocProvider.of<ThemeCubit>(context).state.themeMode == ThemeMode.light;
   }

@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-
+/// A widget that displays an image from a file.
+/// 
+/// This widget displays an image from a file and allows the user to tap on it to
 class FileImageWidget extends StatelessWidget {
   final File imageFile;
   final Size size;
@@ -41,6 +43,9 @@ class FileImageWidget extends StatelessWidget {
   }
 }
 
+/// A full screen image that is displayed when the user taps on an image.
+/// 
+/// This widget displays the image in full screen mode when the user taps on it.
 class FullScreenImage extends StatelessWidget {
   final File imageFile;
   final Size size;

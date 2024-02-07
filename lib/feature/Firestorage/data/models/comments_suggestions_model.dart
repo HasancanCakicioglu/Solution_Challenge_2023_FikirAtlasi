@@ -1,5 +1,6 @@
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_suggestions_entities.dart';
 
+/// A concrete implementation of [CommentSuggestionEntity] representing a comment suggestion model.
 class CommentSuggestionModel extends CommentSuggestionEntity {
   const CommentSuggestionModel({
     required String? uid,
@@ -13,6 +14,8 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
     List<String>? pdf,
     List<String>? images,
     List<String>? videos,
+    String? profileName,
+    String? profileImage,
   }) : super(
           uid: uid,
           profileId: profileId,
@@ -23,8 +26,11 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
           pdf: pdf,
           images: images,
           videos: videos,
+          profileName: profileName,
+          profileImage: profileImage,
         );
 
+  /// Constructs a [CommentSuggestionModel] instance from a JSON map.
   factory CommentSuggestionModel.fromJson(Map<String, dynamic> json) {
     return CommentSuggestionModel(
       uid: json['uid'],
@@ -36,9 +42,12 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
       pdf: json['pdf']?.cast<String>(),
       images: json['images']?.cast<String>(),
       videos: json['videos']?.cast<String>(),
+      profileName: json['profileName'],
+      profileImage: json['profileImage'],
     );
   }
 
+  /// Converts a [CommentSuggestionModel] instance to a JSON map.
   Map<String, dynamic> toJson() {
     return {
       'uid': uid,
@@ -50,10 +59,12 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
       'pdf': pdf,
       'images': images,
       'videos': videos,
+      'profileName': profileName,
+      'profileImage': profileImage,
     };
   }
 
-  //from entity
+  /// Constructs a [CommentSuggestionModel] instance from a [CommentSuggestionEntity] instance.
   factory CommentSuggestionModel.fromEntity(
           CommentSuggestionEntity commentProblemEntity) =>
       CommentSuggestionModel(
@@ -66,8 +77,11 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
         pdf: commentProblemEntity.pdf,
         images: commentProblemEntity.images,
         videos: commentProblemEntity.videos,
+        profileName: commentProblemEntity.profileName,
+        profileImage: commentProblemEntity.profileImage,
       );
 
+  /// Converts a [CommentSuggestionModel] instance to a [CommentSuggestionEntity] instance.
   CommentSuggestionModel copyWith({
     String? uid,
     String? profileId,
@@ -78,6 +92,8 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
     List<String>? pdf,
     List<String>? images,
     List<String>? videos,
+    String? profileName,
+    String? profileImage,
   }) {
     return CommentSuggestionModel(
       uid: uid ?? this.uid,
@@ -89,6 +105,8 @@ class CommentSuggestionModel extends CommentSuggestionEntity {
       pdf: pdf ?? this.pdf,
       images: images ?? this.images,
       videos: videos ?? this.videos,
+      profileName: profileName ?? this.profileName,
+      profileImage: profileImage ?? this.profileImage,
     );
   }
 }

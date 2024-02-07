@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -113,7 +114,7 @@ class _OnBoardingPageViewState extends State<OnBoardingPageView>
   /// Builds the "Skip" button.
   CupertinoButton buildSkipButton(BuildContext context) {
     return CupertinoButton(
-      child: const Text("Skip"),
+      child: Text("skip".tr()),
       onPressed: () {
         BlocProvider.of<OnBoardCubit>(context).onBoardFinishedChangeState(true);
       },

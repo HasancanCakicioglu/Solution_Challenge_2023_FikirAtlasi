@@ -6,6 +6,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_home_specialForYou/home_special_for_you_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/speacial_for_you_page.dart';
 
+/// This mixin is used to handle the scroll events of the [SpeacialForYouPageView] page.
 mixin SpeacialForYouPageMixin<T extends StatefulWidget>
     on State<SpeacialForYouPageView> {
   late CustomScrollController scrollControllerSpecialForYouPage;

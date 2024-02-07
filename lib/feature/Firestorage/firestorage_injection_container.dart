@@ -1,6 +1,8 @@
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/datasource/remote_datasource/firestore_remote_data_source.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/data/repository/firestore_repository_impl.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/repository/firestore_repository.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/comment_problem_like_usecase.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/comment_solution_like_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_problem_list_according_to_category_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_problem_list_according_to_likecount_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_problem_list_according_to_profileID.dart';
@@ -14,7 +16,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/doma
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/upload_files_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
-Future<void> firestoreInjectionContainer() async {
+  void firestoreInjectionContainer()  {
 
   // Cubit or Bloc
   
@@ -65,7 +67,12 @@ Future<void> firestoreInjectionContainer() async {
   
   sl.registerLazySingleton<GetCommentProblemListAccordingToProfileIDUsecase>(() => GetCommentProblemListAccordingToProfileIDUsecase(sl()));
 
-   sl.registerLazySingleton<GetCommentSuggestListAccordingToCommentIDUsecase>(() => GetCommentSuggestListAccordingToCommentIDUsecase(sl()));
+  sl.registerLazySingleton<GetCommentSuggestListAccordingToCommentIDUsecase>(() => GetCommentSuggestListAccordingToCommentIDUsecase(sl()));
+
+  sl.registerLazySingleton<CommentProblemLikeUsecase>(() => CommentProblemLikeUsecase(sl()));
+
+  sl.registerLazySingleton<CommentSolutionLikeUsecase>(() => CommentSolutionLikeUsecase(sl()));
+
   /// Repository
   sl.registerLazySingleton<FirestoreRepository>(
           () => FirestoreRepositoryImpl(dataSource: sl()));

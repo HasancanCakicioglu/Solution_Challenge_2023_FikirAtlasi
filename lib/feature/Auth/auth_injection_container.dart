@@ -14,7 +14,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/Auth/presentatio
 import 'package:solution_challenge_2023_recommender_app/feature/Auth/presentation/bloc/auth_register_bloc/auth_register_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
-Future<void> authInjectionContainer() async {
+  void authInjectionContainer() {
   // Cubit or Bloc
   sl.registerFactory<AuthFirebaseBloc>(() => AuthFirebaseBloc(
       signInWithGoogleUsecase: sl(),

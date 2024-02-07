@@ -7,6 +7,9 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Category/mixin/category_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
+/// Page for displaying a list of problems in a category.
+/// 
+/// This page is displayed when a category card is tapped.
 @RoutePage()
 class CategoryListPageView extends StatefulWidget {
   final CategoryCardModel categoryCardModel;

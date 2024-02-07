@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/profile_entites.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/create_profile_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_profile_usecase.dart';
 
-class ProfileEntityCubit extends Cubit<ProfileEntity?> {
+class ProfileEntityCubit extends Cubit<ProfileEntity> {
   ProfileEntityCubit(this.createProfileUsecase, this.getProfileUsecase)
       : super(const ProfileEntity());
   CreateProfileUsecase createProfileUsecase;
@@ -15,21 +14,21 @@ class ProfileEntityCubit extends Cubit<ProfileEntity?> {
     emit(profileEntity);
   }
 
-  void getOrSetProfile() async {
-    try {
-      await createProfileUsecase.call(const ProfileEntity()).then((value) {
-        value.fold((l) {
-        }, (r) async {
-          if (r != null) {
-            final profileEntityUser = await getProfileUsecase.call(r);
-            updateProfile(profileEntityUser);
-          }
-        });
+  Future<void> getOrSetProfile() async {
+    print("getOrSetProfile");
+
+    await createProfileUsecase.call(const ProfileEntity()).then((value) async{
+      print("getOrSetProfile then ");
+      value.fold((l) async{
+        print("getOrSetProfile then l");
+      }, (r) async{
+        print("getOrSetProfile then r ${r}");
+        if (r != null){
+          final profileEntityUser = await  getProfileUsecase.call(r);
+          updateProfile(profileEntityUser);
+          print("getOrSetProfile then r != null ${profileEntityUser}");
+        }
       });
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
+    });
   }
 }

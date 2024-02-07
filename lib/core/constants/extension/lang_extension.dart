@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// The `LocaleToString` extension provides a mechanism for converting a [Locale] object to a string.
 extension LocaleToString on Locale {
   String countryName() {
     switch (languageCode) {
