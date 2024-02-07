@@ -7,6 +7,7 @@ import 'package:solution_challenge_2023_recommender_app/core/utility/custom_scro
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/bottomNavBar/bottomNavBar_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Leaderboard/problem_leaderboard.dart';
 
+/// This mixin is used to handle the scroll events of the [ProblemLeaderBoardPageView] page.
 mixin LeaderBoardProblemMixin<T extends StatefulWidget> on State<ProblemLeaderBoardPageView> {
   late CustomScrollController scrollControllerLeaderboardProblem;
 

@@ -76,6 +76,9 @@ dependencies:
   # UI
   fluttertoast: ^8.2.4
 
+  # Secret
+  flutter_dotenv: ^5.1.0
+
   # Assets
   lottie: ^2.7.0
   flutter_svg: ^2.0.9
@@ -132,6 +135,8 @@ flutter:
     - assets/lottie/
     - assets/svg/
     - assets/image/
+
+    - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

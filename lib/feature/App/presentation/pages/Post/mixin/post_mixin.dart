@@ -9,6 +9,10 @@ import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/doma
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/upload_files_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
+/// This mixin is used to share the same methods and properties between the
+///
+/// [PostPage] and [EditPostPage] classes.
+/// It contains the methods and properties that are used to add media, add tags, and
 mixin PostPageMixin<T extends StatefulWidget> on State<PostBody> {
   late TextEditingController titleController;
   late TextEditingController contentController;
@@ -32,7 +36,6 @@ mixin PostPageMixin<T extends StatefulWidget> on State<PostBody> {
     location = null;
   }
 
-
   void addMedia(FileType fileType) async {
     selectFilesUsecase.call(fileType).then((value) {
       if (value != null && value.isNotEmpty) {
@@ -41,7 +44,7 @@ mixin PostPageMixin<T extends StatefulWidget> on State<PostBody> {
     });
   }
 
-  void addTags(){
+  void addTags() {
     if (textControllerTags.text.isNotEmpty) {
       chips.add(textControllerTags.text);
       textControllerTags.clear();

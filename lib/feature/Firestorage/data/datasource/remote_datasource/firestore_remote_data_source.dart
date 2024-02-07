@@ -20,64 +20,111 @@ import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/doma
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/comments_suggestions_entities.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
+/// An abstract class representing a remote data source for Firestore operations.
 abstract class FirestoreRemoteDataSource {
+  /// Creates a new profile in Firestore.
   Future<String?> createProfile(ProfileModel profileModel);
+
+  /// Updates an existing profile in Firestore.
   Future<void> updateProfile(ProfileModel profileModel);
+
+  /// Retrieves a profile from Firestore based on the provided user ID.
   Future<ProfileModel> getProfile(String uid);
+
+  /// Deletes a profile from Firestore based on the provided user ID.
   Future<void> deleteProfile(String uid);
+
+  /// Creates a new comment for a problem in Firestore.
   Future<void> createCommentProblem(CommentProblemModel commentProblemModel);
+
+  /// Updates an existing comment for a problem in Firestore.
   Future<void> updateCommentProblem(CommentProblemModel commentProblemModel);
+
+  /// Retrieves a comment for a problem from Firestore based on the provided ID.
   Future<CommentProblemModel> getCommentProblem(String uid);
+
+  /// Deletes a comment for a problem from Firestore based on the provided ID.
   Future<void> deleteCommentProblem(String uid);
+
+  /// Retrieves a list of comment suggestions from Firestore based on the provided user ID.
   Future<List<CommentSuggestionModel>> getCommentSuggestions(String uid);
+
+  /// Creates a new comment suggestion in Firestore.
   Future<void> createCommentSuggestion(
       CommentSuggestionModel commentSuggestionModel);
+
+  /// Updates an existing comment suggestion in Firestore.
   Future<void> updateCommentSuggestion(
       CommentSuggestionModel commentSuggestionModel);
+
+  /// Deletes a comment suggestion from Firestore based on the provided ID.
   Future<void> deleteCommentSuggestion(String uid);
+
+  /// Creates a new report in Firestore.
   Future<void> createReport(ReportModel reportModel);
+
+  /// Retrieves a list of comment problems from Firestore based on the provided startAfter snapshot and optional data limit.
   Future<Tuple2<List<CommentProblemModel?>, QueryDocumentSnapshot<Object?>?>>
       getCommentProblemListAccordingToTags(
           QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
+
+  /// Retrieves a list of comment problems from Firestore based on the provided category and optional startAfter snapshot and data limit.
   Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>
-      getCommentProblemListAccordingToCategory(CategoriesEnum categoriesEnum,
+      getCommentProblemListAccordingToCategory(
+          CategoriesEnum categoriesEnum,
           QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
-  Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>>>
+
+  /// Retrieves a list of comment problems from Firestore based on the like count and optional startAfter snapshot and data limit.
+  Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>
       getCommentProblemListAccordingToLikeCount(
           QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
-  Future<
-          Tuple2<List<CommentSuggestionEntity?>,
-              QueryDocumentSnapshot<Object?>?>>
-      getCommentSuggestListAccordingToLikeCount(
+
+  /// Retrieves a list of comment suggestions from Firestore based on the like count and optional startAfter snapshot and data limit.
+  Future<Tuple2<List<CommentSuggestionEntity?>,
+      QueryDocumentSnapshot<Object?>?>> getCommentSuggestListAccordingToLikeCount(
           QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
+
+  /// Retrieves the last page of comment problems from Firestore based on the optional startAfter snapshot and data limit.
   Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>
       getCommentProblemListLast(QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
+
+  /// Retrieves a list of comment problems from Firestore based on the provided profile ID, optional startAfter snapshot, and data limit.
   Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>
       getCommentProblemListAccordingToProfileID(
           String profileID, QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
 
+  /// Retrieves a list of comment problems from Firestore based on the provided search text and optional data limit.
   Future<List<CommentProblemEntity?>?> getCommentProblemListSearched(
       List<String> text,
       {gettingData = 20});
 
+  /// Opens the file picker to select files of the specified type.
   Future<List<File>?> selectFiles(FileType fileType);
+
+  /// Uploads the selected files to Firebase Storage and returns a map of download links.
   Future<Map<String, List<String>>> uploadFiles(
       FirestoreAllowedFileTypes firestoreAllowedFileTypes, List<File> files);
 
-  Future<
-          Tuple2<List<CommentSuggestionEntity?>,
-              QueryDocumentSnapshot<Object?>?>>
-      getCommentSuggestListAccordingToCommentID(
+  /// Retrieves a list of comment suggestions from Firestore based on the provided comment ID, optional startAfter snapshot, and data limit.
+  Future<Tuple2<List<CommentSuggestionEntity?>,
+      QueryDocumentSnapshot<Object?>?>> getCommentSuggestListAccordingToCommentID(
           String commentID, QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
+
+  /// Likes or unlikes a comment problem in Firestore based on the provided comment ID and like status.
+  Future<void> commentProblemLike(String commentID, bool isLike);
+
+  /// Likes or unlikes a comment solution in Firestore based on the provided solution ID and like status.
+  Future<void> commentSolutionLike(String solutionID, bool isLike);
 }
 
+/// Implementation of [FirestoreRemoteDataSource] responsible for performing Firestore operations.
 class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
@@ -97,11 +144,9 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
                 uid: customID,
                 date: DateTime.now().toIso8601String(),
                 likeCount: 0,
+                solutionCount: 0,
                 profileId: firebaseAuth.currentUser!.uid)
-            .toJson())
-        .catchError((e) {
-      print(e);
-    });
+            .toJson());
   }
 
   @override
@@ -117,15 +162,27 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
               date: DateTime.now().toIso8601String(),
               uid: customID,
               profileId: firebaseAuth.currentUser!.uid,
+              profileImage: commentSuggestionModel.profileImage ??
+                  firebaseAuth.currentUser!.photoURL ??
+                  "",
+              profileName: commentSuggestionModel.profileName ??
+                  firebaseAuth.currentUser!.displayName ??
+                  "",
               likeCount: 0,
             )
             .toJson());
+    await firestore
+        .collection(FirestoreConstants.collectionCommentsProblems)
+        .doc(commentSuggestionModel.commentProblemID)
+        .update({
+      'solutionCount': FieldValue.increment(1),
+    });
   }
 
   @override
   Future<String?> createProfile(ProfileModel profileModel) async {
-    User? user = FirebaseAuth.instance.currentUser;
-
+    User? user = firebaseAuth.currentUser;
+    if (user == null) {}
     if (user != null) {
       String uid = user.uid;
       DocumentSnapshot documentSnapshot = await firestore
@@ -445,7 +502,8 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
       String ex = p.extension(file.path);
       String fileName = p.basename(file.path).split(".")[0];
       String timestamp = Timestamp.now().millisecondsSinceEpoch.toString();
-      String uploadFileName = "${fileName}_${timestamp}_${HelperClass.getUuid()}$ex";
+      String uploadFileName =
+          "${fileName}_${timestamp}_${HelperClass.getUuid()}$ex";
       Reference reference = firebaseStorage.ref().child(uploadFileName);
 
       if (file.isImage) {
@@ -557,5 +615,39 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
             .map((e) => CommentSuggestionModel.fromJson(e.data()))
             .toList(),
         lastQuery);
+  }
+
+  @override
+  Future<void> commentProblemLike(String commentID, bool isLike) async {
+    await firestore
+        .collection(FirestoreConstants.collectionCommentsProblems)
+        .doc(commentID)
+        .update({
+      'likeCount': FieldValue.increment(isLike ? 1 : -1),
+    });
+
+    await firestore
+        .collection(FirestoreConstants.collectionProfiles)
+        .doc(firebaseAuth.currentUser!.uid)
+        .update({
+      "problemIDs": FieldValue.arrayUnion([commentID]),
+    });
+  }
+
+  @override
+  Future<void> commentSolutionLike(String solutionID, bool isLike) async {
+    await firestore
+        .collection(FirestoreConstants.collectionCommentsSuggestions)
+        .doc(solutionID)
+        .update({
+      'likeCount': FieldValue.increment(isLike ? 1 : -1),
+    });
+
+    await firestore
+        .collection(FirestoreConstants.collectionProfiles)
+        .doc(firebaseAuth.currentUser!.uid)
+        .update({
+      "solutionIDs": FieldValue.arrayUnion([solutionID]),
+    });
   }
 }

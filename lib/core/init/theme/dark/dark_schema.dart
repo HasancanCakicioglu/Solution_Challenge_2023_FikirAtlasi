@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:solution_challenge_2023_recommender_app/core/init/theme/custom_theme.dart';
 part 'dark_theme.dart';
 
+/// Dark Theme
 const _darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: Color(0xFFD0BCFF),
@@ -23,9 +24,9 @@ const _darkColorScheme = ColorScheme(
   onErrorContainer: Color(0xFFF9DEDC),
   outline: Color(0xFF938F99),
   //background: Color(0xFF1C1B1F),
-  background: Color(0xFF141218),
+  background: Color.fromARGB(255, 20, 20, 20),
   onBackground: Color(0xFFE6E1E5),
-  surface: Color.fromARGB(255, 32, 32, 32),
+  surface: Color.fromARGB(255, 31, 31, 31),
   onSurface: Color(0xFFE6E1E5),
   surfaceVariant: Color(0xFF49454F),
   onSurfaceVariant: Color(0xFFCAC4D0),
@@ -33,7 +34,7 @@ const _darkColorScheme = ColorScheme(
   onInverseSurface: Color(0xFF313033),
   inversePrimary: Color(0xFF6750A4),
   shadow: Color(0xFF000000),
-  surfaceTint: Color.fromARGB(255, 43, 43, 43),
+  surfaceTint: Color.fromARGB(255, 0, 0, 0),
   outlineVariant: Color(0xFF49454F),
   scrim: Color(0xFF000000),
   

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,13 +69,13 @@ class _ProfileBodyState extends State<ProfileBody> with ProfileMixin {
             CircleAvatar(
               radius: 30,
               backgroundImage:
-                  NetworkImage(state?.profileUrl ?? user?.photoURL ?? ""),
+                  NetworkImage(state.profileUrl ?? user?.photoURL ?? ""),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(state?.name ?? user?.displayName ?? ""),
-                Text(state?.dateOfJoin ??
+                Text(state.name ?? user?.displayName ?? ""),
+                Text(state.dateOfJoin ??
                     user?.metadata.creationTime?.timeAgo() ??
                     DateTime.now().timeAgo()),
               ],
@@ -85,8 +86,8 @@ class _ProfileBodyState extends State<ProfileBody> with ProfileMixin {
         const SizedBox(
           height: Material3Design.largePadding,
         ),
-        Text(state?.describeYourself ??
-            "Ben bir dil modeliyim, OpenAI tarafından geliştirilen GPT-3.5 mimarisini kullanıyorum. Metin tabanlı soruları yanıtlamak, metin oluşturmak ve çeşitli konularda yardımcı olmak için eğitildim. Geniş bir konu yelpazesinde bilgi sahibiyim ve kullanıcıların çeşitli sorularına yanıt verebilirim. Size nasıl yardımcı olabilirim?"),
+        Text(state.describeYourself ??
+            "aboutyourself".tr()),
       ],
     ).padded(const EdgeInsets.all(Material3Design.largePagePadding));
   }

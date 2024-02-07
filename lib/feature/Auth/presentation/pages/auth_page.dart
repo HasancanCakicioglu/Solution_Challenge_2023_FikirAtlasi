@@ -1,5 +1,6 @@
 // Import necessary packages and files
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/extension/context_extension.dart';
@@ -69,10 +70,10 @@ class AuthPageViewState extends State<AuthPageView> {
       onChanged: (value) {
         context.read<AuthPageBloc>().add(AuthPageEmailChanged(email: value));
       },
-      decoration: const InputDecoration(
-        labelText: "Email",
-        prefixIcon: Icon(Icons.email),
-        border: OutlineInputBorder(),
+      decoration:  InputDecoration(
+        labelText: "email".tr(),
+        prefixIcon: const Icon(Icons.email),
+        border: const OutlineInputBorder(),
       ),
     );
   }
@@ -91,7 +92,7 @@ class AuthPageViewState extends State<AuthPageView> {
           },
           obscureText: state.passwordIsObscure,
           decoration: InputDecoration(
-            labelText: "Password",
+            labelText: "password".tr(),
             prefixIcon: const Icon(Icons.lock),
             border: const OutlineInputBorder(),
             suffixIcon: IconButton(
@@ -114,8 +115,8 @@ class AuthPageViewState extends State<AuthPageView> {
 
   /// Widget function to build the "Forgot Password?" text
   Widget _buildForgotPasswordText() {
-    return const Text(
-      "Forgot Password ?",
+    return Text(
+      "forgotpassword".tr(),
       style: AppTextStyle.MINI_BOLD_DESCRIPTION_TEXT,
     );
   }
@@ -128,7 +129,7 @@ class AuthPageViewState extends State<AuthPageView> {
         onPressed: () {
           context.read<AuthPageBloc>().add(const AuthPageSubmitted());
         },
-        child: const Text("Sign in"),
+        child:  Text("signin".tr()),
       ),
     );
   }
@@ -144,8 +145,8 @@ class AuthPageViewState extends State<AuthPageView> {
             color: Colors.grey[400],
           ),
         ),
-        const Text(
-          "Or Contunie with",
+         Text(
+          "orContinueWith".tr(),
           style: AppTextStyle.MINI_DESCRIPTION_TEXT,
         ).paddedSymmetric(horizontal: 10),
         Expanded(
@@ -186,8 +187,8 @@ class AuthPageViewState extends State<AuthPageView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          "Not a member ?",
+         Text(
+          "notamember".tr(),
           style: AppTextStyle.MINI_DEFAULT_DESCRIPTION_TEXT,
         ),
         const SizedBox(width: 4),
@@ -195,8 +196,8 @@ class AuthPageViewState extends State<AuthPageView> {
           onTap: () {
             AutoRouter.of(context).push(const AuthRegisterPageRoute());
           },
-          child: const Text(
-            "Register Now",
+          child: Text(
+            "registernow".tr(),
             style: AppTextStyle.MINI_DESCRIPTION_TEXT,
           ),
         ),

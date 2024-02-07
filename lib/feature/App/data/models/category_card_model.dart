@@ -1,6 +1,7 @@
 
 import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 
+//Category card model
 final class CategoryCardModel{
 
   final CategoriesEnum categoriesEnum;

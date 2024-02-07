@@ -2,7 +2,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/Onboard/presenta
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
 /// Function to set up dependency injection for the OnBoard feature
-Future<void> onBoardInjectionContainer() async {
+  void onBoardInjectionContainer()  {
   // Cubit or Bloc
   sl.registerFactory<OnBoardCubit>(
       () => OnBoardCubit());

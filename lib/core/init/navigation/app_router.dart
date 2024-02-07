@@ -27,31 +27,38 @@ part 'app_router.gr.dart';
 class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
-        // Login Routes
-        AutoRoute(
-            page: AuthStatePageRoute.page, initial: true, path: NavigationConstants.AuthState),
-        AutoRoute(page: SplashRoute.page, path: NavigationConstants.Splash),
-        AutoRoute(page: AuthPageRoute.page, path: NavigationConstants.Auth),
+    // Login Routes
+    AutoRoute(page: AuthStatePageRoute.page, initial: true, path: NavigationConstants.AuthState),
+    AutoRoute(page: SplashRoute.page, path: NavigationConstants.Splash),
+    AutoRoute(page: AuthPageRoute.page, path: NavigationConstants.Auth),
 
-        AutoRoute(page: MainWrapperRoute.page, path: NavigationConstants.mainWrapper),
+    // Main Wrapper Route
+    AutoRoute(page: MainWrapperRoute.page, path: NavigationConstants.mainWrapper),
 
-        AutoRoute(page: CategoryListPageRoute.page, path: NavigationConstants.CategoryList),
+    // Category List Route
+    AutoRoute(page: CategoryListPageRoute.page, path: NavigationConstants.CategoryList),
 
-        AutoRoute(page: HomePageRoute.page, path: NavigationConstants.Home),
+    // Home Route
+    AutoRoute(page: HomePageRoute.page, path: NavigationConstants.Home),
 
-        AutoRoute(page: ProfilePageRoute.page,path: NavigationConstants.Profile),
-        AutoRoute(page: SettingsPageRoute.page,path:NavigationConstants.Settings),
+    // Profile Route
+    AutoRoute(page: ProfilePageRoute.page, path: NavigationConstants.Profile),
+    AutoRoute(page: SettingsPageRoute.page, path: NavigationConstants.Settings),
 
-        AutoRoute(page: SettingsLanguageOptionsPageRoute.page,path:NavigationConstants.SettingsLanguageOptions),
+    // Settings Language Options Route
+    AutoRoute(page: SettingsLanguageOptionsPageRoute.page, path: NavigationConstants.SettingsLanguageOptions),
 
-        AutoRoute(page: PostPageRoute.page,path:NavigationConstants.Post),
+    // Post Route
+    AutoRoute(page: PostPageRoute.page, path: NavigationConstants.Post),
 
-        AutoRoute(page: GoogleMapsPageRoute.page,path:NavigationConstants.GoogleMaps),
+    // Google Maps Route
+    AutoRoute(page: GoogleMapsPageRoute.page, path: NavigationConstants.GoogleMaps),
 
-        AutoRoute(page: CommentProblemPageRoute.page,path:NavigationConstants.CommentsPage),
-        AutoRoute(page: CommentSuggestionPageRoute.page,path:NavigationConstants.SuggestionsPage),
+    // Comment Problem Route
+    AutoRoute(page: CommentProblemPageRoute.page, path: NavigationConstants.CommentsPage),
+    AutoRoute(page: CommentSuggestionPageRoute.page, path: NavigationConstants.SuggestionsPage),
 
-        AutoRoute(page: AuthRegisterPageRoute.page,path:NavigationConstants.RegisterPage),
-        
-      ];
+    // Auth Register Route
+    AutoRoute(page: AuthRegisterPageRoute.page, path: NavigationConstants.RegisterPage),
+  ];
 }

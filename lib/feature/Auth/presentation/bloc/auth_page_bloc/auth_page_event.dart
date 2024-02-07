@@ -1,5 +1,6 @@
 part of 'auth_page_bloc.dart';
 
+/// Represents the events for user authentication.
 sealed class AuthPageBlocEvent extends Equatable {
   const AuthPageBlocEvent();
 
@@ -7,7 +8,7 @@ sealed class AuthPageBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
-
+/// Event for changing the email during authentication.
 final class AuthPageEmailChanged extends AuthPageBlocEvent {
   final String email;
 
@@ -17,6 +18,7 @@ final class AuthPageEmailChanged extends AuthPageBlocEvent {
   List<Object> get props => [email];
 }
 
+/// Event for changing the password during authentication.
 final class AuthPagePasswordChanged extends AuthPageBlocEvent {
   final String password;
 
@@ -26,6 +28,7 @@ final class AuthPagePasswordChanged extends AuthPageBlocEvent {
   List<Object> get props => [password];
 }
 
+/// Event for changing the obscuration status of the password during authentication.
 final class AuthPagePasswordObscureChanged extends AuthPageBlocEvent {
   final bool passwordIsObscure;
   const AuthPagePasswordObscureChanged({required this.passwordIsObscure});
@@ -34,6 +37,7 @@ final class AuthPagePasswordObscureChanged extends AuthPageBlocEvent {
   List<Object> get props => [passwordIsObscure];
 }
 
+/// Event for submitting the authentication form.
 final class AuthPageSubmitted extends AuthPageBlocEvent {
   const AuthPageSubmitted();
 }

@@ -4,6 +4,9 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/mixin/last_sent_page_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_problem_card.dart';
 
+/// This page is the last sent page of the application.
+/// 
+/// It contains the comments that are sent by the users.
 class LastSentPageView extends StatefulWidget {
   const LastSentPageView({super.key, required this.scrollControllerNested});
   final ScrollController scrollControllerNested;
@@ -31,6 +34,7 @@ class _LastSentPageViewState extends State<LastSentPageView>
                 children: [
                   Expanded(
                     child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       controller: scrollControllerLastSentPage,
                       itemCount: state.comments.length,
                       itemBuilder: (context, index) {

@@ -6,6 +6,9 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_home_lastSent/home_last_sent_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/last_sent_page.dart';
 
+/// Mixin for [LastSentPageView]
+/// 
+/// This mixin is used to handle the scroll events and the lifecycle of the [LastSentPageView]
 mixin LastSentPageMixin<T extends StatefulWidget> on State<LastSentPageView> {
   late CustomScrollController scrollControllerLastSentPage;
 

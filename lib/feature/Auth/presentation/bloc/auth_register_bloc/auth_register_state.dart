@@ -1,5 +1,6 @@
 part of 'auth_register_bloc.dart';
 
+/// Represents the state for user registration/authentication.
 final class AuthRegisterState extends Equatable {
   const AuthRegisterState({
     this.email = "",

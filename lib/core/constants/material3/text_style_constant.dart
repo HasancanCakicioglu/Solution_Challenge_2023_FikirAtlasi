@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+/// The `AppTextStyle` class provides a centralized mechanism for managing App text styles.
 class AppTextStyle {
   static const MINI_BOLD_DESCRIPTION_TEXT = TextStyle(
     fontSize: 13,

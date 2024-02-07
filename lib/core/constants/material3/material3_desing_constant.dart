@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// The `Material3Design` class provides a centralized mechanism for managing Material3 design constants.
 class Material3Design {
   // Page Paddings
   static const double smallPagePadding = 8.0;

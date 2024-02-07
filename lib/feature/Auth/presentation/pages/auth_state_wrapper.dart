@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/navigation/navigation_constants.dart';
@@ -53,7 +54,7 @@ class AuthStatePageView extends StatelessWidget {
             }
             // Auth connection has error and splash screen is finished
             else if (authState is AuthError && splashState) {
-              return const Center(child: Text("Something Went Wrong!"));
+              return Center(child: Text("somethingwentwrong".tr()));
             }
             // Splash screen
             else {

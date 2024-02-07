@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/extension/lang_extension.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/material3/material3_desing_constant.dart';
@@ -21,15 +22,15 @@ class _SettingsPageViewState extends State<SettingsPageView>
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Ayarlar",
+          "settings",
           style: Material3Design.largeText,
-        ),
+        ).tr(),
         centerTitle: true,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Divider(),
+          const SizedBox(height: Material3Design.mediumPadding,),
           // Main sections
           _buildThemeSection(),
           const Divider(),
@@ -48,7 +49,7 @@ class _SettingsPageViewState extends State<SettingsPageView>
   // Helper method to create a section title
   Widget _buildSectionTitle(String title) {
     return Text(
-      title,
+      title.tr(),
       style: Material3Design.largeText,
     ).padded(const EdgeInsets.only(bottom: Material3Design.mediumPadding));
   }
@@ -58,8 +59,8 @@ class _SettingsPageViewState extends State<SettingsPageView>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle("Tema"),
-        switchBox("Aydınlık Tema", themeIsLight, (value) {
+        _buildSectionTitle("theme"),
+        switchBox("themeLight", themeIsLight, (value) {
           changeTheme();
         }),
       ],
@@ -70,8 +71,8 @@ class _SettingsPageViewState extends State<SettingsPageView>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle("Bildirimler"),
-        switchBox("Bildirimleri Aç", notificationIsOpen, changeNotification),
+        _buildSectionTitle("notifications"),
+        switchBox("notificationopen", notificationIsOpen, changeNotification),
       ],
     );
   }
@@ -80,7 +81,7 @@ class _SettingsPageViewState extends State<SettingsPageView>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle("Dil"),
+        _buildSectionTitle("language"),
         clickedBox(localeLang.countryName(), takeActionBackFromSettingsOptionPage),
       ],
     );
@@ -90,8 +91,8 @@ class _SettingsPageViewState extends State<SettingsPageView>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle("Doğrulama"),
-        switchBox("Telefon Doğrulama", phoneVerification, phoneVerificationFunc),
+        _buildSectionTitle("verification"),
+        switchBox("phoneverification", phoneVerification, phoneVerificationFunc),
       ],
     );
   }
@@ -100,9 +101,9 @@ class _SettingsPageViewState extends State<SettingsPageView>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle("Hesap"),
-        clickedBox("Hesap Değiştir", signOutGoogle),
-        clickedBox("Hesaptan Çıkış yap", signOutGoogle),
+        _buildSectionTitle("account"),
+        clickedBox("changeaccount", signOutGoogle),
+        clickedBox("exitaccount", signOutGoogle),
       ],
     );
   }
@@ -112,7 +113,7 @@ class _SettingsPageViewState extends State<SettingsPageView>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(text, style: Material3Design.mediumText),
+        Text(text, style: Material3Design.mediumText).tr(),
         Switch.adaptive(value: value, onChanged: onChanged),
       ],
     );
@@ -124,7 +125,7 @@ class _SettingsPageViewState extends State<SettingsPageView>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(text, style: Material3Design.mediumText),
+          Text(text, style: Material3Design.mediumText).tr(),
           const Icon(Icons.arrow_forward_ios),
         ],
       ).padded(const EdgeInsets.only(bottom: Material3Design.mediumPadding)),

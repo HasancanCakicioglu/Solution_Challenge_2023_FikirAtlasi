@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_profile/profile_cubit.dart';
@@ -22,7 +23,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
           ..getCommentProblemListLastRefresh(widget.profileID),
         child: Scaffold(
           appBar: AppBar(
-            title: const Text("Profile"),
+            title: const Text("Profile").tr(),
           ),
           body: ProfileBody(profileID: widget.profileID,),
         ));

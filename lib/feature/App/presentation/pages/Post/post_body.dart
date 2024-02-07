@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,11 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/pdf_widget.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/video_player_widget.dart';
 
+/// [PostBody] is the main widget for the post pages.
+///
+/// This page view displays a form for creating a new post.
 class PostBody extends StatefulWidget {
-  const PostBody({super.key, required this.isProblem,required this.commendID});
+  const PostBody({super.key, required this.isProblem, required this.commendID});
   final bool isProblem;
   final String? commendID;
 
@@ -26,12 +30,11 @@ class PostBody extends StatefulWidget {
 class _PostBodyState extends State<PostBody> with PostPageMixin {
   @override
   Widget build(BuildContext context) {
-    context
-        .read<PostBloc>()
-        .add(PostIsProblemChanged(isProblem: widget.isProblem,commentID: widget.commendID));
+    context.read<PostBloc>().add(PostIsProblemChanged(
+        isProblem: widget.isProblem, commentID: widget.commendID));
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Post'),
+          title: const Text('Post').tr(),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -43,9 +46,9 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
                   widget.isProblem
                       ? TextFormField(
                           controller: titleController,
-                          decoration: const InputDecoration(
-                            hintText: 'Title',
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            hintText: 'Title'.tr(),
+                            border: const OutlineInputBorder(),
                           ),
                           onChanged: (value) {
                             context
@@ -58,9 +61,9 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
                   TextFormField(
                     controller: contentController,
                     maxLines: 10,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Content',
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'Content'.tr(),
                     ),
                     onChanged: (value) {
                       context
@@ -81,7 +84,7 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
                                   addTags();
                                 },
                                 icon: const Icon(Icons.add)),
-                            hintText: 'Tags',
+                            hintText: 'Tags'.tr(),
                           ),
                         )
                       : const SizedBox(),
@@ -283,10 +286,10 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
                       onPressed: () {
                         context.read<PostBloc>().add(const PostSubmitted());
                       },
-                      child: const SizedBox(
+                      child: SizedBox(
                         width: double.infinity,
                         child: Center(
-                          child: Text('Submit'),
+                          child: const Text('Submit').tr(),
                         ),
                       )),
                 ],

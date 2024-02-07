@@ -250,5 +250,26 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
     }
   }
   
+  @override
+  Future<Either<FirebaseUnknowFailure, void>> commentProblemLike(String commentID, bool isLike) async{
+    try{
+      return Right(await dataSource.commentProblemLike(commentID,isLike));
+    }catch(e){
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure commentProblemLike", message: e.toString()));
+    }
+  }
+  
+  @override
+  Future<Either<FirebaseUnknowFailure, void>> commentSolutionLike(String solutionID, bool isLike) async{
+    try{
+      return Right(await dataSource.commentSolutionLike(solutionID, isLike));
+    }catch(e){
+      return Left(FirebaseUnknowFailure(
+          title: "FirebaseUnknowFailure commentSolutionLike", message: e.toString()));
+    }
+    
+  }
+  
 
 }

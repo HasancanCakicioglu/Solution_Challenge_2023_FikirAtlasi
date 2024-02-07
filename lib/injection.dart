@@ -17,10 +17,10 @@ abstract final class LocatorGetIt {
       ..registerFactory<AppLogger>(() => AppLogger())
       ..registerSingleton<AppRouter>(AppRouter());
 
-    await authInjectionContainer();
-    await onBoardInjectionContainer();
-    await appInjectionContainer();
-    await firestoreInjectionContainer();
-    await servicesInjectionContainer();
+    authInjectionContainer();
+    onBoardInjectionContainer();
+    appInjectionContainer();
+    firestoreInjectionContainer();
+    servicesInjectionContainer();
   }
 }

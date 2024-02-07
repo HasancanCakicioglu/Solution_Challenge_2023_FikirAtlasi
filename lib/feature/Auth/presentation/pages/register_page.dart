@@ -1,5 +1,6 @@
 // Import statements
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/extension/padding.dart';
@@ -85,10 +86,10 @@ class _AuthRegisterPageViewState extends State<AuthRegisterPageView> {
       onChanged: (value) {
         context.read<AuthRegisterBloc>().add(AuthRegisterEmailChanged(value));
       },
-      decoration: const InputDecoration(
-        labelText: "Email",
-        prefixIcon: Icon(Icons.email),
-        border: OutlineInputBorder(),
+      decoration:  InputDecoration(
+        labelText: "email".tr(),
+        prefixIcon: const Icon(Icons.email),
+        border: const OutlineInputBorder(),
       ),
     );
   }
@@ -100,7 +101,7 @@ class _AuthRegisterPageViewState extends State<AuthRegisterPageView> {
           onChanged: onChanged,
           obscureText: !state.passwordIsObscure,
           decoration: InputDecoration(
-            labelText: "Password",
+            labelText: "password".tr(),
             suffixIcon: IconButton(
               onPressed: () {
                 context.read<AuthRegisterBloc>().add(
@@ -126,7 +127,7 @@ class _AuthRegisterPageViewState extends State<AuthRegisterPageView> {
         onPressed: () {
           context.read<AuthRegisterBloc>().add(const AuthRegisterSubmitted());
         },
-        child: const Text("Register"),
+        child: Text("register".tr()),
       ),
     );
   }

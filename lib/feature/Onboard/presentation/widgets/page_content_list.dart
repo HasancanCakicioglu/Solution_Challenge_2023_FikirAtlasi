@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 /// The model representing onboarding content for the Idea Atlas application.
 class OnBoardingContentModel {
   /// The title of the onboarding content.
@@ -22,28 +24,28 @@ class OnBoardingContentModel {
 /// A list of predefined onboarding content for the Idea Atlas application.
 List<OnBoardingContentModel> onBoardingContentsList = [
   OnBoardingContentModel(
-    title: "Welcome to Idea Atlas",
-    description: "Welcome to a platform where people share their problems, find solutions, and collaborate! Share your ideas, connect with others, and collectively create solutions.",
+    title: "onboard_title_one".tr(),
+    description: "onboard_desc_one".tr(),
     image: "assets/svg/atlas.svg",
   ),
   OnBoardingContentModel(
-    title: "Share Your Concerns",
-    description: "Share personal or universally relevant issues that concern everyone.",
+    title: "onboard_title_two".tr(),
+    description: "onboard_desc_two".tr(),
     image: "assets/svg/problem.svg",
   ),
   OnBoardingContentModel(
-    title: "Develop Your Ideas",
-    description: "Interact with other users, refine your ideas, and assist each other in the quest for solutions.",
+    title: "onboard_title_three".tr(),
+    description: "onboard_desc_three".tr(),
     image: "assets/svg/idea.svg",
   ),
   OnBoardingContentModel(
-    title: "Various Media",
-    description: "Communicate more effectively by sharing your problems and solution suggestions in text, images, video, or PDF formats.",
+    title: "onboard_title_four".tr(),
+    description: "onboard_desc_four".tr(),
     image: "assets/svg/medias.svg",
   ),
   OnBoardingContentModel(
-    title: "Safe Travels!",
-    description: "Enjoy the journey of sharing your ideas and finding solutions in Idea Atlas. Safe travels!",
+    title: "onboard_title_five".tr(),
+    description: "onboard_desc_five".tr(),
     image: "assets/svg/start.svg",
   ),
 ];

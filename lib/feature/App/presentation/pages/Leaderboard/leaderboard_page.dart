@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_leaderboard_problem/leaderboard_problem_cubit.dart';
@@ -8,6 +9,9 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/sliver_appbar.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
+/// This page is the leaderboard page of the application.
+///
+/// It contains two tabs, [ProblemLeaderBoardPageView] and [SuggestLeaderBoardPageView].
 class LeaderBoard extends StatefulWidget {
   const LeaderBoard({super.key});
 
@@ -26,12 +30,12 @@ class _LeaderBoardState extends State<LeaderBoard> with LeaderBoardMixin {
           floatHeaderSlivers: true,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
-              const SliverAppBarWidget(
+              SliverAppBarWidget(
                 text: "Leaderboard",
                 tabbar: TabBar(
                   tabs: [
-                    Tab(text: 'Problem'),
-                    Tab(text: 'Suggest'),
+                    Tab(text: 'Problem'.tr()),
+                    Tab(text: 'Suggest'.tr()),
                   ],
                 ),
               )

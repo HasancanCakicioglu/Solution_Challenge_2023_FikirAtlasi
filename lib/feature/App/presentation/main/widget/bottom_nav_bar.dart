@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/bottomNavBar/bottomNavBar_cubit.dart';
 part 'bottom_nav_bar_destinations.dart';
 
+/// Represents the bottom navigation bar.
 class MainWrapperNavigationBar extends StatelessWidget {
   const MainWrapperNavigationBar({super.key});
 
@@ -13,7 +14,7 @@ class MainWrapperNavigationBar extends StatelessWidget {
       return AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         height: (state.bottomNavBarVisibleState.isVisible)
-            ? kBottomNavigationBarHeight + 15
+            ? kBottomNavigationBarHeight + 3
             : 0.0,
         child: Wrap(
           children: [

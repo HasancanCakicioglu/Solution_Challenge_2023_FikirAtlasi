@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
 
+/// The model representing the profile entity for the Idea Atlas application.
+/// 
+/// The [uid], [name], [surname], [email], [dateOfJoin], [profileUrl], [describeYourself], [lastLookedContents], [fcmToken], [geoFirePoint], [isNotificationOpen], [problemIDs], and [solutionIDs] parameters are required.
 class ProfileEntity extends Equatable {
   final String? uid;
   final String? name;
@@ -12,6 +15,8 @@ class ProfileEntity extends Equatable {
   final String? fcmToken;
   final Map<String, dynamic>? geoFirePoint;
   final bool? isNotificationOpen;
+  final List<String>? problemIDs;
+  final List<String>? solutionIDs;
 
   const ProfileEntity(
       {this.uid,
@@ -24,7 +29,9 @@ class ProfileEntity extends Equatable {
       this.lastLookedContents,
       this.fcmToken,
       this.geoFirePoint,
-      this.isNotificationOpen
+      this.isNotificationOpen,
+      this.problemIDs,
+      this.solutionIDs
       });
 
   @override
@@ -44,6 +51,8 @@ class ProfileEntity extends Equatable {
         lastLookedContents,
         fcmToken,
         geoFirePoint,
-        isNotificationOpen
+        isNotificationOpen,
+        problemIDs,
+        solutionIDs
       ];
 }

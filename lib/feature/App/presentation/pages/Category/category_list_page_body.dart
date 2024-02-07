@@ -7,6 +7,9 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Category/mixin/category_body_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_problem_card.dart';
 
+/// Category List Page Body Widget 
+/// 
+/// This widget is used to display the list of comments for a specific category
 class CategoryListPageBody extends StatefulWidget {
   const CategoryListPageBody({super.key,required this.scrollControllerNested,required this.categoryEnum});
   

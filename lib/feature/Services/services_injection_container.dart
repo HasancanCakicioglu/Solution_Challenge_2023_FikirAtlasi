@@ -12,7 +12,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/Services/domain/
 
 import '../../injection.dart';
 
-Future<void> servicesInjectionContainer() async {
+  void servicesInjectionContainer(){
   // Cubit or Bloc
 
   ///UseCases
@@ -40,8 +40,8 @@ Future<void> servicesInjectionContainer() async {
   sl.registerLazySingleton<ServicesLocalDataSource>(() =>
       ServicesLocalDataSourceImpl(
           onDeviceTranslator: OnDeviceTranslator(
-              sourceLanguage: TranslateLanguage.turkish,
-              targetLanguage: TranslateLanguage.english),
+              sourceLanguage: TranslateLanguage.english,
+              targetLanguage: TranslateLanguage.turkish),
           onDeviceTranslatorModelManager: OnDeviceTranslatorModelManager(),
           geo: GeoFlutterFire()));
 }

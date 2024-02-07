@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_search/search_cubit.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/extension/padding.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/material3/material3_desing_constant.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/bloc_search/search_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Search/mixin/search_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_problem_card.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/sliver_appbar.dart';
@@ -17,8 +20,8 @@ class _SearchPageState extends State<SearchPage> with SearchPageMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocProvider(
-      create: (context) => sl.get<SearchCubit>(),
+        body: BlocProvider<SearchBloc>(
+      create: (context) => sl.get<SearchBloc>(),
       child: Builder(
         builder: (context) {
           return NestedScrollView(
@@ -27,26 +30,43 @@ class _SearchPageState extends State<SearchPage> with SearchPageMixin {
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return [
-                  SliverAppBarWidget(text: "Search", action: [
-                    InkWell(
-                      onTap: () {
-                        context
-                            .read<SearchCubit>()
-                            .getSearchCommentProblemListOnTap(
-                                "eğitim önemlidir.");
-                      },
-                      child: const Icon(Icons.search),
-                    )
+                  SliverAppBarWidget(text: "", action: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      child: TextField(
+                        onChanged: (value) {
+                          context
+                              .read<SearchBloc>()
+                              .add(SearchTextChanged(text: value));
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Search...'.tr(),
+                          border: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50))),
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.search),
+                            onPressed: () {
+                              context
+                                  .read<SearchBloc>()
+                                  .add(const SearchSubmitted());
+                            },
+                          ),
+                        ),
+                      ).paddedSymmetric(
+                          horizontal: Material3Design.largePadding,
+                          vertical: Material3Design.smallPadding),
+                    ),
                   ]),
                 ];
               },
-              body: BlocBuilder<SearchCubit, SearchState>(
+              body: BlocBuilder<SearchBloc, SearchState>(
                   builder: (context, state) {
-                if (state is SearchLoading) {
+                if (state.isLoadingNewData) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is SearchLoaded) {
+                } else if (!state.isLoadingNewData && !state.isError) {
                   return ListView.builder(
                     itemCount: state.comments.length,
                     itemBuilder: (context, index) {
@@ -57,7 +77,7 @@ class _SearchPageState extends State<SearchPage> with SearchPageMixin {
                   );
                 } else {
                   return const Center(
-                    child: Text("Initial State"),
+                    child: SizedBox(),
                   );
                 }
               }));

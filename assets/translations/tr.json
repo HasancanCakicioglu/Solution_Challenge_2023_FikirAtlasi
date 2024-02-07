@@ -1,5 +1,94 @@
 {
-    "msg":"mesaj",
-    "deneme":"deneme türkçe karakter"
+    "onboard_title_one":"Fikir Atlasına Hoş Geldiniz",
+    "onboard_title_two":"Endişelerinizi Paylaşın",
+    "onboard_title_three":"Fikirlerinizi Geliştirin",
+    "onboard_title_four":"Çeşitli Medya",
+    "onboard_title_five":"Eğlenceli Yolculuklar!",
+    "onboard_desc_one":"İnsanların problemlerini paylaştığı, çözümler bulduğu ve işbirliği yaptığı bir platforma hoş geldiniz! Fikirlerinizi paylaşın, diğerleri ile bağlantı kurun ve birlikte çözümler oluşturun.",
+    "onboard_desc_two":"Herkesi ilgilendiren kişisel veya evrensel olarak ilgili konuları paylaşın.",
+    "onboard_desc_three":"Diğer kullanıcılarla etkileşime girin, fikirlerinizi geliştirin ve çözüm arayışında birbirinize yardımcı olun.",
+    "onboard_desc_four":"Problemlerinizi ve çözüm önerilerinizi metin, resim, video veya PDF formatlarında daha etkili bir şekilde paylaşarak iletişim kurun.",
+    "onboard_desc_five":"İdea Atlası'nda fikirlerinizi paylaşmanın ve çözümler bulmanın yolculuğunun keyfini çıkarın. Güvenli yolculuklar!",
+    "skip":"Atla",
+    
+    "registernow":"Şimdi Kaydol",
+    "login":"Giriş",
+    "email":"E-posta",
+    "password":"Şifre",
+    "forgotpassword":"Şifremi Unuttum?",
+    "notamember":"Üye Değil misiniz?",
+    "orContinueWith":"veya Devam Et",
+    "signin":"Oturum Aç",
+    "signup":"Kaydol",
+    "register":"Kaydol",
+    
+    "somethingwentwrong":"Bir şeyler yanlış gitti!",
+    
+    "secondago":"{} saniye önce",
+    "minuteago":"{} dakika önce",
+    "hourago":"{} saat önce",
+    "dayago":"{} gün önce",
+    "weekago":"{} hafta önce",
+    "monthago":"{} ay önce",
+    "yearago":"{} yıl önce",
+    
+    "Anonymous":"Anonim",
+    "nocomment":"Yorum Yok",
+    
+    "googlemaps":"Google Haritalar",
+    "selectlocation":"Konum Seç",
+    "selectedLocation":"Seçilen Konum",
+    
+    "selectLanguage":"Dil Seçin",
+    "settings":"Ayarlar",
+    "theme":"Tema",
+    "themeLight":"Açık Tema",
+    "notifications":"Bildirimler",
+    "notificationopen":"Bildirimi Aç",
+    "language":"Dil",
+    "verification":"Doğrulama",
+    "phoneverification":"Telefon Doğrulama",
+    "account":"Hesap",
+    "changeaccount":"Hesap Değiştir",
+    "exitaccount":"Hesaptan Çık",
+    
+    "home":"Ana Sayfa",
+    "specialForYou":"Sizin İçin Özel",
+    "lastShared":"Son Paylaşılanlar",
+    
+    "Search...":"Ara...",
+    
+    "Categories":"Kategoriler",
+    "Category":"Kategori",
+    "Education":"Eğitim",
+    "Transportation":"Ulaşım",
+    "Economy":"Ekonomi",
+    "Health":"Sağlık",
+    "Technology":"Teknoloji",
+    "Arts and Culture":"Sanat ve Kültür",
+    "Sport":"Spor",
+    "Entertainment":"Eğlence",
+    "Environment":"Çevre",
+    "Policy":"Politika",
+    "Security":"Güvenlik",
+    "Other":"Diğer",
+    
+    "Leaderboard":"Liderlik Tablosu",
+    "Problem":"Sorun",
+    "Solution":"Çözüm",
+    "Suggestions":"Öneriler",
+    "Suggest":"Öner",
+    
+    "Post":"Gönder",
+    "Title":"Başlık",
+    "Content":"İçerik",
+    "Tags":"Etiketler",
+    "Submit":"Gönder",
+    
+    "writesolution":"Çözüm Yaz",
+    
+    "aboutyourself":"Kendiniz Hakkında",
+    
+    "Profile":"Profil"
     
 }

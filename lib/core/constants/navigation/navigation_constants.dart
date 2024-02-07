@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+/// This class is used to store all the navigation constants used in the app.
 class NavigationConstants {
   static const Splash = '/Splash';
   static const Auth = '/Auth';

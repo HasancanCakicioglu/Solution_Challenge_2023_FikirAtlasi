@@ -5,10 +5,10 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_profile_entity/profile_entity_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/main/widget/bottom_nav_bar.dart';
 import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/profile_entites.dart';
-import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/create_profile_usecase.dart';
-import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
+/// Represents the main wrapper view.
+/// 
+/// This view is the main view of the application. It contains the bottom navigation bar and the main content of the application.
 @RoutePage()
 class MainWrapperView extends StatefulWidget {
   const MainWrapperView({super.key});
@@ -19,21 +19,27 @@ class MainWrapperView extends StatefulWidget {
 
 class _MainWrapperViewState extends State<MainWrapperView> {
   @override
-  Widget build(BuildContext context) {
-    createProfile();
-    return  Scaffold(
-          body: BlocBuilder<BottomNavCubit, BottomNavBarState>(
-            builder: (BuildContext context, BottomNavBarState state) {
-              return LazyLoadIndexedStack(
-                  index: state.bottomNavBarPages.index,
-                  children: BlocProvider.of<BottomNavCubit>(context).pages);
-            },
-          ),
-          bottomNavigationBar: const MainWrapperNavigationBar(),
-        );
+  void initState() {
+    super.initState();
+    createProfile(context);
   }
 
-  void createProfile() async {
-    await sl.get<CreateProfileUsecase>().call(const ProfileEntity());
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocBuilder<BottomNavCubit, BottomNavBarState>(
+        builder: (BuildContext context, BottomNavBarState state) {
+          return LazyLoadIndexedStack(
+              index: state.bottomNavBarPages.index,
+              children: BlocProvider.of<BottomNavCubit>(context).pages);
+        },
+      ),
+      bottomNavigationBar: const MainWrapperNavigationBar(),
+    );
+  }
+
+  /// Creates the profile of the user on Firebase.
+  void createProfile(BuildContext context) async {
+    return await context.read<ProfileEntityCubit>().getOrSetProfile();
   }
 }

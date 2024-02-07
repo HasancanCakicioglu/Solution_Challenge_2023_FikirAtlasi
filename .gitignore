@@ -51,3 +51,12 @@ app.*.map.json
 /ios/Runner/GoogleService-Info.plist
 /ios/firebase_app_id_file.json
 /lib/firebase_options.dart
+
+
+# Dotenv
+*.env
+
+
+# GoogleSecrets
+/ios/Runner/AppDelegate.swift
+/android/app/src/main/AndroidManifest.xml
