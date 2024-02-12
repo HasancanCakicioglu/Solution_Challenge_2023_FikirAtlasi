@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -71,8 +73,7 @@ abstract class FirestoreRemoteDataSource {
 
   /// Retrieves a list of comment problems from Firestore based on the provided category and optional startAfter snapshot and data limit.
   Future<Tuple2<List<CommentProblemEntity?>, QueryDocumentSnapshot<Object?>?>>
-      getCommentProblemListAccordingToCategory(
-          CategoriesEnum categoriesEnum,
+      getCommentProblemListAccordingToCategory(CategoriesEnum categoriesEnum,
           QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
 
@@ -83,8 +84,10 @@ abstract class FirestoreRemoteDataSource {
           {gettingData = 20});
 
   /// Retrieves a list of comment suggestions from Firestore based on the like count and optional startAfter snapshot and data limit.
-  Future<Tuple2<List<CommentSuggestionEntity?>,
-      QueryDocumentSnapshot<Object?>?>> getCommentSuggestListAccordingToLikeCount(
+  Future<
+          Tuple2<List<CommentSuggestionEntity?>,
+              QueryDocumentSnapshot<Object?>?>>
+      getCommentSuggestListAccordingToLikeCount(
           QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
 
@@ -112,8 +115,10 @@ abstract class FirestoreRemoteDataSource {
       FirestoreAllowedFileTypes firestoreAllowedFileTypes, List<File> files);
 
   /// Retrieves a list of comment suggestions from Firestore based on the provided comment ID, optional startAfter snapshot, and data limit.
-  Future<Tuple2<List<CommentSuggestionEntity?>,
-      QueryDocumentSnapshot<Object?>?>> getCommentSuggestListAccordingToCommentID(
+  Future<
+          Tuple2<List<CommentSuggestionEntity?>,
+              QueryDocumentSnapshot<Object?>?>>
+      getCommentSuggestListAccordingToCommentID(
           String commentID, QueryDocumentSnapshot<Object?>? startAfter,
           {gettingData = 20});
 
@@ -122,6 +127,10 @@ abstract class FirestoreRemoteDataSource {
 
   /// Likes or unlikes a comment solution in Firestore based on the provided solution ID and like status.
   Future<void> commentSolutionLike(String solutionID, bool isLike);
+
+  /// Adds clicked content to the profile's last viewed comments
+  Future<void> profileLastLookedContents(
+      CommentProblemEntity commentProblemEntity);
 }
 
 /// Implementation of [FirestoreRemoteDataSource] responsible for performing Firestore operations.
@@ -321,12 +330,20 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
         .get();
 
     if (documentSnapshot.exists) {
-      tags = documentSnapshot["lastLookedContents"].cast<String>();
+      try {
+        //tags = documentSnapshot.get('lastLookedContents').cast<String>();
+        tags = ProfileModel.fromJson(
+                    documentSnapshot.data() as Map<String, dynamic>)
+                .lastLookedContents ??
+            [];
+      } catch (e) {
+        tags = [];
+      }
     }
 
     late QuerySnapshot<Map<String, dynamic>> querySnapshot;
     late Query<Map<String, dynamic>> queryOrders;
-    if (tags!.isEmpty) {
+    if (tags.isEmpty) {
       queryOrders = firestore
           .collection(FirestoreConstants.collectionCommentsProblems)
           .orderBy('date', descending: true);
@@ -626,12 +643,15 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
       'likeCount': FieldValue.increment(isLike ? 1 : -1),
     });
 
-    await firestore
+    
+      await firestore
         .collection(FirestoreConstants.collectionProfiles)
         .doc(firebaseAuth.currentUser!.uid)
         .update({
-      "problemIDs": FieldValue.arrayUnion([commentID]),
+      "problemIDs": isLike ? FieldValue.arrayUnion([commentID]) : FieldValue.arrayRemove([commentID]),
     });
+
+    
   }
 
   @override
@@ -647,7 +667,39 @@ class FirestoreRemoteDataSourceImpl implements FirestoreRemoteDataSource {
         .collection(FirestoreConstants.collectionProfiles)
         .doc(firebaseAuth.currentUser!.uid)
         .update({
-      "solutionIDs": FieldValue.arrayUnion([solutionID]),
+      "solutionIDs": isLike ?  FieldValue.arrayUnion([solutionID]) : FieldValue.arrayRemove([solutionID]),
     });
+  }
+
+  @override
+  Future<void> profileLastLookedContents(
+      CommentProblemEntity commentProblemEntity) async {
+    final CollectionReference profilesRef = FirebaseFirestore.instance
+        .collection(FirestoreConstants.collectionProfiles);
+    final String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+    DocumentSnapshot profileSnapshot =
+        await profilesRef.doc(currentUserId).get();
+
+
+    if (profileSnapshot.exists) {
+      final lastLookedContents =
+          ProfileModel.fromJson(profileSnapshot.data() as Map<String, dynamic>)
+                  .lastLookedContents ??
+              [];
+
+      lastLookedContents.addAll(commentProblemEntity.tags ?? []);
+
+      lastLookedContents.toSet().toList();
+
+      if (lastLookedContents.length > 30) {
+        int excessCount = lastLookedContents.length - 30;
+        lastLookedContents.removeRange(0, excessCount);
+      }
+
+      await profilesRef
+          .doc(currentUserId)
+          .update({'lastLookedContents': lastLookedContents});
+    }
   }
 }

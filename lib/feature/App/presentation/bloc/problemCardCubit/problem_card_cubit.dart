@@ -26,8 +26,9 @@ class ProblemCardCubit extends Cubit<ProblemCardState> {
     );
   }
 
-  void translateText(String text) async {
+  void translateText(String text,String title) async {
     final translateText = await translateTextUsecase.call(text);
-    emit(state.copyWith(translation: translateText));
+    final translateTitle = await translateTextUsecase.call(title);
+    emit(state.copyWith(translation: translateText,titleTranslation: translateTitle));
   }
 }

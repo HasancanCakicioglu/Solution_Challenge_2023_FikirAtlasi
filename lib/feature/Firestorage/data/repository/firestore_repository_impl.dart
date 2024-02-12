@@ -271,5 +271,10 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
     
   }
   
+  @override
+  Future<void> profileLastLookedContents(CommentProblemEntity commentProblemEntity) async{
+    return await dataSource.profileLastLookedContents(commentProblemEntity);
+  }
+  
 
 }

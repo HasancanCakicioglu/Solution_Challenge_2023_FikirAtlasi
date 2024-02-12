@@ -29,13 +29,7 @@ class _SplashViewState extends State<SplashView>
   /// Builds the body of the splash screen.
   Widget _buildBody(AnimationController controller, bool isDark) {
     return Center(
-      child: isDark
-          ? ColorFiltered(
-              colorFilter:
-                  const ColorFilter.mode(Colors.black, BlendMode.color),
-              child: _buildLottieFile(controller),
-            )
-          : _buildLottieFile(controller),
+      child: _buildLottieFile(controller),
     );
   }
 
@@ -45,11 +39,10 @@ class _SplashViewState extends State<SplashView>
       LottieConstants.splashScreen,
       controller: controller,
       onLoaded: (composition) {
-        Future.delayed(const Duration(milliseconds: 500), () {
           controller
             ..duration = composition.duration
             ..forward();
-        });
+        
       },
     );
   }

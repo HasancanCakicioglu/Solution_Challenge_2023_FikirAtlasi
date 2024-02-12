@@ -23,7 +23,7 @@ class SettingsLanguageOptionsPageView extends StatelessWidget {
           AutoRouter.of(context).pop(LanguageManager.supportedLocalesLanguages[index]);
         },
         child: ListTile(
-        title: Text(LanguageManager.supportedLocalesLanguages[index].countryName()),
+        title: Text(LanguageManager.supportedLocalesLanguages[index].countryName()).tr(),
         subtitle: Text(LanguageManager.supportedLocalesLanguages[index].toString()),
         trailing: const Icon(Icons.arrow_back_ios),
       ),

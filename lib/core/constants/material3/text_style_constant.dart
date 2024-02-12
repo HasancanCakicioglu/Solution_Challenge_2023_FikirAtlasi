@@ -24,4 +24,8 @@ class AppTextStyle {
 
   static const MINI_DESCRIPTION_BOLD =
       TextStyle(fontSize: 13 ,fontWeight: FontWeight.w600);
+
+  
+  static const MIDDLE_DESCRIPTION_TEXT =
+      TextStyle(fontSize: 16, letterSpacing: 1,fontWeight: FontWeight.w600);
 }

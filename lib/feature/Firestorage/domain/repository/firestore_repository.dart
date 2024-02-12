@@ -147,5 +147,8 @@ abstract class FirestoreRepository {
   /// Likes or unlikes a comment solution based on the provided solution ID and like status.
   Future<Either<FirebaseUnknowFailure, void>> commentSolutionLike(
       String solutionID, bool isLike);
+
+  /// Adds clicked content to the profile's last viewed comments
+  Future<void> profileLastLookedContents(CommentProblemEntity commentProblemEntity);
 }
 

@@ -5,13 +5,13 @@ extension LocaleToString on Locale {
   String countryName() {
     switch (languageCode) {
       case 'tr':
-        return 'Türkçe';
+        return 'turkish';
       case 'de':
-        return 'Almanca';
+        return 'germany';
       case 'en':
-        return 'İngilizce';
+        return 'english';
       case 'fr':
-        return 'Fransızca';
+        return 'french';
       case 'ar':
         return 'Arapça';
       default:

@@ -12,6 +12,7 @@ import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/doma
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_suggest_list_according_to_comment_id_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/get_comment_suggest_list_according_to_likecount_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/index.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/profile_last_looked_contents_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/select_files_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/usecases/upload_files_usecase.dart';
 import 'package:solution_challenge_2023_recommender_app/injection.dart';
@@ -72,6 +73,8 @@ import 'package:solution_challenge_2023_recommender_app/injection.dart';
   sl.registerLazySingleton<CommentProblemLikeUsecase>(() => CommentProblemLikeUsecase(sl()));
 
   sl.registerLazySingleton<CommentSolutionLikeUsecase>(() => CommentSolutionLikeUsecase(sl()));
+
+  sl.registerLazySingleton<ProfileLastLookedContentsUsecase>(() => ProfileLastLookedContentsUsecase(sl()));
 
   /// Repository
   sl.registerLazySingleton<FirestoreRepository>(

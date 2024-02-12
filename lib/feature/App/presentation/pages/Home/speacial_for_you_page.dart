@@ -1,10 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solution_challenge_2023_recommender_app/core/constants/navigation/navigation_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_home_specialForYou/home_special_for_you_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/mixin/special_for_you_page_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_problem_card.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/floatingActionButton.dart';
 
 
 /// This page is the special for you page of the application.
@@ -56,11 +55,8 @@ class _SpeacialForYouPageViewState extends State<SpeacialForYouPageView>
           return const Center(child: Text('Initial state'));
         }
       })),
-      floatingActionButton: FloatingActionButton(
-        heroTag: "btn1",
-        onPressed: () async {
-          context.router.pushNamed(NavigationConstants.Post);
-        },
+      floatingActionButton:  FloatingActionButtonWidget(
+        heroTag: context.hashCode.toString(),
       ),
     );
   }

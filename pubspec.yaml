@@ -118,6 +118,13 @@ dev_dependencies:
   # code analysis
   very_good_analysis: ^5.1.0
 
+  # Launcher
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/image/launcher.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
