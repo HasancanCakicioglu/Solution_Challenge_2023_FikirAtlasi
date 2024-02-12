@@ -10,14 +10,15 @@ mixin CommentProblemPageMixin<T extends StatefulWidget> on State<CommnetProblemS
   @override
   void initState() {
     super.initState();
-    context.read<CommentProblemCubit>().getCommentProblemListLastRefresh(widget.problemID);
+    context.read<CommentProblemCubit>().getCommentProblemListLastRefresh(widget.commentProblemEntity.uid!);
     scrollControllerCommentProblemPage = CustomScrollController();
     scrollControllerCommentProblemPage.addListener(() {
       if (scrollControllerCommentProblemPage.position.pixels ==
           scrollControllerCommentProblemPage.position.maxScrollExtent) {
-        context.read<CommentProblemCubit>().getCommentProblemListLast(widget.problemID);
+        context.read<CommentProblemCubit>().getCommentProblemListLast(widget.commentProblemEntity.uid!);
       }
     });
+    context.read<CommentProblemCubit>().profileLastLookedContents(widget.commentProblemEntity);
 
   }
 

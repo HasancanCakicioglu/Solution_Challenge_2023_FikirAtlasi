@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/extension/lang_extension.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/material3/material3_desing_constant.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/navigation/navigation_constants.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Settings/mixin/settings_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/extension/padding.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/Firestorage/domain/entities/profile_entites.dart';
 
 /// Settings page that allows users to configure various app settings.
 @RoutePage()
@@ -30,7 +33,9 @@ class _SettingsPageViewState extends State<SettingsPageView>
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: Material3Design.mediumPadding,),
+          const SizedBox(
+            height: Material3Design.mediumPadding,
+          ),
           // Main sections
           _buildThemeSection(),
           const Divider(),
@@ -73,6 +78,22 @@ class _SettingsPageViewState extends State<SettingsPageView>
       children: [
         _buildSectionTitle("notifications"),
         switchBox("notificationopen", notificationIsOpen, changeNotification),
+        clickedBox("locationSelect".tr(), () {
+          context.router
+              .pushNamed(NavigationConstants.GoogleMaps)
+              .then((value) {
+            if (value != null) {
+              location = value as LatLng?;
+              final geohash = getGeoFirePointUsecase.call(
+                      location!.latitude, location!.longitude).hash;
+              updateProfileUsecase.call(ProfileEntity(
+                geoFirePoint: {
+                  "geohash":geohash
+                }
+              ));
+            }
+          });
+        })
       ],
     );
   }
@@ -82,7 +103,8 @@ class _SettingsPageViewState extends State<SettingsPageView>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildSectionTitle("language"),
-        clickedBox(localeLang.countryName(), takeActionBackFromSettingsOptionPage),
+        clickedBox(
+            localeLang.countryName(), takeActionBackFromSettingsOptionPage),
       ],
     );
   }
@@ -92,7 +114,8 @@ class _SettingsPageViewState extends State<SettingsPageView>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildSectionTitle("verification"),
-        switchBox("phoneverification", phoneVerification, phoneVerificationFunc),
+        switchBox(
+            "phoneverification", phoneVerification, phoneVerificationFunc),
       ],
     );
   }

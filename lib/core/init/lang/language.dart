@@ -24,6 +24,8 @@ final class LanguageManager extends EasyLocalization {
   static List<Locale> get supportedLocalesLanguages => [
         Locales.tr.locale,
         Locales.en.locale,
+        Locales.de.locale,
+        Locales.fr.locale,
       ];
 
   /// Method to update the language.

@@ -18,27 +18,40 @@ class CommentProblemPageView extends StatefulWidget {
   State<CommentProblemPageView> createState() => _CommentProblemPageViewState();
 }
 
-class _CommentProblemPageViewState extends State<CommentProblemPageView>
-     {
+class _CommentProblemPageViewState extends State<CommentProblemPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.commentProblemEntity.title!),
+        centerTitle: true,
       ),
       body: Column(
         children: [
-          CommentsProblemCard(commentProblemEntity: widget.commentProblemEntity),
+          SizedBox(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: SingleChildScrollView(
+                child: CommentsProblemCard(
+                  commentProblemEntity: widget.commentProblemEntity,
+                  canGo: false,
+                ),
+              )),
           const Divider(),
           Center(
-            child: ElevatedButton(onPressed: (){
-              AutoRouter.of(context).push(PostPageRoute(isProblem: false, commentID: widget.commentProblemEntity.uid!));
-            }, child: const Text("writesolution").tr()),
+            child: ElevatedButton(
+                onPressed: () {
+                  AutoRouter.of(context).push(PostPageRoute(
+                      isProblem: false,
+                      commentID: widget.commentProblemEntity.uid!));
+                },
+                child: const Text("writesolution").tr()),
           ),
           const Divider(height: 5),
           BlocProvider<CommentProblemCubit>(
               create: (context) => sl.get<CommentProblemCubit>(),
-              child: CommnetProblemSuggest(problemID:widget.commentProblemEntity.uid!)),
+              child: CommnetProblemSuggest(
+                  commentProblemEntity: widget.commentProblemEntity)),
         ],
       ),
     );

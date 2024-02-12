@@ -1,4 +1,5 @@
 import 'dart:io';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 import 'package:solution_challenge_2023_recommender_app/core/constants/enums/firestore_constants.dart';
 

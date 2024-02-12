@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 import 'package:dartz/dartz.dart';
 import 'package:geoflutterfire2/src/point.dart';
 import 'package:solution_challenge_2023_recommender_app/core/errors/failure/failure.dart';

@@ -37,11 +37,11 @@ import 'package:solution_challenge_2023_recommender_app/injection.dart';
 
   sl.registerFactory<PostBloc>(() => PostBloc(sl(),sl(),sl(),sl()));
 
-  sl.registerFactory<CommentProblemCubit>(() => CommentProblemCubit(sl()));
+  sl.registerFactory<CommentProblemCubit>(() => CommentProblemCubit(sl(),sl()));
 
   sl.registerFactory<ProblemCardCubit>(() => ProblemCardCubit(sl(),sl()));
 
-  sl.registerFactory<SolutionCardCubit>(() => SolutionCardCubit(sl()));
+  sl.registerFactory<SolutionCardCubit>(() => SolutionCardCubit(sl(),sl()));
 
   sl.registerFactory<SearchBloc>(() => SearchBloc(sl(),sl()));
 

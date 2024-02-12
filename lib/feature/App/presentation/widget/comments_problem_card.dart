@@ -7,6 +7,7 @@ import 'package:solution_challenge_2023_recommender_app/core/constants/extension
 import 'package:solution_challenge_2023_recommender_app/core/constants/extension/padding.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/extension/time_extension.dart';
 import 'package:solution_challenge_2023_recommender_app/core/constants/material3/material3_desing_constant.dart';
+import 'package:solution_challenge_2023_recommender_app/core/constants/material3/text_style_constant.dart';
 import 'package:solution_challenge_2023_recommender_app/core/init/navigation/app_router.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_profile_entity/profile_entity_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/problemCardCubit/problem_card_cubit.dart';
@@ -19,8 +20,9 @@ import 'package:solution_challenge_2023_recommender_app/injection.dart';
 /// A widget representing the card for displaying comments on a problem.
 class CommentsProblemCard extends StatelessWidget {
   final CommentProblemEntity commentProblemEntity;
+  final bool canGo;
 
-  const CommentsProblemCard({super.key, required this.commentProblemEntity});
+  const CommentsProblemCard({super.key, required this.commentProblemEntity, this.canGo = true});
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +36,12 @@ class CommentsProblemCard extends StatelessWidget {
             false),
       child: InkWell(
         onTap: () {
-          AutoRouter.of(context).push(CommentProblemPageRoute(
+          if(canGo){
+            AutoRouter.of(context).push(CommentProblemPageRoute(
               commentProblemEntity: commentProblemEntity));
+          }
         },
         child: Card(
-          
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,6 +132,8 @@ class CommentsProblemCard extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(commentProblemEntity.title ?? "",style: AppTextStyle.MIDDLE_DESCRIPTION_TEXT,),
+          const SizedBox(height: Material3Design.smallPadding,),
           Text(
             commentProblemEntity.text ?? "nocomment".tr(),
             style: Material3Design.mediumText,
@@ -138,7 +143,7 @@ class CommentsProblemCard extends StatelessWidget {
                   onPressed: () {
                     context
                         .read<ProblemCardCubit>()
-                        .translateText(commentProblemEntity.text!);
+                        .translateText(commentProblemEntity.text ?? "",commentProblemEntity.title ?? "");
                   },
                   child: const Text("Yazıyı türkçeye çevir"),
                 ).padded(
@@ -170,6 +175,10 @@ class CommentsProblemCard extends StatelessWidget {
                   ),
                 ).padded(
                   const EdgeInsets.only(bottom: Material3Design.largePadding))
+              : const SizedBox(),
+          state.titleTranslation != null ? 
+          Text(state.titleTranslation!,style: AppTextStyle.MIDDLE_DESCRIPTION_TEXT,).padded(
+                  const EdgeInsets.only(bottom: Material3Design.smallPadding))
               : const SizedBox(),
           state.translation != null
               ? Text(state.translation!).padded(

@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/bloc/cubit_home_lastSent/home_last_sent_cubit.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/pages/Home/mixin/last_sent_page_mixin.dart';
 import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/comments_problem_card.dart';
+import 'package:solution_challenge_2023_recommender_app/feature/App/presentation/widget/floatingActionButton.dart';
 
 /// This page is the last sent page of the application.
-/// 
+///
 /// It contains the comments that are sent by the users.
 class LastSentPageView extends StatefulWidget {
   const LastSentPageView({super.key, required this.scrollControllerNested});
@@ -56,10 +57,9 @@ class _LastSentPageViewState extends State<LastSentPageView>
           },
         ),
       ),
-      floatingActionButton:
-          FloatingActionButton(heroTag: "btn2", onPressed: () {
-            
-          }),
+      floatingActionButton: FloatingActionButtonWidget(
+        heroTag: context.hashCode.toString(),
+      ),
     );
   }
 

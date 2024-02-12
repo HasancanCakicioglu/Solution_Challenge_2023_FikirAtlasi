@@ -15,18 +15,12 @@ class ProfileEntityCubit extends Cubit<ProfileEntity> {
   }
 
   Future<void> getOrSetProfile() async {
-    print("getOrSetProfile");
-
     await createProfileUsecase.call(const ProfileEntity()).then((value) async{
-      print("getOrSetProfile then ");
       value.fold((l) async{
-        print("getOrSetProfile then l");
       }, (r) async{
-        print("getOrSetProfile then r ${r}");
         if (r != null){
           final profileEntityUser = await  getProfileUsecase.call(r);
           updateProfile(profileEntityUser);
-          print("getOrSetProfile then r != null ${profileEntityUser}");
         }
       });
     });

@@ -88,7 +88,7 @@ class GoogleMapsPageViewState extends State<GoogleMapsPageView> {
           position: location,
           infoWindow: InfoWindow(title: 'selectedLocation'.tr()),
           icon: BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueAzure),
+              BitmapDescriptor.hueRed),
         ),
       );
     });

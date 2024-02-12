@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -84,7 +86,6 @@ final class ApplicationInitialize {
     //   print("onBackgroundMessage: $message");
     // });
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print("onMessageOpenedApp: $message");
     });
     FirebaseMessaging.onMessage.listen((message) {
       FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(

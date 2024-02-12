@@ -19,7 +19,8 @@ import 'package:solution_challenge_2023_recommender_app/feature/App/presentation
 ///
 /// This page view displays a form for creating a new post.
 class PostBody extends StatefulWidget {
-  const PostBody({super.key, required this.isProblem, required this.commendID});
+  const PostBody({Key? key, required this.isProblem, required this.commendID})
+      : super(key: key);
   final bool isProblem;
   final String? commendID;
 
@@ -30,272 +31,291 @@ class PostBody extends StatefulWidget {
 class _PostBodyState extends State<PostBody> with PostPageMixin {
   @override
   Widget build(BuildContext context) {
-    context.read<PostBloc>().add(PostIsProblemChanged(
-        isProblem: widget.isProblem, commentID: widget.commendID));
+    _updatePostBloc();
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Post').tr(),
-          centerTitle: true,
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              child: Column(
-                children: [
-                  widget.isProblem
-                      ? TextFormField(
-                          controller: titleController,
-                          decoration: InputDecoration(
-                            hintText: 'Title'.tr(),
-                            border: const OutlineInputBorder(),
-                          ),
-                          onChanged: (value) {
-                            context
-                                .read<PostBloc>()
-                                .add(PostTitleChanged(title: value));
-                          },
-                        )
-                      : const SizedBox(),
-                  SizedBox(height: widget.isProblem ? 16.0 : 0.0),
-                  TextFormField(
-                    controller: contentController,
-                    maxLines: 10,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintText: 'Content'.tr(),
-                    ),
-                    onChanged: (value) {
-                      context
-                          .read<PostBloc>()
-                          .add(PostContentChanged(content: value));
-                    },
-                  ),
-                  const SizedBox(
-                    height: Material3Design.mediumPadding,
-                  ),
-                  widget.isProblem
-                      ? TextField(
-                          controller: textControllerTags,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            prefixIcon: IconButton(
-                                onPressed: () {
-                                  addTags();
-                                },
-                                icon: const Icon(Icons.add)),
-                            hintText: 'Tags'.tr(),
-                          ),
-                        )
-                      : const SizedBox(),
-                  widget.isProblem
-                      ? BlocBuilder<PostBloc, PostState>(
-                          builder: (context, state) {
-                          return Wrap(
-                            children:
-                                context.read<PostBloc>().state.tags.map((tag) {
-                              return Chip(
-                                label: Text(tag),
-                                onDeleted: () {
-                                  chips.remove(tag);
-                                  context
-                                      .read<PostBloc>()
-                                      .add(PostTagsChanged(tags: chips));
-                                },
-                              );
-                            }).toList(),
-                          );
-                        })
-                      : const SizedBox(),
-                  widget.isProblem ? const Divider() : const SizedBox(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.image),
-                        onPressed: () {
-                          addMedia(FileType.image);
-                        },
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          addMedia(FileType.video);
-                        },
-                        icon: const Icon(Icons.video_call_sharp),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          addMedia(FileType.custom);
-                        },
-                        icon: const Icon(Icons.picture_as_pdf),
-                      ),
-                      widget.isProblem
-                          ? IconButton(
-                              onPressed: () {
-                                context.router
-                                    .pushNamed(NavigationConstants.GoogleMaps)
-                                    .then((value) {
-                                  if (value != null) {
-                                    location = value as LatLng?;
-                                    context.read<PostBloc>().add(
-                                        PostLocationChanged(
-                                            latitude: location!.latitude,
-                                            longitude: location!.longitude));
-                                  }
-                                });
-                              },
-                              icon: const Icon(Icons.location_on))
-                          : const SizedBox(),
-                      const Spacer(),
-                      widget.isProblem
-                          ? BlocBuilder<PostBloc, PostState>(
-                              builder: (context, state) {
-                              return DropdownButton<CategoriesEnum>(
-                                value: context.read<PostBloc>().state.category,
-                                items: CategoriesEnum.values
-                                    .map((CategoriesEnum category) {
-                                  return DropdownMenuItem<CategoriesEnum>(
-                                    value: category,
-                                    child: Text(category.value.split('.').last),
-                                  );
-                                }).toList(),
-                                onChanged: (CategoriesEnum? selectedValue) {
-                                  if (selectedValue != null) {
-                                    context.read<PostBloc>().add(
-                                        PostCategoryChanged(
-                                            category: selectedValue));
-                                  }
-                                },
-                              );
-                            })
-                          : const SizedBox(),
-                    ],
-                  ),
-                  const Divider(),
-                  BlocBuilder<PostBloc, PostState>(builder: (context, state) {
-                    return Column(
-                      children: [
-                        SingleChildScrollView(
-                          scrollDirection:
-                              Axis.horizontal, // Yatay (sağa doğru) kaydırma
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: state.files.onlyImages
-                                .map((file) => FrameWidget(
-                                      onPressed: () {
-                                        context
-                                            .read<PostBloc>()
-                                            .add(PostMediaRemoved(media: file));
-                                      },
-                                      size: const Size(80, 80),
-                                      child: FileImageWidget(
-                                        imageFile: file,
-                                        size: const Size(70, 70),
-                                      ),
-                                    ))
-                                .toList(),
-                          ),
-                        ),
-                        state.files.onlyImages.isEmpty
-                            ? const SizedBox()
-                            : const Divider(),
-                      ],
-                    );
-                  }),
-                  BlocBuilder<PostBloc, PostState>(builder: (context, state) {
-                    return Column(
-                      children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: state.files.onlyVideos
-                                .map((file) => FrameWidget(
-                                      onPressed: () {
-                                        context
-                                            .read<PostBloc>()
-                                            .add(PostMediaRemoved(media: file));
-                                      },
-                                      size: const Size(80, 80),
-                                      child: FileVideoPlayerWidget(
-                                        videoFile: file,
-                                        size: const Size(70, 70),
-                                      ),
-                                    ))
-                                .toList(),
-                          ),
-                        ),
-                        state.files.onlyVideos.isEmpty
-                            ? const SizedBox()
-                            : const Divider(),
-                      ],
-                    );
-                  }),
-                  BlocBuilder<PostBloc, PostState>(builder: (context, state) {
-                    return Column(
-                      children: [
-                        ...state.files.onlyPdfs
-                            .map((file) => FrameWidget(
-                                onPressed: () {
-                                  context
-                                      .read<PostBloc>()
-                                      .add(PostMediaRemoved(media: file));
-                                },
-                                size:
-                                    Size(MediaQuery.of(context).size.width, 40),
-                                child: PdfWidget(
-                                  file: file,
-                                )))
-                            .toList(),
-                        state.files.onlyPdfs.isEmpty
-                            ? const SizedBox()
-                            : const Divider(),
-                      ],
-                    );
-                  }),
-                  widget.isProblem
-                      ? BlocBuilder<PostBloc, PostState>(
-                          builder: (context, state) {
-                          return state.latitude != null
-                              ? SizedBox(
-                                  height: 200,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: BlocBuilder<PostBloc, PostState>(
-                                      builder: (context, state) {
-                                    return GoogleMap(
-                                      initialCameraPosition: CameraPosition(
-                                        target: LatLng(
-                                            state.latitude ?? 37.7749,
-                                            state.longitude ?? -122.4194),
-                                        zoom: 12.0,
-                                      ),
-                                      markers: {
-                                        Marker(
-                                          markerId: const MarkerId('1'),
-                                          position: LatLng(
-                                              state.latitude ?? 37.7749,
-                                              state.longitude ?? -122.4194),
-                                        )
-                                      },
-                                    );
-                                  }))
-                              : const SizedBox();
-                        })
-                      : const SizedBox(),
-                  const SizedBox(height: Material3Design.largePadding),
-                  ElevatedButton(
-                      onPressed: () {
-                        context.read<PostBloc>().add(const PostSubmitted());
-                      },
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Center(
-                          child: const Text('Submit').tr(),
-                        ),
-                      )),
-                ],
-              ),
+      appBar: AppBar(
+        title: const Text('Post').tr(),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            child: Column(
+              children: _buildFormFields(context),
             ),
           ),
-        ));
+        ),
+      ),
+    );
+  }
+
+  void _updatePostBloc() {
+    context.read<PostBloc>().add(PostIsProblemChanged(
+        isProblem: widget.isProblem, commentID: widget.commendID));
+  }
+
+  List<Widget> _buildFormFields(BuildContext context) {
+    List<Widget> fields = [
+      if (widget.isProblem) _buildTitleField(context),
+      _buildContentField(context),
+      SizedBox(height: widget.isProblem ? 16.0 : 0.0),
+      if (widget.isProblem) _buildTagsField(context),
+      const Divider(),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildMediaButtons(context),
+          const Spacer(),
+          _buildCategoryDropdown(context),
+        ],
+      ),
+      
+      _buildImageFrames(context),
+   
+      _buildVideoFrames(context),
+
+      _buildPdfFrames(context),
+      const SizedBox(height: Material3Design.largePadding),
+      
+    ];
+    if (widget.isProblem) {
+      fields.add(_buildGoogleMap(context));
+    }
+    fields.add(_buildSubmitButton(context));
+    return fields;
+  }
+
+  Widget _buildTitleField(BuildContext context) {
+    return TextFormField(
+      controller: titleController,
+      decoration: InputDecoration(
+        hintText: 'Title'.tr(),
+        border: const OutlineInputBorder(),
+      ),
+      onChanged: (value) {
+        context.read<PostBloc>().add(PostTitleChanged(title: value));
+      },
+    );
+  }
+
+  Widget _buildContentField(BuildContext context) {
+    return TextFormField(
+      controller: contentController,
+      maxLines: 10,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        hintText: 'Content'.tr(),
+      ),
+      onChanged: (value) {
+        context.read<PostBloc>().add(PostContentChanged(content: value));
+      },
+    );
+  }
+
+  Widget _buildTagsField(BuildContext context) {
+    return TextField(
+      controller: textControllerTags,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        prefixIcon: IconButton(
+            onPressed: () {
+              addTags();
+            },
+            icon: const Icon(Icons.add)),
+        hintText: 'Tags'.tr(),
+      ),
+    );
+  }
+
+  Widget _buildMediaButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.image),
+          onPressed: () {
+            addMedia(FileType.image);
+          },
+        ),
+        IconButton(
+          onPressed: () {
+            addMedia(FileType.video);
+          },
+          icon: const Icon(Icons.video_call_sharp),
+        ),
+        IconButton(
+          onPressed: () {
+            addMedia(FileType.custom);
+          },
+          icon: const Icon(Icons.picture_as_pdf),
+        ),
+        if (widget.isProblem)
+          IconButton(
+              onPressed: () {
+                context.router
+                    .pushNamed(NavigationConstants.GoogleMaps)
+                    .then((value) {
+                  if (value != null) {
+                    location = value as LatLng?;
+                    context.read<PostBloc>().add(PostLocationChanged(
+                        latitude: location!.latitude,
+                        longitude: location!.longitude));
+                  }
+                });
+              },
+              icon: const Icon(Icons.location_on))
+      ],
+    );
+  }
+
+  Widget _buildCategoryDropdown(BuildContext context) {
+    return widget.isProblem
+        ? BlocBuilder<PostBloc, PostState>(builder: (context, state) {
+            return DropdownButton<CategoriesEnum>(
+              value: context.read<PostBloc>().state.category,
+              items: CategoriesEnum.values.map((CategoriesEnum category) {
+                return DropdownMenuItem<CategoriesEnum>(
+                  value: category,
+                  child: Text(category.value.split('.').last),
+                );
+              }).toList(),
+              onChanged: (CategoriesEnum? selectedValue) {
+                if (selectedValue != null) {
+                  context
+                      .read<PostBloc>()
+                      .add(PostCategoryChanged(category: selectedValue));
+                }
+              },
+            );
+          })
+        : const SizedBox();
+  }
+
+  Widget _buildImageFrames(BuildContext context) {
+    return BlocBuilder<PostBloc, PostState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: state.files.onlyImages
+                    .map((file) => FrameWidget(
+                          onPressed: () {
+                            context
+                                .read<PostBloc>()
+                                .add(PostMediaRemoved(media: file));
+                          },
+                          size: const Size(80, 80),
+                          child: FileImageWidget(
+                            imageFile: file,
+                            size: const Size(70, 70),
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ),
+            if (state.files.onlyImages.isNotEmpty) const Divider(),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildVideoFrames(BuildContext context) {
+    return BlocBuilder<PostBloc, PostState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: state.files.onlyVideos
+                    .map((file) => FrameWidget(
+                          onPressed: () {
+                            context
+                                .read<PostBloc>()
+                                .add(PostMediaRemoved(media: file));
+                          },
+                          size: const Size(80, 80),
+                          child: FileVideoPlayerWidget(
+                            videoFile: file,
+                            size: const Size(70, 70),
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ),
+            if (state.files.onlyVideos.isNotEmpty) const Divider(),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildPdfFrames(BuildContext context) {
+    return BlocBuilder<PostBloc, PostState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            ...state.files.onlyPdfs
+                .map((file) => FrameWidget(
+                    onPressed: () {
+                      context
+                          .read<PostBloc>()
+                          .add(PostMediaRemoved(media: file));
+                    },
+                    size: Size(MediaQuery.of(context).size.width, 40),
+                    child: PdfWidget(
+                      file: file,
+                    )))
+                .toList(),
+            if (state.files.onlyPdfs.isNotEmpty) const Divider(),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildGoogleMap(BuildContext context) {
+    return BlocBuilder<PostBloc, PostState>(
+      builder: (context, state) {
+        return state.latitude != null
+            ? SizedBox(
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(state.latitude ?? 37.7749,
+                        state.longitude ?? -122.4194),
+                    zoom: 12.0,
+                  ),
+                  markers: {
+                    Marker(
+                      markerId: const MarkerId('1'),
+                      position: LatLng(state.latitude ?? 37.7749,
+                          state.longitude ?? -122.4194),
+                    )
+                  },
+                ))
+            : const SizedBox();
+      },
+    );
+  }
+
+  Widget _buildSubmitButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        context.read<PostBloc>().add(const PostSubmitted());
+      },
+      child: SizedBox(
+        width: double.infinity,
+        child: Center(
+          child: const Text('Submit').tr(),
+        ),
+      ),
+    );
   }
 }
