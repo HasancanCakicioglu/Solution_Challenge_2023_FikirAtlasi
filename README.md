@@ -134,3 +134,71 @@ Users can provide feedback or like solutions or problems in the application, all
 In the future, the application will appeal to a broader audience as it grows through word-of-mouth recommendations from users who find solutions to their problems while using it. As the structure of problems evolves over time, the goal is to encourage everyone to look at a problem from multiple perspectives, enabling them to contribute in areas they are knowledgeable about.
 ### Explain how the technical architecture of your solution could support (in its current state or with minor changes) scaling to a larger audience.
 I chose databases like Firebase and Pinecone because they are scalable. As the application grows, we'll apply more testing and optimization techniques related to code efficiency. Additionally, these databases offer features that align well with our project requirements, such as real-time synchronization, offline capabilities, and semantic search. This ensures that our application can handle increased user loads and maintain optimal performance as it scales.
+
+
+# How To Run
+
+## Firebase Configuraiton
+  
+1 - Install the Firebase CLI by following the instructions at https://firebase.flutter.dev/docs/cli/
+
+2 - Once installed, navigate to your project directory in the terminal.
+
+3 - Run the command firebase init to initialize Firebase for your project.
+
+4 - Follow the prompts to select the Firebase services you want to use and configure them accordingly.
+
+5 - After configuration, Firebase files will be generated and placed in the appropriate directories within your project. Follow the Firebase documentation for further instructions on how to use these files in your Flutter project.
+
+/android/app/google-services.json
+
+/ios/Runner/GoogleService-Info.plist
+
+/ios/firebase_app_id_file.json
+
+/lib/firebase_options.dart
+
+
+
+## Google Maps Configuration:
+
+**Android**:
+
+1 - Navigate to android/app/src/main/AndroidManifest.xml.
+
+2 - Locate the <your key> tag with the attribute com.google.android.geo.API_KEY.
+
+3 - Replace 'your key' with your actual Google Maps API key.
+
+4 - Save the file.
+
+**iOS**:
+
+1 - Navigate to ios/Runner/AppDelegate.swift.
+
+2 - Locate the GMSServices.provideAPIKey("your key") line.
+
+3 - Replace 'your key' with your actual Google Maps API key.
+
+4 - Save the file.
+
+## Firebase Function Configuration:
+
+1 - Set up Firebase CLI by following the instructions provided at https://firebase.google.com/docs/cli.
+
+2 - Navigate to your Firebase project directory in the terminal.
+
+3 - Run the command firebase init functions to initialize Firebase Functions for your project.
+
+4 - Follow the prompts to select the Firebase project you want to use and configure the directory for your functions.
+
+5 - After initialization, navigate to the functions directory in your project.
+
+6 - Open the index.js file to define your Firebase Cloud Functions.
+
+7 - Create a .env file in your project directory and define the following variables:
+    - **PINECONE_API**: Your Pinecone API key, obtained from the Pinecone platform.
+    - **INDEX_NAME**: The name of the index you'll be working with in Pinecone.
+    - **OPENAI_API**: Your OpenAI API key for the embedding API.
+
+8 - Deploy your Cloud Functions to Firebase by running the command firebase deploy --only functions.
