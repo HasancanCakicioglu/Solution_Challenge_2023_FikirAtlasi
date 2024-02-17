@@ -104,3 +104,19 @@ class PostIsProblemChanged extends PostEvent {
   @override
   List<Object?> get props => [isProblem,commentID];
 }
+
+class PostProblemSendingChange extends PostEvent {
+  final bool sending;
+  const PostProblemSendingChange({required this.sending});
+
+  @override
+  List<Object?> get props => [sending];
+}
+
+class PostProblemSentChange extends PostEvent {
+  final bool sent;
+  const PostProblemSentChange({required this.sent});
+
+  @override
+  List<Object?> get props => [sent];
+}

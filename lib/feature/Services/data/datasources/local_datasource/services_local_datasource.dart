@@ -78,7 +78,6 @@ class ServicesLocalDataSourceImpl implements ServicesLocalDataSource {
         await callable(<String, String>{"text": text});
 
     List<String> stringList = List<String>.from(json.decode(jsonList.data));
-
     return stringList;
   }
 

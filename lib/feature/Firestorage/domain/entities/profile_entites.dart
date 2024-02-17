@@ -34,6 +34,39 @@ class ProfileEntity extends Equatable {
       this.solutionIDs
       });
 
+  ProfileEntity copywith(
+      {String? uid,
+      String? name,
+      String? surname,
+      String? email,
+      String? dateOfJoin,
+      String? profileUrl,
+      String? describeYourself,
+      List<String>? lastLookedContents,
+      String? fcmToken,
+      Map<String, dynamic>? geoFirePoint,
+      bool? isNotificationOpen,
+      List<String>? problemIDs,
+      List<String>? solutionIDs
+      }
+  ){
+    return ProfileEntity(
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      surname: surname ?? this.surname,
+      email: email ?? this.email,
+      dateOfJoin: dateOfJoin ?? this.dateOfJoin,
+      profileUrl: profileUrl ?? this.profileUrl,
+      describeYourself: describeYourself ?? this.describeYourself,
+      lastLookedContents: lastLookedContents ?? this.lastLookedContents,
+      fcmToken: fcmToken ?? this.fcmToken,
+      geoFirePoint: geoFirePoint ?? this.geoFirePoint,
+      isNotificationOpen: isNotificationOpen ?? this.isNotificationOpen,
+      problemIDs: problemIDs ?? this.problemIDs,
+      solutionIDs: solutionIDs ?? this.solutionIDs
+    );
+  }
+
   @override
   String toString() {
     return 'ProfileEntity{uid: $uid, name: $name, surname: $surname, email: $email, dateOfJoin: $dateOfJoin, profileUrl: $profileUrl, describeYourself: $describeYourself, lastLookedContents: $lastLookedContents , geofirePoint: $geoFirePoint } ';
@@ -52,7 +85,7 @@ class ProfileEntity extends Equatable {
         fcmToken,
         geoFirePoint,
         isNotificationOpen,
-        problemIDs,
-        solutionIDs
+        problemIDs?.length,
+        solutionIDs?.length,
       ];
 }

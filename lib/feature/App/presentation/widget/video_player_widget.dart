@@ -57,9 +57,21 @@ class _FileVideoPlayerWidgetState extends State<FileVideoPlayerWidget> {
           future: _initializeVideoPlayerFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
+              return Stack(
+                children: [
+                  AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  ),
+                  const Center(
+                    child: IgnorePointer(
+                      child: Icon(
+                        Icons.play_circle_fill_sharp,
+                        size: 45,
+                      ),
+                    ),
+                  ),
+                ],
               );
             } else {
               return const Center(child: CircularProgressIndicator());

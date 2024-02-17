@@ -37,12 +37,29 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
         title: const Text('Post').tr(),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            child: Column(
-              children: _buildFormFields(context),
+      body: BlocListener<PostBloc, PostState>(
+        listener: (context, state) {
+          if (state.sent) {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
+          if (state.sending) {
+            showDialog(context: context, builder: (context)=> const SimpleDialog(
+              children: [
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ],
+            ));
+          }
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              child: Column(
+                children: _buildFormFields(context),
+              ),
             ),
           ),
         ),
@@ -61,6 +78,7 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
       _buildContentField(context),
       SizedBox(height: widget.isProblem ? 16.0 : 0.0),
       if (widget.isProblem) _buildTagsField(context),
+      if (widget.isProblem) _buildChipsField(),
       const Divider(),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,14 +88,10 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
           _buildCategoryDropdown(context),
         ],
       ),
-      
       _buildImageFrames(context),
-   
       _buildVideoFrames(context),
-
       _buildPdfFrames(context),
       const SizedBox(height: Material3Design.largePadding),
-      
     ];
     if (widget.isProblem) {
       fields.add(_buildGoogleMap(context));
@@ -125,6 +139,25 @@ class _PostBodyState extends State<PostBody> with PostPageMixin {
             icon: const Icon(Icons.add)),
         hintText: 'Tags'.tr(),
       ),
+    );
+  }
+
+  Widget _buildChipsField() {
+    return BlocBuilder<PostBloc, PostState>(
+      builder: (context, state) {
+        return Wrap(
+          children: state.tags
+              .map((tag) => Chip(
+                    label: Text(tag),
+                    onDeleted: () {
+                      context
+                          .read<PostBloc>()
+                          .add(PostTagsChanged(tags: state.tags..remove(tag)));
+                    },
+                  ))
+              .toList(),
+        );
+      },
     );
   }
 

@@ -21,7 +21,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   GetGeoFirePointUsecase getGeoFirePointUsecase;
 
   PostBloc(this.createCommentProblemUsecase, this.uploadFilesUsecase,
-      this.getGeoFirePointUsecase,this.createCommentSuggestionUsecase)
+      this.getGeoFirePointUsecase, this.createCommentSuggestionUsecase)
       : super(const PostState()) {
     on<PostEvent>((event, emit) {});
     on<PostTitleChanged>(_onEmailChanged);
@@ -34,6 +34,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<PostLocationChanged>(_onLocationChanged);
     on<PostMediaSplitted>(_onMediaSplitted);
     on<PostIsProblemChanged>(_onIsProblemChanged);
+    on<PostProblemSendingChange>(_onSendingChanged);
+    on<PostProblemSentChange>(_onSentChanged);
   }
 
   void _onEmailChanged(PostTitleChanged event, Emitter<PostState> emit) {
@@ -56,7 +58,17 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     emit(state.copyWith(latitude: event.latitude, longitude: event.longitude));
   }
 
+  void _onSendingChanged(
+      PostProblemSendingChange event, Emitter<PostState> emit) {
+    emit(state.copyWith(sending: event.sending));
+  }
+
+  void _onSentChanged(PostProblemSentChange event, Emitter<PostState> emit) {
+    emit(state.copyWith(sent: event.sent));
+  }
+
   void _onSubmitted(PostSubmitted event, Emitter<PostState> emit) async {
+    emit(state.copyWith(sending: true));
     await uploadFilesUsecase
         .call(FirestoreAllowedFileTypes.image, state.files)
         .then((value) async {
@@ -102,17 +114,22 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           videos: state.videos,
           pdf: state.pdf,
           geoFirePoint: geoFirePoint?.data);
-      createCommentProblemUsecase.call(commentProblemEntity);
-    }else{
+      await createCommentProblemUsecase.call(commentProblemEntity).then((value) async{
+        emit(state.copyWith(sending: false, sent: true));
+      });
+    } else {
       CommentSuggestionEntity commentSuggestionEntity = CommentSuggestionEntity(
           text: state.content,
           commentProblemID: state.commentID,
           images: state.images,
           videos: state.videos,
           pdf: state.pdf);
-      createCommentSuggestionUsecase.call(commentSuggestionEntity);
+      await createCommentSuggestionUsecase
+          .call(commentSuggestionEntity)
+          .then((value) async{
+        emit(state.copyWith(sending: false, sent: true));
+      });
     }
-
   }
 
   void _onMediaAdded(PostMediaAdded event, Emitter<PostState> emit) {
@@ -130,7 +147,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         images: event.images, videos: event.video, pdf: event.pdf));
   }
 
-  void _onIsProblemChanged(PostIsProblemChanged event, Emitter<PostState> emit) {
-    emit(state.copyWith(isProblem: event.isProblem, commentID: event.commentID));
+  void _onIsProblemChanged(
+      PostIsProblemChanged event, Emitter<PostState> emit) {
+    emit(
+        state.copyWith(isProblem: event.isProblem, commentID: event.commentID));
   }
 }

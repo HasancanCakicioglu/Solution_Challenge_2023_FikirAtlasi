@@ -22,7 +22,8 @@ class CommentsProblemCard extends StatelessWidget {
   final CommentProblemEntity commentProblemEntity;
   final bool canGo;
 
-  const CommentsProblemCard({super.key, required this.commentProblemEntity, this.canGo = true});
+  const CommentsProblemCard(
+      {super.key, required this.commentProblemEntity, this.canGo = true});
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +37,9 @@ class CommentsProblemCard extends StatelessWidget {
             false),
       child: InkWell(
         onTap: () {
-          if(canGo){
+          if (canGo) {
             AutoRouter.of(context).push(CommentProblemPageRoute(
-              commentProblemEntity: commentProblemEntity));
+                commentProblemEntity: commentProblemEntity));
           }
         },
         child: Card(
@@ -115,6 +116,16 @@ class CommentsProblemCard extends StatelessWidget {
             context.read<ProblemCardCubit>()
               ..likeComment(commentProblemEntity.uid!, !state.liked)
               ..setLike(!state.liked);
+            
+            final profileEntity = context.read<ProfileEntityCubit>();
+
+            if(profileEntity.state.problemIDs?.contains(commentProblemEntity.uid) ?? false){
+              profileEntity.state.problemIDs?.remove(commentProblemEntity.uid);
+            }else{
+              profileEntity.state.problemIDs?.add(commentProblemEntity.uid!);
+            }
+            
+            
           },
           icon: Icon(
             state.liked ? Icons.favorite : Icons.favorite_border,
@@ -127,66 +138,77 @@ class CommentsProblemCard extends StatelessWidget {
   /// Builds the text content section of the card.
   Widget _buildTextContent() {
     return BlocBuilder<ProblemCardCubit, ProblemCardState>(
-      buildWhen: (previous, current) => previous.translation != current.translation,
+        buildWhen: (previous, current) =>
+            previous.translation != current.translation,
         builder: (context, state) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(commentProblemEntity.title ?? "",style: AppTextStyle.MIDDLE_DESCRIPTION_TEXT,),
-          const SizedBox(height: Material3Design.smallPadding,),
-          Text(
-            commentProblemEntity.text ?? "nocomment".tr(),
-            style: Material3Design.mediumText,
-          ).padded(const EdgeInsets.only(bottom: Material3Design.largePadding)),
-          state.translation == null
-              ? TextButton(
-                  onPressed: () {
-                    context
-                        .read<ProblemCardCubit>()
-                        .translateText(commentProblemEntity.text ?? "",commentProblemEntity.title ?? "");
-                  },
-                  child: const Text("Yazıyı türkçeye çevir"),
-                ).padded(
-                  const EdgeInsets.only(bottom: Material3Design.largePadding))
-              : const SizedBox(),
-          state.translation != null
-              ? RichText(
-                  text: const TextSpan(
-                    text: 'Bu Metin ',
-                    style: TextStyle(
-                        color: Colors
-                            .grey), // Başlangıç rengi, varsayılan olarak siyah
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Google',
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                commentProblemEntity.title ?? "",
+                style: AppTextStyle.MIDDLE_DESCRIPTION_TEXT,
+              ),
+              const SizedBox(
+                height: Material3Design.smallPadding,
+              ),
+              Text(
+                commentProblemEntity.text ?? "nocomment".tr(),
+                style: Material3Design.mediumText,
+              ).padded(
+                  const EdgeInsets.only(bottom: Material3Design.largePadding)),
+              state.translation == null
+                  ? TextButton(
+                      onPressed: () {
+                        context.read<ProblemCardCubit>().translateText(
+                            commentProblemEntity.text ?? "",
+                            commentProblemEntity.title ?? "");
+                      },
+                      child: const Text("Yazıyı türkçeye çevir"),
+                    ).padded(const EdgeInsets.only(
+                      bottom: Material3Design.largePadding))
+                  : const SizedBox(),
+              state.translation != null
+                  ? RichText(
+                      text: const TextSpan(
+                        text: 'Bu Metin ',
                         style: TextStyle(
-                          color: Colors.red, // Google kelimesinin rengi kırmızı
-                          fontWeight: FontWeight.bold, // Kalın yazı stili
-                          fontStyle: FontStyle.italic, // İtalik yazı stili
-                        ),
+                            color: Colors
+                                .grey), // Başlangıç rengi, varsayılan olarak siyah
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Google',
+                            style: TextStyle(
+                              color: Colors
+                                  .red, // Google kelimesinin rengi kırmızı
+                              fontWeight: FontWeight.bold, // Kalın yazı stili
+                              fontStyle: FontStyle.italic, // İtalik yazı stili
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' Trafından Çevrilmiştir',
+                            style: TextStyle(
+                                color: Colors
+                                    .grey), // Geri kalan metin siyah renkte
+                          ),
+                        ],
                       ),
-                      TextSpan(
-                        text: ' Trafından Çevrilmiştir',
-                        style: TextStyle(
-                            color:
-                                Colors.grey), // Geri kalan metin siyah renkte
-                      ),
-                    ],
-                  ),
-                ).padded(
-                  const EdgeInsets.only(bottom: Material3Design.largePadding))
-              : const SizedBox(),
-          state.titleTranslation != null ? 
-          Text(state.titleTranslation!,style: AppTextStyle.MIDDLE_DESCRIPTION_TEXT,).padded(
-                  const EdgeInsets.only(bottom: Material3Design.smallPadding))
-              : const SizedBox(),
-          state.translation != null
-              ? Text(state.translation!).padded(
-                  const EdgeInsets.only(bottom: Material3Design.largePadding))
-              : const SizedBox(),
-        ],
-      );
-    });
+                    ).padded(const EdgeInsets.only(
+                      bottom: Material3Design.largePadding))
+                  : const SizedBox(),
+              state.titleTranslation != null
+                  ? Text(
+                      state.titleTranslation!,
+                      style: AppTextStyle.MIDDLE_DESCRIPTION_TEXT,
+                    ).padded(const EdgeInsets.only(
+                      bottom: Material3Design.smallPadding))
+                  : const SizedBox(),
+              state.translation != null
+                  ? Text(state.translation!).padded(const EdgeInsets.only(
+                      bottom: Material3Design.largePadding))
+                  : const SizedBox(),
+            ],
+          );
+        });
   }
 
   /// Builds the images section of the card.

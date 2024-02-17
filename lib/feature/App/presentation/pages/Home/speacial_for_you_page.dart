@@ -58,6 +58,7 @@ class _SpeacialForYouPageViewState extends State<SpeacialForYouPageView>
       floatingActionButton:  FloatingActionButtonWidget(
         heroTag: context.hashCode.toString(),
       ),
+
     );
   }
 

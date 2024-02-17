@@ -21,7 +21,7 @@ class HomeLastSentCubit extends Cubit<HomeLastSentState> {
     comments.clear();
     lastVisible = null;
     final failureOrCommentProblemList =
-        await getCommentProblemListLastUsecase(lastVisible,gettingData: 4);
+        await getCommentProblemListLastUsecase(lastVisible,gettingData: 10);
     failureOrCommentProblemList.fold(
       (failure) => emit(HomeLastSentLoaded(comments, isLoadingNewData: false, isError: true)),
       (commentProblemList) {
@@ -35,7 +35,7 @@ class HomeLastSentCubit extends Cubit<HomeLastSentState> {
   Future<void> getCommentProblemListLast() async {
     emit(HomeLastSentLoaded(comments, isLoadingNewData: true));
     final failureOrCommentProblemList =
-        await getCommentProblemListLastUsecase(lastVisible,gettingData: 4);
+        await getCommentProblemListLastUsecase(lastVisible,gettingData: 10);
     failureOrCommentProblemList.fold(
       (failure) => emit(HomeLastSentLoaded(comments, isLoadingNewData: false, isError: true)),
       (commentProblemList) {
