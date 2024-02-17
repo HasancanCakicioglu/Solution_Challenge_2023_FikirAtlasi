@@ -175,6 +175,7 @@ class AuthPageViewState extends State<AuthPageView> {
         const SizedBox(width: 25),
         SquareBox(
           imagePath: ImageConstants.apple,
+          imageColor:isDark ? Colors.white : null,
           color: isDark ? Colors.white12 : Colors.black12,
           onTap: () {},
         ),

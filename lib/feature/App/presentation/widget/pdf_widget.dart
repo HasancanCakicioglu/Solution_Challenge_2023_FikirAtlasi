@@ -76,7 +76,7 @@ class PdfWidget extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'PDF: ${file.path.split('_').last}',
+                    'PDF: ${file.path.split('/').last.split('.').first}',
                     maxLines: 1, // Maksimum satır sayısı
                     overflow: TextOverflow.ellipsis, // Taşan metin için gösterilecek işaret
                     style: Material3Design.mediumText.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
