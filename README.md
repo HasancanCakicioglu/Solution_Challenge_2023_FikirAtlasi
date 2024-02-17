@@ -1,37 +1,18 @@
 # Google Solution Challenge 2024 Project
 
-## Overview
+- Theme
+- 2024 GDSC Solution Challenge
+- How To Work
 
-Currently, I am working on a project for the Google Solution Challenge 2024. The project is an open-source initiative aiming to find solutions to the country's problems. It encourages users to enhance each other's ideas through various tools such as text, video, photos, and PDFs, fostering a collaborative approach to creating solution proposals. The project is still in the development phase, with a deadline set for February 22.
-
-## Technologies Used
-
-- Flutter
-- Firebase
-- OpenAI (Embedding)
-- Pinecone (Vector DB)
-- Google Cloud Functions
-- Secrets
-- Storage
-- Push notification
-- Google ML Kit (on-device translation)
-
-## Project Architecture
-
-Following the principles of Uncle Bob:
-
-- Data
-- Domain
-- Presentation
-
-## Workflow
+# Theme
+## Dark
+<img src="preview/dark/splash.png" width="200" height="400"> <img src="preview/dark/onboard1.png" width="200" height="400"> <img src="preview/dark/onboard2.png" width="200" height="400"> <img src="preview/dark/onboard3.png" width="200" height="400"> <img src="preview/dark/onboard4.png" width="200" height="400"> <img src="preview/dark/onboard5.png" width="200" height="400"> <img src="preview/dark/auth.png" width="200" height="400"> <img src="preview/dark/register.png" width="200" height="400"> <img src="preview/dark/pdf.png" width="200" height="400"> <img src="preview/dark/image.png" width="200" height="400"> <img src="preview/dark/video.png" width="200" height="400"> <img src="preview/dark/search.png" width="200" height="400"> <img src="preview/dark/category.png" width="200" height="400"> <img src="preview/dark/leaderboard_problem.png" width="200" height="400"> <img src="preview/dark/leaderboard_solution.png" width="200" height="400"> <img src="preview/dark/post.png" width="200" height="400">
+<img src="preview/dark/profile.png" width="200" height="400"> <img src="preview/dark/settings.png" width="200" height="400">
 
 
-
-
-Google Cloud serves as a bridge, performing a search by first going to OpenAI Embedding. From there, the embedded data is sent to the vector database (Pinecone) for semantic search. The results are then retrieved from Firebase based on the received IDs. Google Maps is used for location selection, storing the location as geohashes to perform proximity ordering. This way, if any issue arises, it is localized to a specific user, and a push notification is sent to address it.
-
-Feel free to explore the codebase and contribute to the development of this impactful project!
+## Light
+<img src="preview/light/splash.png" width="200" height="400"> <img src="preview/light/onboard1.png" width="200" height="400"> <img src="preview/light/onboard2.png" width="200" height="400"> <img src="preview/light/onboard3.png" width="200" height="400"> <img src="preview/light/onboard4.png" width="200" height="400"> <img src="preview/light/onboard5.png" width="200" height="400"> <img src="preview/light/auth.png" width="200" height="400"> <img src="preview/light/register.png" width="200" height="400"> <img src="preview/light/pdf.png" width="200" height="400"> <img src="preview/light/image.png" width="200" height="400"> <img src="preview/light/video.png" width="200" height="400"> <img src="preview/light/search.png" width="200" height="400"> <img src="preview/light/category.png" width="200" height="400"> <img src="preview/light/leaderboard_problem.png" width="200" height="400"> <img src="preview/light/leaderboard_solution.png" width="200" height="400"> <img src="preview/light/post.png" width="200" height="400">
+<img src="preview/light/profile.png" width="200" height="400"> <img src="preview/light/settings.png" width="200" height="400">
 
 
 # 2024 GDSC Solution Challenge
