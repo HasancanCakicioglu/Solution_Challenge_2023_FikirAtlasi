@@ -68,8 +68,8 @@ class _ProfileBodyState extends State<ProfileBody> with ProfileMixin {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage:
-                  NetworkImage(state.profileUrl ?? user?.photoURL ?? ""),
+              backgroundImage: (state.profileUrl != null || user?.photoURL != null) ?
+                  NetworkImage(state.profileUrl ?? user?.photoURL ?? "") : null,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

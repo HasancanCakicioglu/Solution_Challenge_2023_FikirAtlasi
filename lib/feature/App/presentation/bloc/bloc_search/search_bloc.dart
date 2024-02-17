@@ -27,23 +27,28 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   void _onSearchSubmitted(
       SearchSubmitted event, Emitter<SearchState> emit) async {
     emit(state.copyWith(isLoadingNewData: true, comments: [], isError: false));
-
     try {
       final value = await getSearchedCommentsUsecase.call(state.text);
       await value.fold(
-        (failure) async{
+        (failure) async {
           emit(state.copyWith(isLoadingNewData: false, isError: true));
         },
         (ids) async {
-          final commentResult = await getCommentProblemListSearchedUsecase.call(ids);
-           await commentResult.fold(
-            (failure) async{
+          final commentResult =
+              await getCommentProblemListSearchedUsecase.call(ids);
+          await commentResult.fold(
+            (failure) async {
               emit(state.copyWith(isLoadingNewData: false, isError: true));
             },
-            (commentProblemList)async{
+            (commentProblemList) async {
               if (commentProblemList != null) {
+                List<CommentProblemEntity?> sortedComments = [];
+                for (var id in ids) {
+                  sortedComments.add(commentProblemList
+                      .firstWhere((element) => element?.uid == id));
+                }
                 emit(state.copyWith(
-                  comments: List.from(commentProblemList),
+                  comments: List.from(sortedComments),
                   isLoadingNewData: false,
                   isError: false,
                 ));
