@@ -17,6 +17,9 @@ class SquareBox extends StatelessWidget {
   /// The callback function to be executed when the box is tapped.
   final VoidCallback onTap;
 
+
+  final Color? imageColor;
+
   /// Creates a new instance of `SquareBox`.
   ///
   /// The `imagePath`, `color`, and `onTap` parameters are required.
@@ -25,6 +28,7 @@ class SquareBox extends StatelessWidget {
     required this.imagePath,
     required this.color,
     required this.onTap,
+    this.imageColor
   }) : super(key: key);
 
   @override
@@ -38,6 +42,7 @@ class SquareBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Image.asset(
+          color: imageColor,
           imagePath,
           height: 32,
         ),

@@ -26,6 +26,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   void _onSearchSubmitted(
       SearchSubmitted event, Emitter<SearchState> emit) async {
+      
     emit(state.copyWith(isLoadingNewData: true, comments: [], isError: false));
     try {
       final value = await getSearchedCommentsUsecase.call(state.text);
@@ -41,12 +42,20 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               emit(state.copyWith(isLoadingNewData: false, isError: true));
             },
             (commentProblemList) async {
+
               if (commentProblemList != null) {
                 List<CommentProblemEntity?> sortedComments = [];
+
                 for (var id in ids) {
-                  sortedComments.add(commentProblemList
+
+                  try{
+                    sortedComments.add(commentProblemList
                       .firstWhere((element) => element?.uid == id));
+                  // ignore: empty_catches
+                  }catch(e){
+                  }
                 }
+                
                 emit(state.copyWith(
                   comments: List.from(sortedComments),
                   isLoadingNewData: false,
